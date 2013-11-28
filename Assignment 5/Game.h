@@ -3,11 +3,13 @@
 
 #include "SDL.h"
 #include "SDL_TTF.h"
-#include "Graphics.h"
-#include "Enemy.h"
-#include "Castle.h"
+
 #include "Bullet.h"
+#include "Castle.h"
+#include "Data.h"
+#include "Enemy.h"
 #include "Gun.h"
+#include "Graphics.h"
 
 using namespace std;
 
@@ -22,6 +24,7 @@ public:
     Enemy enemy;
     Castle castle;
     Gun gun;
+	Data data; // holds game variables
 
     //initialize game screen
 

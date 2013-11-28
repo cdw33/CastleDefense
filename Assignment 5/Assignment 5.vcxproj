@@ -82,6 +82,7 @@
     <Image Include="enemy.bmp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Data.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Game.h" />
