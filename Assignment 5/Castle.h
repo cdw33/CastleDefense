@@ -66,6 +66,10 @@ class Castle {
 			structPiece.dammage = dammage;
 		}
 
+		/* Can be called at the start of each new wave to ensure proper health count is being used*/
+		void setHealth(int wallDefUpgrades) { health = deffInfo[wallDefUpgrades].healthCap; }
+		void setHealth(Data &data) { health = deffInfo[data.wallDefUpgrades].healthCap; }
+
 		void drawCastle(int wallDefUpgrades = 0, int walloffUpgrades = 0) {
 			graphics.displaySprite(deffInfo[wallDefUpgrades].path, 0, 0, SCREEN_WIDTH-CASTLE_WIDTH ,(SCREEN_HEIGHT-CASTLE_HEIGHT)/2 ,CASTLE_WIDTH,CASTLE_HEIGHT);
 			graphics.displaySprite(offInfo[walloffUpgrades].path, 0, 0, SCREEN_WIDTH-CASTLE_OFFENCE_WIDTH, (SCREEN_HEIGHT-CASTLE_OFFENCE_HEIGHT)/2, CASTLE_OFFENCE_WIDTH, CASTLE_OFFENCE_HEIGHT);

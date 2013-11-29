@@ -46,6 +46,34 @@ public:
         int mouseY;
         SDL_Event event;
 
+		/***********************************************************
+		// For the actual game loop, what do you guys think of :
+		
+		// move fireBullet, mouseX, mouseY, event to a function called launchWave
+		bool stillPlaying = true;
+		bool gameRunning = true;
+
+		while(stillPlaying) {
+			stillPlaying = launchMainMenu();
+
+			if( stillPlaying ) { // For if the player plays more than one game in a row
+				resetData(); // resets values in data
+			}
+
+			for(int i = 1; stillPlaying && gameRunning; ++i) {
+				gameRunning = launchWave( i ); // return false if player looses wave
+											   // wave money bonus can be added if all enemies are killed in a wave
+				if ( gameRunning ) {
+					upgradeMenu(); 
+				} else {
+					defeatDisplay(); // We could do something simple like dispaly a screen that says "You Have Lost" - while displaying final player stats.
+					                 // The only interaction the player has with this screen is to press a "Continue" button which ends that function, subsequently this
+									 // would return them to the main menue function
+				}
+			}
+		}
+		************************************************************/
+
         //game loop
         while (gameRunning) {
             //draw();

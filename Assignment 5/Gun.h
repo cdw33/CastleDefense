@@ -22,8 +22,19 @@ public:
 	vector<Bullet *> bullets;
 
     Gun(){
+		const char* path[] = {
+			"Images/Bullets/spitball.bmp",
+			"Images/Bullets/pea.bmp",
+			"Images/Bullets/rock.bmp",
+			"Images/Bullets/bullet.bmp",
+			"Images/Bullets/strong.bmp",
+			"Images/Bullets/big.bmp",
+			"Images/Bullets/through.bmp",
+			"Images/Bullets/poison.bmp"
+		};
 	};
 
+	const char* path[8];
 	Graphics graphics;
 
 	void drawGuns() {
@@ -31,8 +42,8 @@ public:
     }
 
 	
-	
-	bool fireGuns(){
+	// If fireGuns(int) is called in a function from Game.h, then you can pass in data.bulletUpgrades
+	bool fireGuns(int bulletUpgrades = 0){
 
 		if(bullets.size()==0) return false;
 		
@@ -48,7 +59,7 @@ public:
 			cout << "bullets size: " << bullets.size() << endl;
 
 			graphics.displaySprite("Images/bg.bmp",bullets[i]->x,bullets[i]->y,bullets[i]->oldX,bullets[i]->oldY,BULLET_WIDTH, BULLET_HEIGHT);	//delete prev sprite
-			graphics.displaySprite("Images/bullet.bmp",0,0,bullets[i]->x,bullets[i]->y,BULLET_WIDTH, BULLET_HEIGHT);	//redraw bullet sprite
+			graphics.displaySprite(/*"Images/bullet.bmp"*/ path[bulletUpgrades],0,0,bullets[i]->x,bullets[i]->y,BULLET_WIDTH, BULLET_HEIGHT);	//redraw bullet sprite
 			
 			if(checkBulletLocale(bullets[i]->x,bullets[i]->y)){
 				//delete bullet
@@ -61,8 +72,9 @@ public:
 			}
 		}
 	}
-	
-	void createBullet(int mouseX, int mouseY){
+
+	// If createBullet(int, int, int, int) is called in a function from Game.h, then you can pass in data.bulletUpgrades
+	void createBullet(int mouseX, int mouseY, int bulletUpgrades, int bulletSpeed){ 
 
 		double angle = tan((BULLET_START_Y - mouseY) / (BULLET_START_X - mouseX));
 
@@ -73,7 +85,9 @@ public:
 		double delta_x = ((mouseX - BULLET_START_X) + cos(angle))*bulletSpeed;
 		double delta_y = ((mouseY - BULLET_START_Y) - sin(angle))*bulletSpeed;
 		
-		bullets.push_back(new Bullet(SCREEN_WIDTH-CASTLE_WIDTH-GUN_WIDTH, (SCREEN_HEIGHT-GUN_HEIGHT)/2, delta_x, delta_y, 1, 1));
+		/* damage and speed will very depending on what bullet is used, that can be taken care of in the bullet.h constructor */
+		//bullets.push_back(new Bullet(SCREEN_WIDTH-CASTLE_WIDTH-GUN_WIDTH, (SCREEN_HEIGHT-GUN_HEIGHT)/2, delta_x, delta_y, 1, 1));
+		bullets.push_back(new Bullet(SCREEN_WIDTH-CASTLE_WIDTH-GUN_WIDTH, (SCREEN_HEIGHT-GUN_HEIGHT)/2, delta_x, delta_y, bulletUpgrades)); 
 
 		//cout << "x: " << bullets[0]->x << " y: " << bullets[0]->y;
 	}
