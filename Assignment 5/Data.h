@@ -10,17 +10,18 @@ struct Data {
 		this->points = points;
 		this->killed = killed;
 		this->waveCount = waveCount;
-		this->wallDefUpgrades = wallDefUpgrades;
-		this->bulletUpgrades = bulletUpgrades;
+		this->wallDefUpgrades = wallDefUpgrades;  /* Type of wall being used                     */
+		this->wallOffUpgrades = wallOffUpgrades;  /* Type of offensive upgrade the wall is using */
+		this->bulletUpgrades = bulletUpgrades;    /* Type of bullet being used                   */
 	}
 
 	int money,
 		points,
 		killed,
 		waveCount,
-		wallDefUpgrades,    /* Intended to keep track of */
-		wallOffUpgrades,    /*    number of upgrades     */
-		bulletUpgrades;     /*        purchased          */ 
+		wallDefUpgrades,  /* Intended to keep track of */
+		wallOffUpgrades,  /*    number of upgrades     */
+		bulletUpgrades;   /*        purchased          */ 
 };
 
 #endif
