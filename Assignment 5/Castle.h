@@ -4,6 +4,7 @@
 #include "SDL.h"
 #include "SDL_TTF.h"
 #include "Graphics.h"
+#include "Data.h"
 
 static int SCREEN_WIDTH = 1280;
 static int SCREEN_HEIGHT = 720;
