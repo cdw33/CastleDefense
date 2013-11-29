@@ -22,9 +22,9 @@ public:
 
     Graphics graphics;
     Enemy enemy;
-    Castle castle;
+    Castle castle; // now holds variables specific to the type of wall being used ( health cap, current health, offensive castle stats, .bmp path location )
     Gun gun;
-	Data data; // holds game variables
+	Data data;     // holds game variables
 
     //initialize game screen
 
@@ -82,7 +82,7 @@ public:
 
         graphics.drawBackground("Images/bg.bmp"); //sets background
 
-        castle.drawCastle();	//places castle
+		castle.drawCastle(data.wallDefUpgrades, data.wallOffUpgrades);	//places castle
 
         enemy.drawEnemies();
 
