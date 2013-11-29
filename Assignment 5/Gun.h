@@ -48,20 +48,13 @@ public:
 		
 		for(int i=0; i<bullets.size(); i++){
 
-			//bullets[i]->oldX=bullets[i]->x;
-			//bullets[i]->oldY=bullets[i]->y;
-
 			bullets[i]->x+=bullets[i]->deltaX;
 			bullets[i]->y+=bullets[i]->deltaY;
 
-			//cout << "bullets size: " << bullets.size() << endl;	//debug
-
-			//graphics.displaySprite("Images/bg.bmp",bullets[i]->x,bullets[i]->y,bullets[i]->oldX,bullets[i]->oldY,BULLET_WIDTH, BULLET_HEIGHT);	//delete prev sprite
 			graphics.displaySprite("Images/bullet.bmp",0,0,bullets[i]->x,bullets[i]->y,BULLET_WIDTH, BULLET_HEIGHT);	//redraw bullet sprite
 			
 			//check if bullet is off the screen
 			if(checkBulletLocale(bullets[i]->x,bullets[i]->y)){		
-				//graphics.displaySprite("Images/bg.bmp",bullets[i]->x,bullets[i]->y,bullets[i]->oldX,bullets[i]->oldY,BULLET_WIDTH, BULLET_HEIGHT);	//delete prev sprite
 				bullets.erase(bullets.begin() + i); //delete bullet from vector
 				
 			}

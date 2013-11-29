@@ -39,7 +39,7 @@ class Bullet {
 			poison = (bulletUpgrades == 7 ? true : false);
 		};
 
-		double x,y,damage,speed,deltaX,deltaY,oldX,oldY;
+		double x,y,damage,speed,deltaX,deltaY;
 		bool stopOnContact, poison;
 
 	private:
