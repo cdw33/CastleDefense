@@ -77,6 +77,8 @@ public:
         //game loop
         while (gameRunning) {
             //draw();
+			graphics.clearScreen();
+			draw();
             if (SDL_PollEvent(&event)) { //check for new event
                 if (event.type == SDL_MOUSEBUTTONDOWN) {
                     //If the left mouse button was pressed
@@ -101,13 +103,12 @@ public:
             if (event.type == SDL_QUIT) {
                 gameRunning = false;
             }
+
+			graphics.flip();
         }
     }
 
     void draw() {
-
-        graphics.clearScreen();
-
         graphics.drawBackground("Images/bg.bmp"); //sets background
 
 		castle.drawCastle(data.wallDefUpgrades, data.wallOffUpgrades);	//places castle

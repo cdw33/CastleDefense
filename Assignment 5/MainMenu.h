@@ -22,13 +22,16 @@ public:
 
 		//setup screen
 		graphics.drawBackground("Images/bg.bmp");
-		graphics.displaySprite("Images/MM_Placeholder.bmp",0,0,350,300,505,120);
+		graphics.displaySprite("Images/MM_Placeholder.bmp",0,0,350,300,505,120);	//main menu placeholder text
 
-		graphics.drawText("Castle Defense\nMain Menu Test Page\nClick Anywhere to Start", 12, 250, 100, 0, 0, 0, 0, 0, 0);
+		//not working
+		graphics.drawText("Castle Defense\nMain Menu Test Page\nClick Anywhere to Start", 12, 250, 100, 255, 255, 255, 255, 255, 255);
+
+		graphics.flip();
 
         //game loop
         while (!optionSelected) {
-            //draw();
+
             if (SDL_PollEvent(&event)) { //check for new event
                 if (event.type == SDL_MOUSEBUTTONDOWN) {
                     //If the left mouse button was pressed
@@ -47,13 +50,14 @@ public:
             }
         }
 
+		
+
 	}
+
 
 private:
 	Graphics graphics;
-	Game game;
-
-    
+	Game game;  
 };
 
 #endif

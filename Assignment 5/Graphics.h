@@ -30,7 +30,7 @@ public:
         // Set the Background
         SDL_BlitSurface(bitmap, NULL, screen, NULL);
 
-        SDL_Flip(screen);
+        //SDL_Flip(screen);
     }
 
 	//displays given sprite on screen
@@ -57,7 +57,7 @@ public:
 
         SDL_BlitSurface(bitmap, &srcRect, screen, &dstRect);
 
-        SDL_Flip(screen);
+        //SDL_Flip(screen);
 
     }
 
@@ -87,6 +87,10 @@ public:
 
 	void clearScreen(){
 		SDL_FillRect(screen, NULL, SDL_MapRGB(screen->format, 0, 0, 0));
+	}
+
+	void flip(){
+		SDL_Flip(screen);
 	}
 
 private:
