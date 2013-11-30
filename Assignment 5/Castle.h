@@ -5,6 +5,9 @@
 #include "SDL_TTF.h"
 #include "Graphics.h"
 #include "Data.h"
+#include <iostream>
+
+using namespace std;
 
 static int SCREEN_WIDTH = 1280;
 static int SCREEN_HEIGHT = 720;
@@ -32,14 +35,14 @@ class Castle {
 
 		Castle() {
 			deffInfo = new deffData[8];
-				setVal(deffInfo[0], "Images/Castle_Deffense/hay.bmp", 10);
-				setVal(deffInfo[1], "Images/Castle_Deffense/wood.bmp", 25);
-				setVal(deffInfo[2], "Images/Castle_Deffense/brick.bmp", 45);
-				setVal(deffInfo[3], "Images/Castle_Deffense/iron.bmp", 70);
-				setVal(deffInfo[4], "Images/Castle_Deffense/steel.bmp", 100);
-				setVal(deffInfo[5], "Images/Castle_Deffense/mithril.bmp", 135);
-				setVal(deffInfo[6], "Images/Castle_Deffense/diamond.bmp", 175);
-				setVal(deffInfo[7], "Images/Castle_Deffense/lonsdaleite.bmp", 220);
+				setVal(deffInfo[0], "Images/Castle_Defense/hay.bmp", 10);
+				setVal(deffInfo[1], "Images/Castle_Defense/wood.bmp", 25);
+				setVal(deffInfo[2], "Images/Castle_Defense/brick.bmp", 45);
+				setVal(deffInfo[3], "Images/Castle_Defense/iron.bmp", 70);
+				setVal(deffInfo[4], "Images/Castle_Defense/steel.bmp", 100);
+				setVal(deffInfo[5], "Images/Castle_Defense/mithril.bmp", 135);
+				setVal(deffInfo[6], "Images/Castle_Defense/diamond.bmp", 175);
+				setVal(deffInfo[7], "Images/Castle_Defense/lonsdaleite.bmp", 220);
 
 			offInfo = new offData[8];
 				setVal(offInfo[0], "Images/Castle_Offense/nothing.bmp", 0);

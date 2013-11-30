@@ -109,6 +109,8 @@ public:
 
 		castle.drawCastle(data.wallDefUpgrades, data.wallOffUpgrades);	//places castle
 
+		graphics.displaySprite("Images/statsbar.bmp",0,0,0,0,1280,50);
+
         enemy.drawEnemies();
 
         gun.drawGuns();
