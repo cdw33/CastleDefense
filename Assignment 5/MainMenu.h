@@ -37,7 +37,8 @@ public:
                     //If the left mouse button was pressed
                     if (event.button.button == SDL_BUTTON_LEFT){
 						game.setupGame();
-						game.runGame();                        
+						game.runGame(); 
+						optionSelected = true;
                     }
                 }
             }

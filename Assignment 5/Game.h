@@ -42,8 +42,6 @@ public:
     void runGame() {
         bool gameRunning = true;
         bool fireBullet = false;
-        int mouseX;
-        int mouseY;
         SDL_Event event;
 
 		/***********************************************************
@@ -75,27 +73,25 @@ public:
 		************************************************************/
 
         //game loop
+		for(int i=0; i<5; i++){
+			enemy.createEnemy(1,1);
+		}
+
         while (gameRunning) {
-            //draw();
 			graphics.clearScreen();
 			draw();
+			enemy.moveEnemy();
             if (SDL_PollEvent(&event)) { //check for new event
                 if (event.type == SDL_MOUSEBUTTONDOWN) {
                     //If the left mouse button was pressed
                     if (event.button.button == SDL_BUTTON_LEFT) {
-                        mouseX = event.button.x;
-                        mouseY = event.button.y;
-						gun.createBullet(mouseX, mouseY);
+						gun.createBullet(event.button.x, event.button.y);
                         fireBullet = true;
                     }
                 }
             }
 
-            if (fireBullet) {
-                
-				
-                //draw();
-				
+            if (fireBullet) {				
                 if (!gun.fireGuns()) fireBullet = false;
             }
 

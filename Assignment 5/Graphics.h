@@ -3,6 +3,7 @@
 
 #include "SDL.h"
 #include "SDL_TTF.h" //TODO create displayTTF function
+#include <iostream>
 
 using namespace std;
 
@@ -16,6 +17,8 @@ public:
         screen = SDL_SetVideoMode(1280, 720, 0, SDL_HWSURFACE | SDL_DOUBLEBUF);
 
         SDL_WM_SetCaption("Castle Defense", 0);
+
+		TTF_Init();
     };
 
     // ~Graphics();
@@ -62,25 +65,29 @@ public:
     }
 
 	//NOT WORKING
-	void drawText(const char* string, int size, int x, int y, int fR, int fG, int fB, int bR, int bG, int bB){
-		TTF_Font* font = TTF_OpenFont("Images\Fonts\Ardagh.ttf", size);
+		void drawText(const char* string,
+                           int size,
+                           int x, int y,
+                           int fR, int fG, int fB,
+                           int bR, int bG, int bB)
+{
+   TTF_Font* font = TTF_OpenFont("Ardagh.ttf", size);
 
-		SDL_Color foregroundColor = { fR, fG, fB }; 
-		SDL_Color backgroundColor = { bR, bG, bB };
+   SDL_Color foregroundColor = { fR, fG, fB }; 
+   SDL_Color backgroundColor = { bR, bG, bB };
 
-		SDL_Surface* textSurface = TTF_RenderText_Shaded(font, string, 
+   SDL_Surface* textSurface = TTF_RenderText_Shaded(font, string, 
                                                     foregroundColor, backgroundColor);
 
-		SDL_Rect textLocation = { x, y, x+200, y+200 };
+   SDL_Rect textLocation = { x, y, 0, 0 };
 
-		SDL_BlitSurface(textSurface, NULL, screen, &textLocation);
+   SDL_BlitSurface(textSurface, NULL, screen, &textLocation);
 
-		SDL_FreeSurface(textSurface);  //crashing program
+   //SDL_FreeSurface(textSurface);  //crashing program
 
-		TTF_CloseFont(font);
-	}
-
-
+   TTF_CloseFont(font);
+}
+	
 	void closeBitmap(SDL_Surface* bitmap){
 		 SDL_FreeSurface(bitmap);
 	}

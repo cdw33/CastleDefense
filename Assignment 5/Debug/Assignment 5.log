@@ -1,10 +1,12 @@
-﻿Build started 11/29/2013 5:34:12 PM.
+﻿Build started 11/29/2013 7:12:00 PM.
      1>Project "C:\Users\Chris\Documents\GitHub\CastleDefense\Assignment 5\Assignment 5.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\SDL 1.2\include" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
          main.cpp
-     1>c:\users\chris\documents\github\castledefense\assignment 5\graphics.h(66): warning C4129: 'F' : unrecognized character escape sequence
-     1>c:\users\chris\documents\github\castledefense\assignment 5\graphics.h(66): warning C4129: 'A' : unrecognized character escape sequence
+     1>c:\users\chris\documents\github\castledefense\assignment 5\enemy.h(20): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
+     1>c:\users\chris\documents\github\castledefense\assignment 5\enemy.h(26): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\chris\documents\github\castledefense\assignment 5\enemy.h(27): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\chris\documents\github\castledefense\assignment 5\enemy.h(32): warning C4018: '<' : signed/unsigned mismatch
      1>c:\users\chris\documents\github\castledefense\assignment 5\gun.h(49): warning C4018: '<' : signed/unsigned mismatch
      1>c:\users\chris\documents\github\castledefense\assignment 5\gun.h(54): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
      1>c:\users\chris\documents\github\castledefense\assignment 5\gun.h(62): warning C4715: 'Gun::fireGuns' : not all control paths return a value
@@ -15,4 +17,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.13
+Time Elapsed 00:00:01.63
