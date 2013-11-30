@@ -44,9 +44,8 @@ public:
 			graphics.displaySprite(bulletValRef.getPath(bulletUpgrades),0,0,bullets[i]->x,bullets[i]->y, bulletValRef.getWidth(bulletUpgrades), bulletValRef.getHeight(bulletUpgrades));	//redraw bullet sprite
 			
 			//check if bullet is off the screen
-			if(checkBulletLocale(bullets[i]->x,bullets[i]->y)){		
+			if(checkBulletLocale(bullets[i]->x,bullets[i]->y)) {		
 				bullets.erase(bullets.begin() + i); //delete bullet from vector
-				
 			}
 		}
 	}

@@ -33,6 +33,7 @@ struct bulletData {
 	int damage, speed, cost, width, height;
 };
 
+/* created outside class to avoid waisting memory space for each bullet created */
 bulletData bulletInfo[8] = { /*Sample data, real input needed for damage, speed, and cost */
 	{ "Images/Bullets/spitball.bmp", 1, 1, 1, 9, 8 },
 	{ "Images/Bullets/pea.bmp"     , 1, 1, 1, 8, 8 },

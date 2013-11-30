@@ -73,7 +73,7 @@ void Game::runGame() {
 //***************************************************
 // launchWave
 //***************************************************
-bool Game::launchWave(int waveNumber) { // difficulty by wave number still needs implimented, so does attacking, and win / loss conditions
+bool Game::launchWave(int waveNumber) { // difficulty by wave number still needs implimented, so does attacking, enemy spawning, and win / loss conditions
 	bool gameRunning = true;
     bool fireBullet = false;
 	Bullet valRef;
