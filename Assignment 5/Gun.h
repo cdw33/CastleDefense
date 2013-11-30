@@ -5,6 +5,7 @@
 #include "SDL_TTF.h"
 #include "Graphics.h"
 #include "Bullet.h"
+#include "Enemy.h"
 #include <vector>
 
 
@@ -51,7 +52,7 @@ public:
 			bullets[i]->x+=bullets[i]->deltaX;
 			bullets[i]->y+=bullets[i]->deltaY;
 
-			graphics.displaySprite("Images/bullet.bmp",0,0,bullets[i]->x,bullets[i]->y,BULLET_WIDTH, BULLET_HEIGHT);	//redraw bullet sprite
+			graphics.displaySprite("Images/Bullets/bullet.bmp",0,0,bullets[i]->x,bullets[i]->y,BULLET_WIDTH, BULLET_HEIGHT);	//redraw bullet sprite
 			
 			//check if bullet is off the screen
 			if(checkBulletLocale(bullets[i]->x,bullets[i]->y)){		

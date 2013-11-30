@@ -93,6 +93,11 @@ public:
 
             if (fireBullet) {				
                 if (!gun.fireGuns()) fireBullet = false;
+				for(int i=0; i<gun.bullets.size();i++){
+					if(detectHit(gun.bullets[i]->x,gun.bullets[i]->y,BULLET_WIDTH, BULLET_HEIGHT)){
+						enemy.deleteEnemy(i);
+					}
+				}
             }
 
             //exit event
@@ -115,6 +120,12 @@ public:
 
         gun.drawGuns();
     }
+
+	bool detectHit(double x, double y, int width, int height){
+		if(enemy.detectHit(x,y,width,height)) return true;
+
+		else return false;
+	}
 };
 
 #endif

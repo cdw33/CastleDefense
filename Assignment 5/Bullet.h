@@ -9,10 +9,26 @@
 
 using namespace std;
 
-static int BULLET_WIDTH = 10;
-static int BULLET_HEIGHT = 10;
 const double BASE_DAMAGE = 2;
 const double TOTAL_SPEED_UPGRADES = 7;
+
+//bullet sprite dimensions for hit detection
+static int BULLET_BIG_WIDTH = 34;
+static int BULLET_BIG_HEIGHT = 19;
+static int BULLET_WIDTH = 21;
+static int BULLET_HEIGHT = 12;
+static int BULLET_PEA_WIDTH = 8;
+static int BULLET_PEA_HEIGHT = 8;
+static int BULLET_POISON_WIDTH = 34;
+static int BULLET_POISON_HEIGHT = 19;
+static int BULLET_ROCK_WIDTH = 10;
+static int BULLET_ROCK_HEIGHT = 10;
+static int BULLET_SPITBALL_WIDTH = 9;
+static int BULLET_SPITBALL_HEIGHT = 8;
+static int BULLET_STRONG_WIDTH = 24;
+static int BULLET_STRONG_HEIGHT = 14;
+static int BULLET_THROUGH_WIDTH = 34;
+static int BULLET_THROUGH_HEIGHT = 19;
 
 class Bullet { 
 	public:

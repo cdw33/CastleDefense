@@ -5,6 +5,11 @@
 #include "SDL_TTF.h"
 #include <ctime>
 
+static int GHOST_HEIGHT = 64;
+static int GHOST_WIDTH = 71;
+
+
+
 struct Enemies{
 	double xCoor, yCoor, damage, hp;
 
@@ -14,8 +19,6 @@ class Enemy {
    
 public:
 
-	vector<Enemies *> enemies;
-
     Enemy() {
         srand(time(0));
     };
@@ -24,7 +27,7 @@ public:
 
 	void drawEnemies() {
 		for(int i=0; i<enemies.size(); i++){
-			graphics.displaySprite("Images/enemy.bmp",0,0,enemies[i]->xCoor,enemies[i]->yCoor,71,64);
+			graphics.displaySprite("Images/Enemies/ghost.bmp",0,0,enemies[i]->xCoor,enemies[i]->yCoor,GHOST_WIDTH,GHOST_HEIGHT);
 		}
     }
 
@@ -39,6 +42,23 @@ public:
 		enemies[enemies.size()-1]->xCoor=0;
 		enemies[enemies.size()-1]->yCoor=rand()%720;
 	}
+
+	bool detectHit(double bulletX, double bulletY, int bulletWidth, int bulletHeight) {
+
+		//if bullet is in the same area as enemy
+		for(int i=0; i<enemies.size(); i++){
+			if (bulletY + BULLET_HEIGHT > enemies[i]->yCoor && bulletY < enemies[i]->yCoor + GHOST_HEIGHT && bulletX < enemies[i]->xCoor + (GHOST_WIDTH)) return true;
+		}
+
+		return false;
+	}
+
+	void deleteEnemy(int i){
+		enemies.erase(enemies.begin() + i);
+	}
+
+private:
+	vector<Enemies *> enemies;
 
 };
 
