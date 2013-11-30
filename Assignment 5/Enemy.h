@@ -15,7 +15,7 @@ struct Enemies{
 
 };
 
-class Enemy {
+class Enemy { //TODO - attacking the base needs to be handeled
    
 public:
 
@@ -55,6 +55,10 @@ public:
 
 	void deleteEnemy(int i){
 		enemies.erase(enemies.begin() + i);
+	}
+
+	bool noEnemies() {
+		return enemies.size() == 0;
 	}
 
 private:

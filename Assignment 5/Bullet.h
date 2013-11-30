@@ -30,10 +30,10 @@ static int BULLET_THROUGH_HEIGHT = 19;
 
 struct bulletData {
 	const char* path;
-	int damage, speed, cost, width, height;
+	int damage, speed, cost, width, height; /* "speed" denotes the rate a bullet travels through space */
 };
 
-/* created outside class to avoid waisting memory space for each bullet created */
+/* Indicies of bulletData accessed by the bulletUpgrades variable found in data.h */
 bulletData bulletInfo[8] = { /*Sample data, real input needed for damage, speed, and cost */
 	{ "Images/Bullets/spitball.bmp", 1, 1, 1, 9, 8 },
 	{ "Images/Bullets/pea.bmp"     , 1, 1, 1, 8, 8 },
@@ -45,11 +45,15 @@ bulletData bulletInfo[8] = { /*Sample data, real input needed for damage, speed,
 	{ "Images/Bullets/poison.bmp"  , 1, 1, 1, 34, 19 }
 };
 
+int rateOfFireList[8] = { 1200, 900, 750, 450, 200, 100, 50, 20 }; /* Indices accessed by the rateOfFire variable found in data.h */
+int rateOfFireCost[8] = { 20, 40, 60, 80, 100, 120, 140, 160}; 
+
 class Bullet { 
 	public:
 		double x,y,damage,speed,deltaX,deltaY;
 		bool stopOnContact, poison;
 		static const int BULLET_UPGRADES = 7; /* 0 based indexing */
+		static const int FIRE_RATE_UPGRADES = 7; /* 0 based indexing */
 
 		Bullet(){};
 		Bullet(double newX, double newY, double newDeltaX, double newDeltaY, int bulletUpgrades) {
@@ -59,7 +63,7 @@ class Bullet {
 			deltaY = newDeltaY;
 
 			damage = bulletInfo[bulletUpgrades].damage;
-			speed = bulletInfo[bulletUpgrades].speed;      /* This assumes speed is distance traveled per cycle */
+			speed = bulletInfo[bulletUpgrades].speed;
 			stopOnContact = (bulletUpgrades < 6 ? true : false);
 			poison = (bulletUpgrades == 7 ? true : false);
 		};
@@ -72,6 +76,10 @@ class Bullet {
 		int getHeight(int bulletUpgrades) { return bulletInfo[bulletUpgrades].height; }
 		static const int totalBulletUpgrades() { return BULLET_UPGRADES; }
 		
+		int getRateOfFire(int fireUpdates) { return rateOfFireList[fireUpdates]; }
+		int getRateOfFireCost(int fireUpdates) { return rateOfFireCost[fireUpdates]; }
+		static const int totalRateOfFireUpgrades() { return FIRE_RATE_UPGRADES; }
+
 	private:
 	
 };

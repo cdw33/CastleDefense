@@ -60,9 +60,9 @@ void Game::runGame() {
 	data.resetData();
 
 	for(int i = 1; gameRunning; ++i) {
-		gameRunning = launchWave( i ); // return false if player looses wave, wave money bonus can be added if all enemies are killed in a wave
+		gameRunning = launchWave(i); // return false if player looses wave, wave money bonus can be added if all enemies are killed in a wave
 										
-		if ( gameRunning ) {
+		if (gameRunning) {
 			upgradeMenu(); 
 		} else {
 			defeatDisplay(); // We could do something simple like dispaly a screen that says "You Have Lost" - while displaying final player stats.
@@ -73,15 +73,16 @@ void Game::runGame() {
 //***************************************************
 // launchWave
 //***************************************************
-bool Game::launchWave(int waveNumber) { // difficulty by wave number still needs implimented, so does attacking, enemy spawning, and win / loss conditions
-	bool gameRunning = true;
-    bool fireBullet = false;
+bool Game::launchWave(int waveNumber) { // difficulty by wave number still needs implimented, so does enemy spawning, and win / loss conditions
 	Bullet valRef;
     SDL_Event event;
+	bool gameRunning = true;
+    bool fireBullet = false;
+	int lastShot = clock();
 	
 	data.health = castle.setHealth(data.wallDefUpgrades);
 
-	for(int i=0; i<5; i++){
+	for(int i=0; i<5*waveNumber; i++){ // enemies need scattered
 		enemy.createEnemy(1,1);
 	}
 
@@ -93,9 +94,10 @@ bool Game::launchWave(int waveNumber) { // difficulty by wave number still needs
         if (SDL_PollEvent(&event)) { //check for new event
             if (event.type == SDL_MOUSEBUTTONDOWN) {
                 //If the left mouse button was pressed
-                if (event.button.button == SDL_BUTTON_LEFT) {
+				if (event.button.button == SDL_BUTTON_LEFT && clock() - lastShot >= valRef.getRateOfFire(data.rateOfFire)) {
 					gun.createBullet(event.button.x, event.button.y, data.bulletUpgrades);
                     fireBullet = true;
+					lastShot = clock();
                 }
             }
         }
@@ -114,6 +116,11 @@ bool Game::launchWave(int waveNumber) { // difficulty by wave number still needs
             gameRunning = false;
         }
 
+		if(enemy.noEnemies()) {
+			gameRunning = false;
+			data.money += waveNumber * 5; /* wave bonus */
+		}
+
 		graphics.flip();
     }
 
@@ -124,7 +131,7 @@ bool Game::launchWave(int waveNumber) { // difficulty by wave number still needs
 // upgradeMenu
 //***************************************************
 void Game::upgradeMenu() {
-	bool shopping = true;
+	bool shopping = /*true*/ false;
 	Bullet bulletValRef;
 	SDL_Event event;
 	const int NEED_VAL = 0;
@@ -157,7 +164,10 @@ void Game::upgradeMenu() {
 					}
 				/* Rate of fire upgrades */
 				} else if ((event.button.x < NEED_VAL && event.button.x > NEED_VAL)  &&  (event.button.y < NEED_VAL && event.button.y > NEED_VAL)) {
-					// Need to find a place to keep rate of fire incremental values
+					if(data.money >= bulletValRef.getRateOfFire(data.rateOfFire) && data.rateOfFire <= bulletValRef.totalRateOfFireUpgrades()) {
+						data.money -= bulletValRef.getRateOfFireCost(data.rateOfFire);
+						++data.rateOfFire;
+					}				
 				/* Exit the function */
 				} else if ((event.button.x < NEED_VAL && event.button.x > NEED_VAL)  &&  (event.button.y < NEED_VAL && event.button.y > NEED_VAL)) {
 					shopping = false; /* Ends function to launch next wave */
