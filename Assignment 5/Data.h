@@ -5,25 +5,40 @@
 /* Add / remove items as necessary                                                   */
 
 struct Data {
-	Data(int money = 0, int points = 0, int killed= 0, int waveCount = 1, int bulletSpeed = 0, int wallDefUpgrades = 0, int wallOffUpgrades = 0, int bulletUpgrades = 0) {
+	Data(int health = 0, int money = 0, int points = 0, int killed= 0, int waveCount = 1, int rateOfFire = 1, int wallDefUpgrades = 0, int wallOffUpgrades = 0, int bulletUpgrades = 0) {
+		this->health = health;
 		this->money = money;
 		this->points = points;
 		this->killed = killed;
 		this->waveCount = waveCount;
-		this->bulletSpeed = bulletSpeed;
+		this->rateOfFire = rateOfFire;
 		this->wallDefUpgrades = wallDefUpgrades;  /* Type of wall being used                     */
 		this->wallOffUpgrades = wallOffUpgrades;  /* Type of offensive upgrade the wall is using */
 		this->bulletUpgrades = bulletUpgrades;    /* Type of bullet being used                   */
 	}
 
-	int money,
+	int health,
+		money,
 		points,
 		killed,
 		waveCount,
-		bulletSpeed,
+		rateOfFire,
 		wallDefUpgrades,  /* Intended to keep track of */
 		wallOffUpgrades,  /*    number of upgrades     */
 		bulletUpgrades;   /*        purchased          */ 
+	int* rateOfFireValues;
+
+	void resetData() {
+		health = 0;
+		money = 0;
+		points = 0;
+		killed = 0;
+		waveCount = 1;
+		rateOfFire = 1;
+		wallDefUpgrades = 0;
+		wallOffUpgrades = 0;
+		bulletUpgrades = 0;
+	}
 };
 
 #endif

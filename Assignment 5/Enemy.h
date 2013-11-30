@@ -43,11 +43,11 @@ public:
 		enemies[enemies.size()-1]->yCoor=rand()%720;
 	}
 
-	bool detectHit(double bulletX, double bulletY, int bulletWidth, int bulletHeight) {
-
+	bool detectHit(double bulletX, double bulletY, int bulletWidth, int bulletHeight, const int bulletUpgrades) {
+		Bullet bulletValRef;
 		//if bullet is in the same area as enemy
 		for(int i=0; i<enemies.size(); i++){
-			if (bulletY + BULLET_HEIGHT > enemies[i]->yCoor && bulletY < enemies[i]->yCoor + GHOST_HEIGHT && bulletX < enemies[i]->xCoor + (GHOST_WIDTH)) return true;
+			if (bulletY + /*BULLET_HEIGHT*/ bulletValRef.getHeight(bulletUpgrades) > enemies[i]->yCoor && bulletY < enemies[i]->yCoor + GHOST_HEIGHT && bulletX < enemies[i]->xCoor + (GHOST_WIDTH)) return true;
 		}
 
 		return false;

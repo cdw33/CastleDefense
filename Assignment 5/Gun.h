@@ -20,30 +20,18 @@ static int BULLET_START_Y = (SCREEN_HEIGHT-GUN_HEIGHT)/2;
 class Gun {
     
 public:
+    Gun() {
+
+	}
+
 	vector<Bullet *> bullets;
-
-    Gun(){
-		const char* path[] = {
-			"Images/Bullets/spitball.bmp",
-			"Images/Bullets/pea.bmp",
-			"Images/Bullets/rock.bmp",
-			"Images/Bullets/bullet.bmp",
-			"Images/Bullets/strong.bmp",
-			"Images/Bullets/big.bmp",
-			"Images/Bullets/through.bmp",
-			"Images/Bullets/poison.bmp"
-		};
-	};
-
-	const char* path[8];
+	Bullet bulletValRef; // needed to access bulletData struct values
 
 	void drawGuns() {
         graphics.displaySprite("Images/cannon.bmp",0,0,SCREEN_WIDTH-CASTLE_WIDTH-GUN_WIDTH+10,(SCREEN_HEIGHT-GUN_HEIGHT)/2,GUN_WIDTH,GUN_HEIGHT);
     }
 
-	
-	// If fireGuns(int) is called in a function from Game.h, then you can pass in data.bulletUpgrades
-	bool fireGuns(){
+	bool fireGuns(const int bulletUpgrades){
 
 		if(bullets.size()==0) return false;
 		
@@ -52,7 +40,8 @@ public:
 			bullets[i]->x+=bullets[i]->deltaX;
 			bullets[i]->y+=bullets[i]->deltaY;
 
-			graphics.displaySprite("Images/Bullets/bullet.bmp",0,0,bullets[i]->x,bullets[i]->y,BULLET_WIDTH, BULLET_HEIGHT);	//redraw bullet sprite
+			//graphics.displaySprite("Images/Bullets/bullet.bmp",0,0,bullets[i]->x,bullets[i]->y, BULLET_WIDTH, BULLET_HEIGHT);	//redraw bullet sprite
+			graphics.displaySprite(bulletValRef.getPath(bulletUpgrades),0,0,bullets[i]->x,bullets[i]->y, bulletValRef.getWidth(bulletUpgrades), bulletValRef.getHeight(bulletUpgrades));	//redraw bullet sprite
 			
 			//check if bullet is off the screen
 			if(checkBulletLocale(bullets[i]->x,bullets[i]->y)){		
@@ -62,7 +51,7 @@ public:
 		}
 	}
 	
-	void createBullet(int mouseX, int mouseY){
+	void createBullet(int mouseX, int mouseY, const int bulletUpgrades){
 
 		double angle = tan((BULLET_START_Y - mouseY) / (BULLET_START_X - mouseX));
 
@@ -73,7 +62,7 @@ public:
 		double delta_x = ((mouseX - BULLET_START_X) + cos(angle))*bulletSpeed;
 		double delta_y = ((mouseY - BULLET_START_Y) - sin(angle))*bulletSpeed;
 		
-		bullets.push_back(new Bullet(SCREEN_WIDTH-CASTLE_WIDTH-GUN_WIDTH, (SCREEN_HEIGHT-GUN_HEIGHT)/2, delta_x, delta_y, 1, 1));	//add new bullet to vectir
+		bullets.push_back(new Bullet(SCREEN_WIDTH-CASTLE_WIDTH-GUN_WIDTH, (SCREEN_HEIGHT-GUN_HEIGHT)/2, delta_x, delta_y, bulletUpgrades));	//add new bullet to vector
 	}
 
 	//Checks if bullet is off the screen
