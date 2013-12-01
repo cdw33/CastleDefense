@@ -27,6 +27,7 @@ class Game {
 		bool launchWave(int);
 		void upgradeMenu();
 		void defeatDisplay();
+		void clearObjects();
 		void draw();
 		bool detectHit(double, double, int, int);
 		void updateStatsBar();
@@ -129,6 +130,7 @@ bool Game::launchWave(int waveNumber) { // difficulty by wave number still needs
 		graphics.flip();
     }
 
+	clearObjects();
 	return (roundWin ? true : false);
 }
 
@@ -177,6 +179,9 @@ void Game::upgradeMenu() {
 				} else if ((event.button.x < NEED_VAL && event.button.x > NEED_VAL)  &&  (event.button.y < NEED_VAL && event.button.y > NEED_VAL)) {
 					shopping = false;
 				} 
+			} else if (event.type == SDL_QUIT) { /* event quit */
+				SDL_Quit();
+				exit(0);
 			}
 		}
 	}
@@ -187,6 +192,14 @@ void Game::upgradeMenu() {
 //***************************************************
 void Game::defeatDisplay() {
 
+}
+
+//***************************************************
+// clearObjects
+//***************************************************
+void Game::clearObjects() {
+	gun.deleteBullets();
+	enemy.deleteEnemies();
 }
 
 //***************************************************

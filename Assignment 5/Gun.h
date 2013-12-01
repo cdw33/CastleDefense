@@ -77,6 +77,10 @@ public:
 		bullets.erase(bullets.begin() + i); //delete bullet from vector
 	}
 
+	void deleteBullets() {
+		bullets.erase(bullets.begin(), bullets.begin() + bullets.size());
+	}
+
 private:
 	Graphics graphics;
 	

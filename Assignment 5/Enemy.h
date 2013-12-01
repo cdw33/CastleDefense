@@ -52,7 +52,7 @@ public:
 		Bullet bulletValRef;
 		//if bullet is in the same area as enemy
 		for(int i=0; i<enemies.size(); i++){
-			if (bulletY + /*BULLET_HEIGHT*/ bulletValRef.getHeight(bulletUpgrades) > enemies[i]->yCoor && bulletY < enemies[i]->yCoor + GHOST_HEIGHT && bulletX < enemies[i]->xCoor + (GHOST_WIDTH)){
+			if (bulletY + bulletValRef.getHeight(bulletUpgrades) > enemies[i]->yCoor && bulletY < enemies[i]->yCoor + GHOST_HEIGHT && bulletX < enemies[i]->xCoor + GHOST_WIDTH && bulletX + bulletValRef.getWidth(bulletUpgrades) > enemies[i]->xCoor){
 				deleteEnemy(i);
 				return true;
 			}
@@ -63,6 +63,10 @@ public:
 
 	void deleteEnemy(int i){
 		enemies.erase(enemies.begin() + i);
+	}
+
+	void deleteEnemies() {
+		enemies.erase(enemies.begin(), enemies.begin() + enemies.size());
 	}
 
 	bool noEnemies() {
