@@ -70,7 +70,7 @@ void Game::runGame() {
 
 	for(int i = 1; gameRunning; ++i) {
 		gameRunning = launchWave(i); // return false if player looses wave, wave money bonus can be added if all enemies are killed in a wave
-		if(data.waveCount == 1) gameRunning = false;					
+							
 		if (gameRunning) {
 			upgradeMenu(); /* no way to exit yet */
 			data.waveCount++;
