@@ -84,7 +84,8 @@ bool Game::launchWave(int waveNumber) { // difficulty by wave number still needs
     SDL_Event event;
 	bool gameRunning = true;
     bool fireBullet = false;
-	int lastShot = clock();
+	bool roundWin = false;
+	int lastShot = clock() - valRef.getRateOfFire(data.rateOfFire);
 	
 	data.health = castle.setHealth(data.wallDefUpgrades);
 
@@ -117,20 +118,23 @@ bool Game::launchWave(int waveNumber) { // difficulty by wave number still needs
 			}
         }
 
-        //exit event
-        if (event.type == SDL_QUIT) {
-            gameRunning = false;
-        }
 
-		if(enemy.noEnemies()) {
+		if (enemy.noEnemies()) {
 			gameRunning = false;
+			roundWin = true;
 			data.money += waveNumber * 5; /* wave bonus */
-		}
+		} else if (data.health == 0) {
+			gameRunning = false;
+			roundWin = false;
+		} else if (event.type == SDL_QUIT) { /* event quit */
+			SDL_Quit();
+			exit(0);
+        }
 
 		graphics.flip();
     }
 
-	return true;
+	return (roundWin ? true : false);
 }
 
 //***************************************************
@@ -152,31 +156,31 @@ void Game::upgradeMenu() {
 
 				/* Wall defense upgrades */
 				if ((event.button.x < NEED_VAL && event.button.x > NEED_VAL) && (event.button.y < NEED_VAL && event.button.y > NEED_VAL)) {
-					if(data.money >= castle.defInfo[data.wallDefUpgrades].cost && data.wallDefUpgrades <= castle.totaldefenceUpgrades()) {
+					if(data.money >= castle.defInfo[data.wallDefUpgrades].cost && data.wallDefUpgrades < castle.totaldefenceUpgrades()) {
 						data.money -= castle.defInfo[data.wallDefUpgrades].cost;
 						++data.wallDefUpgrades;
 					}
 				/* Wall offense upgrades */
 				} else if ((event.button.x < NEED_VAL && event.button.x > NEED_VAL)  &&  (event.button.y < NEED_VAL && event.button.y > NEED_VAL)) {
-					if(data.money >= castle.offInfo[data.wallOffUpgrades].cost && data.wallOffUpgrades <= castle.totalOffenceUpgrades()) {
+					if(data.money >= castle.offInfo[data.wallOffUpgrades].cost && data.wallOffUpgrades < castle.totalOffenceUpgrades()) {
 						data.money -= castle.offInfo[data.wallOffUpgrades].cost;
 						++data.wallOffUpgrades;
 					}
 				/* Bullet type upgrades */ 
 				} else if ((event.button.x < NEED_VAL && event.button.x > NEED_VAL)  &&  (event.button.y < NEED_VAL && event.button.y > NEED_VAL)) {
-					if(data.money >= bulletValRef.getCost(data.bulletUpgrades) && data.bulletUpgrades <= bulletValRef.totalBulletUpgrades()) {
+					if(data.money >= bulletValRef.getCost(data.bulletUpgrades) && data.bulletUpgrades < bulletValRef.totalBulletUpgrades()) {
 						data.money -= bulletValRef.getCost(data.bulletUpgrades);
 						++data.bulletUpgrades;
 					}
 				/* Rate of fire upgrades */
 				} else if ((event.button.x < NEED_VAL && event.button.x > NEED_VAL)  &&  (event.button.y < NEED_VAL && event.button.y > NEED_VAL)) {
-					if(data.money >= bulletValRef.getRateOfFire(data.rateOfFire) && data.rateOfFire <= bulletValRef.totalRateOfFireUpgrades()) {
+					if(data.money >= bulletValRef.getRateOfFire(data.rateOfFire) && data.rateOfFire < bulletValRef.totalRateOfFireUpgrades()) {
 						data.money -= bulletValRef.getRateOfFireCost(data.rateOfFire);
 						++data.rateOfFire;
 					}				
 				/* Exit the function */
 				} else if ((event.button.x < NEED_VAL && event.button.x > NEED_VAL)  &&  (event.button.y < NEED_VAL && event.button.y > NEED_VAL)) {
-					shopping = false; /* Ends function to launch next wave */
+					shopping = false;
 				} 
 			}
 		}
