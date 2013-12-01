@@ -29,9 +29,9 @@ public:
 		}
     }
 
-	void moveEnemy(Data &data){
+	void moveEnemy(Data &data, int wallAttack){
 		for(int i=0; i<enemies.size(); i++){
-			if(enemies[i]->xCoor >= SCREEN_WIDTH - CASTLE_WIDTH - 75) attack(data.health, i); //if enemy reaches wall, attack()
+			if(enemies[i]->xCoor >= SCREEN_WIDTH - CASTLE_WIDTH - 75) attack(data.health, i, wallAttack); //if enemy reaches wall, attack()
 
 			else
 				enemies[i]->xCoor+=enemies[i]->speed;	//else step speed distance
@@ -79,10 +79,15 @@ public:
 		return enemies.size() == 0;
 	}
 
-	void attack(int &health, int enemyIndex){
+	void attack(int &health, int enemyIndex, int wallAttack){
 		if (clock() - enemies[enemyIndex]->lastAttack > enemies[enemyIndex]->attackRate) {
 			health = max(health - enemies[enemyIndex]->damage, 0.0);
 			enemies[enemyIndex]->lastAttack = clock();
+
+			enemies[enemyIndex]->hp = max(enemies[enemyIndex]->hp - wallAttack, 0.0);
+			if(enemies[enemyIndex]->hp == 0) {
+				deleteEnemy(enemyIndex);
+			}
 		}
 	}
 

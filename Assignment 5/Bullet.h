@@ -36,10 +36,10 @@ struct bulletData {
 
 /* Indicies of bulletData accessed by the bulletUpgrades variable found in data.h */
 bulletData bulletInfo[8] = { /*Sample data, real input needed for damage, speed, and cost */
-	{ "Images/Bullets/spitball.bmp", 1, 1, 20, 9, 8    , 0, 0},
-	{ "Images/Bullets/pea.bmp"     , 2, 2, 40, 8, 8    , 0, 0},
-	{ "Images/Bullets/rock.bmp"    , 4, 3, 60, 10, 10  , 0, 0},
-	{ "Images/Bullets/bullet.bmp"  , 8, 4, 80, 21, 12  , 0, 0},
+	{ "Images/Bullets/spitball.bmp", 1,  1, 20,  9,  8,  0, 0},
+	{ "Images/Bullets/pea.bmp"     , 2,  2, 40,  8,  8,  0, 0},
+	{ "Images/Bullets/rock.bmp"    , 4,  3, 60,  10, 10, 0, 0},
+	{ "Images/Bullets/bullet.bmp"  , 8,  4, 80,  21, 12, 0, 0},
 	{ "Images/Bullets/strong.bmp"  , 16, 5, 100, 24, 14, 0, 0},
 	{ "Images/Bullets/big.bmp"     , 32, 6, 120, 34, 14, 0, 0},
 	{ "Images/Bullets/through.bmp" , 50, 7, 140, 34, 19, 1, 0},
@@ -54,7 +54,8 @@ class Bullet {
 		double x,y,damage,speed,deltaX,deltaY;
 		static const int BULLET_UPGRADES = 7; /* 0 based indexing */
 		static const int FIRE_RATE_UPGRADES = 7; /* 0 based indexing */
-		static const int DAMAGE_OVER_TIME = 25; /* per cycle */
+		static const int DAMAGE_OVER_TIME = 1000 * 60; /* 1 second per cycle for poison*/
+		static const int DAMAGE_PER_CYCLE = 10;
 
 		Bullet(){};
 		Bullet(double newX, double newY, double newDeltaX, double newDeltaY, int bulletUpgrades) {

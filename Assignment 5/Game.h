@@ -73,7 +73,7 @@ void Game::runGame() {
 
 	for(int i = 1; gameRunning; ++i) {
 		gameRunning = launchWave(i); // return false if player looses wave, wave money bonus can be added if all enemies are killed in a wave
-							
+
 		if (gameRunning) {
 			upgradeMenu();
 			data.waveCount++;
@@ -95,7 +95,6 @@ bool Game::launchWave(int waveNumber) { // difficulty by wave number still needs
 	int lastShot = clock() - bulletValRef.getRateOfFire(data.rateOfFire);
 	
 	data.health = castle.setHealth(data.wallDefUpgrades);
-
 	enemyCount = 5*waveNumber;
 
 	for(int i=0; i<enemyCount; i++){ // enemies need scattered
@@ -106,7 +105,8 @@ bool Game::launchWave(int waveNumber) { // difficulty by wave number still needs
     while (gameRunning) {
 		graphics.clearScreen();
 		drawWave();
-		enemy.moveEnemy(data);
+		enemy.moveEnemy(data, castle.offInfo[data.wallOffUpgrades].dammage);
+
         if (SDL_PollEvent(&event)) { //check for new event
             if (event.type == SDL_MOUSEBUTTONDOWN) {
                 //If the left mouse button was pressed
