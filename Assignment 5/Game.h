@@ -24,6 +24,7 @@ class Game {
 		Castle castle; // now holds variables specific to the type of wall being used ( health cap, offensive castle stats, .bmp path location )
 		Gun gun;
 		Data data;     // holds game variables
+		Bullet bulletValRef;
 		Upgrade upgrade;
 	    DefeatScreen defeat;
     
@@ -84,12 +85,11 @@ void Game::runGame() {
 // launchWave
 //***************************************************
 bool Game::launchWave(int waveNumber) { // difficulty by wave number still needs implimented, so does enemy spawning, and win / loss conditions
-	Bullet valRef;
     SDL_Event event;
 	bool gameRunning = true;
     bool fireBullet = false;
 	bool roundWin = false;
-	int lastShot = clock() - valRef.getRateOfFire(data.rateOfFire);
+	int lastShot = clock() - bulletValRef.getRateOfFire(data.rateOfFire);
 	
 	data.health = castle.setHealth(data.wallDefUpgrades);
 
@@ -105,7 +105,7 @@ bool Game::launchWave(int waveNumber) { // difficulty by wave number still needs
         if (SDL_PollEvent(&event)) { //check for new event
             if (event.type == SDL_MOUSEBUTTONDOWN) {
                 //If the left mouse button was pressed
-				if (event.button.button == SDL_BUTTON_LEFT && clock() - lastShot >= valRef.getRateOfFire(data.rateOfFire)) {
+				if (event.button.button == SDL_BUTTON_LEFT && clock() - lastShot >= bulletValRef.getRateOfFire(data.rateOfFire)) {
 					gun.createBullet(event.button.x, event.button.y, data.bulletUpgrades);
                     fireBullet = true;
 					lastShot = clock();
@@ -116,7 +116,7 @@ bool Game::launchWave(int waveNumber) { // difficulty by wave number still needs
         if (fireBullet) {				
 			if (!gun.fireGuns(data.bulletUpgrades)) fireBullet = false;
 			for(int i=0; i<gun.bullets.size();i++){
-				if(detectHit(gun.bullets[i]->x,gun.bullets[i]->y, valRef.getWidth(data.bulletUpgrades), valRef.getHeight(data.bulletUpgrades))){
+				if(detectHit(gun.bullets[i]->x,gun.bullets[i]->y, bulletValRef.getWidth(data.bulletUpgrades), bulletValRef.getHeight(data.bulletUpgrades))){
 					gun.deleteBullet(i);
 				}
 			}
@@ -147,9 +147,7 @@ bool Game::launchWave(int waveNumber) { // difficulty by wave number still needs
 //***************************************************
 void Game::upgradeMenu() {
 	bool shopping = true;
-	Bullet bulletValRef;
 	SDL_Event event;
-	const int NEED_VAL = -100;
 
 	while (shopping) {
 		drawUpdateMenu();
@@ -157,34 +155,34 @@ void Game::upgradeMenu() {
 		if (SDL_PollEvent(&event)) {
 			if (event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT) { /* The different clickable events */
 
-				//printf("Location ->  x: %i   y: %i \n", event.button.x, event.button.y);
+				printf("Location ->  x: %i   y: %i \n", event.button.x, event.button.y);
 
 				/* Wall defense upgrades */
-				if ((event.button.x < NEED_VAL && event.button.x > NEED_VAL) && (event.button.y < NEED_VAL && event.button.y > NEED_VAL)) {
-					if(data.money >= castle.defInfo[data.wallDefUpgrades].cost && data.wallDefUpgrades < castle.totaldefenceUpgrades()) {
-						data.money -= castle.defInfo[data.wallDefUpgrades].cost;
+				if ((event.button.x < 173 && event.button.x > 108) && (event.button.y < 255 && event.button.y > 193)) {
+					if(data.money >= castle.defInfo[data.wallDefUpgrades+1].cost && data.wallDefUpgrades < castle.totaldefenceUpgrades()) {
+						data.money -= castle.defInfo[data.wallDefUpgrades+1].cost;
 						++data.wallDefUpgrades;
 					}
 				/* Wall offense upgrades */
-				} else if ((event.button.x < NEED_VAL && event.button.x > NEED_VAL)  &&  (event.button.y < NEED_VAL && event.button.y > NEED_VAL)) {
-					if(data.money >= castle.offInfo[data.wallOffUpgrades].cost && data.wallOffUpgrades < castle.totalOffenceUpgrades()) {
-						data.money -= castle.offInfo[data.wallOffUpgrades].cost;
+				} else if ((event.button.x < 173 && event.button.x > 108)  &&  (event.button.y < 366 && event.button.y > 303)) {
+					if(data.money >= castle.offInfo[data.wallOffUpgrades+1].cost && data.wallOffUpgrades < castle.totalOffenceUpgrades()) {
+						data.money -= castle.offInfo[data.wallOffUpgrades+1].cost;
 						++data.wallOffUpgrades;
 					}
 				/* Bullet type upgrades */ 
-				} else if ((event.button.x < NEED_VAL && event.button.x > NEED_VAL)  &&  (event.button.y < NEED_VAL && event.button.y > NEED_VAL)) {
-					if(data.money >= bulletValRef.getCost(data.bulletUpgrades) && data.bulletUpgrades < bulletValRef.totalBulletUpgrades()) {
-						data.money -= bulletValRef.getCost(data.bulletUpgrades);
+				} else if ((event.button.x < 173 && event.button.x > 108)  &&  (event.button.y < 476 && event.button.y > 413)) {
+					if(data.money >= bulletValRef.getCost(data.bulletUpgrades+1) && data.bulletUpgrades < bulletValRef.totalBulletUpgrades()) {
+						data.money -= bulletValRef.getCost(data.bulletUpgrades+1);
 						++data.bulletUpgrades;
 					}
 				/* Rate of fire upgrades */
-				} else if ((event.button.x < NEED_VAL && event.button.x > NEED_VAL)  &&  (event.button.y < NEED_VAL && event.button.y > NEED_VAL)) {
-					if(data.money >= bulletValRef.getRateOfFire(data.rateOfFire) && data.rateOfFire < bulletValRef.totalRateOfFireUpgrades()) {
-						data.money -= bulletValRef.getRateOfFireCost(data.rateOfFire);
+				} else if ((event.button.x < 173 && event.button.x > 108)  &&  (event.button.y < 585 && event.button.y > 523)) {
+					if(data.money >= bulletValRef.getRateOfFire(data.rateOfFire+1) && data.rateOfFire < bulletValRef.totalRateOfFireUpgrades()) {
+						data.money -= bulletValRef.getRateOfFireCost(data.rateOfFire+1);
 						++data.rateOfFire;
-					}				
+					}
 				/* Exit the function */
-				} else if ((event.button.x < NEED_VAL && event.button.x > NEED_VAL)  &&  (event.button.y < NEED_VAL && event.button.y > NEED_VAL)) {
+				} else if ((event.button.x < 1204 && event.button.x > 988)  &&  (event.button.y < 650 && event.button.y > 590)) {
 					shopping = false;
 				} 
 			} else if (event.type == SDL_QUIT) { /* event quit */
@@ -244,6 +242,10 @@ void Game::drawUpdateMenu() {
 
 	/* Draw text */
 	graphics.drawText("Upgrades", 90, 90, 55, 255, 255, 255);
+	graphics.drawText("Catagory", 40, 260, 145, 255, 255, 255);
+	graphics.drawText("Cost", 40, 478, 145, 255, 255, 255);
+	graphics.drawText("Progress", 40, 820, 145, 255, 255, 255);
+
 	graphics.drawText("Buy", 40, 118, 206, 0, 0, 0);
 	graphics.drawText("Buy", 40, 118, 316, 0, 0, 0);
 	graphics.drawText("Buy", 40, 118, 426, 0, 0, 0);
@@ -252,16 +254,12 @@ void Game::drawUpdateMenu() {
 	graphics.drawText("Castle Defences", 40, 217, 316, 0, 0, 0);
 	graphics.drawText("Bullets", 40, 269, 426, 0, 0, 0);
 	graphics.drawText("Rate of Fire", 40, 242, 535, 0, 0, 0);
-	//graphics.drawText("anInteger", 40, 100, 100, 0, 0, 0);
-	//graphics.drawText("anInteger", 40, 100, 100, 0, 0, 0);
-	//graphics.drawText("anInteger", 40, 100, 100, 0, 0, 0);
-	//graphics.drawText("anInteger", 40, 100, 100, 0, 0, 0);
 	graphics.drawText("Launch Wave", 40, 1015, 602, 0, 0, 0);
 	
-	data.wallDefUpgrades = 7;
-	data.wallOffUpgrades = 7;
-	data.bulletUpgrades = 7;
-	data.rateOfFire = 7;
+	graphics.drawText(to_string(castle.defInfo[castle.def_UPGRADES+1].cost).c_str(), 40, 487, 206, 0, 0, 0);
+	graphics.drawText(to_string(castle.offInfo[castle.OFF_UPGRADES+1].cost).c_str(), 40, 487, 316, 0, 0, 0);
+	graphics.drawText(to_string(bulletValRef.getCost(data.bulletUpgrades+1)).c_str(), 40, 487, 426, 0, 0, 0);
+	graphics.drawText(to_string(bulletValRef.getRateOfFireCost(data.rateOfFire+1)).c_str(), 40, 487, 535, 0, 0, 0);
 
 	/* Draw upgrade progress squares */
 	for(int i = 0; i < data.wallDefUpgrades; ++i) { // wall upgrades

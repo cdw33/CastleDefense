@@ -65,7 +65,6 @@ public:
         closeBitmap(bitmap);
     }
 
-    //NOT WORKING
     void drawText(const char* string, int size, int x, int y, int fR, int fG, int fB) {
         TTF_Font* font = TTF_OpenFont("Ardagh.ttf", size);
 

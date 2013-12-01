@@ -20,7 +20,7 @@ static int GAME_WIDTH = SCREEN_WIDTH;
 static int CASTLE_WIDTH = 81;
 static int CASTLE_HEIGHT = 628;
 static int CASTLE_OFFENCE_WIDTH = 91;
-static int CASTLE_OFFENCE_HEIGHT = 641;
+static int CASTLE_OFFENCE_HEIGHT = 649;
 
 class Castle { 
 	public:	
@@ -59,6 +59,8 @@ class Castle {
 				setVal(offInfo[3], "Images/Castle_Offense/spike.bmp", 12, 40);
 				setVal(offInfo[4], "Images/Castle_Offense/poison_spike.bmp", 18, 70);
 				setVal(offInfo[5], "Images/Castle_Offense/lava_poison_spike.bmp", 25, 100);
+				// NEED TO IMPLEMENT
+				// NEED TO IMPLEMENT
 		};
 
 		~Castle() {
@@ -87,7 +89,7 @@ class Castle {
 
 		void drawCastle(int wallDefUpgrades = 0, int walloffUpgrades = 0) {
 			graphics.displaySprite(defInfo[wallDefUpgrades].path, 0, 0, SCREEN_WIDTH-CASTLE_WIDTH , STATBAR_HEIGHT+(((SCREEN_HEIGHT - STATBAR_HEIGHT)/2)-(CASTLE_HEIGHT/2)),CASTLE_WIDTH,CASTLE_HEIGHT);
-			graphics.displaySprite(offInfo[walloffUpgrades].path, 0, 0, SCREEN_WIDTH-CASTLE_OFFENCE_WIDTH, STATBAR_HEIGHT+(((SCREEN_HEIGHT - STATBAR_HEIGHT)/2)-(CASTLE_OFFENCE_HEIGHT/2)), CASTLE_OFFENCE_WIDTH, CASTLE_OFFENCE_HEIGHT);
+			graphics.displaySprite(offInfo[walloffUpgrades].path, 0, 0, SCREEN_WIDTH-CASTLE_OFFENCE_WIDTH, STATBAR_HEIGHT+(((SCREEN_HEIGHT - STATBAR_HEIGHT)/2)-(CASTLE_OFFENCE_HEIGHT/2))-1, CASTLE_OFFENCE_WIDTH, CASTLE_OFFENCE_HEIGHT);
 		}
 };
 

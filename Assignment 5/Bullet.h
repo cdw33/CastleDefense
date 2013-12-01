@@ -35,14 +35,14 @@ struct bulletData {
 
 /* Indicies of bulletData accessed by the bulletUpgrades variable found in data.h */
 bulletData bulletInfo[8] = { /*Sample data, real input needed for damage, speed, and cost */
-	{ "Images/Bullets/spitball.bmp", 1, 1, 1, 9, 8 },
-	{ "Images/Bullets/pea.bmp"     , 1, 1, 1, 8, 8 },
-	{ "Images/Bullets/rock.bmp"    , 1, 1, 1, 10, 10 },
-	{ "Images/Bullets/bullet.bmp"  , 1, 1, 1, 21, 12 },
-	{ "Images/Bullets/strong.bmp"  , 1, 1, 1, 24, 14 },
-	{ "Images/Bullets/big.bmp"     , 1, 1, 1, 34, 14 },
-	{ "Images/Bullets/through.bmp" , 1, 1, 1, 34, 19 },
-	{ "Images/Bullets/poison.bmp"  , 1, 1, 1, 34, 19 }
+	{ "Images/Bullets/spitball.bmp", 1, 1, 20, 9, 8 },
+	{ "Images/Bullets/pea.bmp"     , 2, 2, 40, 8, 8 },
+	{ "Images/Bullets/rock.bmp"    , 4, 3, 60, 10, 10 },
+	{ "Images/Bullets/bullet.bmp"  , 8, 4, 80, 21, 12 },
+	{ "Images/Bullets/strong.bmp"  , 16, 5, 100, 24, 14 },
+	{ "Images/Bullets/big.bmp"     , 32, 6, 120, 34, 14 },
+	{ "Images/Bullets/through.bmp" , 50, 7, 140, 34, 19 },
+	{ "Images/Bullets/poison.bmp"  , 50, 8, 160, 34, 19 }
 };
 
 int rateOfFireList[8] = { 1200, 900, 750, 450, 200, 100, 50, 20 }; /* Indices accessed by the rateOfFire variable found in data.h */
@@ -54,6 +54,7 @@ class Bullet {
 		bool stopOnContact, poison;
 		static const int BULLET_UPGRADES = 7; /* 0 based indexing */
 		static const int FIRE_RATE_UPGRADES = 7; /* 0 based indexing */
+		static const int DAMAGE_OVER_TIME = 25; /* per cycle */
 
 		Bullet(){};
 		Bullet(double newX, double newY, double newDeltaX, double newDeltaY, int bulletUpgrades) {
