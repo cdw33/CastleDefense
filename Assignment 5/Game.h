@@ -34,7 +34,8 @@ class Game {
 		void upgradeMenu();
 		void defeatDisplay();
 		void clearObjects();
-		void draw();
+		void drawWave();
+		void drawUpdateMenu();
 		bool detectHit(double, double, int, int);
 		void updateStatsBar();
 };
@@ -71,7 +72,7 @@ void Game::runGame() {
 		gameRunning = launchWave(i); // return false if player looses wave, wave money bonus can be added if all enemies are killed in a wave
 		if(data.waveCount == 1) gameRunning = false;					
 		if (gameRunning) {
-			upgradeMenu(); 
+			upgradeMenu(); /* no way to exit yet */
 			data.waveCount++;
 		} else {
 			defeatDisplay(); // We could do something simple like dispaly a screen that says "You Have Lost" - while displaying final player stats.
@@ -99,7 +100,7 @@ bool Game::launchWave(int waveNumber) { // difficulty by wave number still needs
 	//game loop
     while (gameRunning) {
 		graphics.clearScreen();
-		draw();
+		drawWave();
 		enemy.moveEnemy();
         if (SDL_PollEvent(&event)) { //check for new event
             if (event.type == SDL_MOUSEBUTTONDOWN) {
@@ -148,18 +149,15 @@ void Game::upgradeMenu() {
 	bool shopping = true;
 	Bullet bulletValRef;
 	SDL_Event event;
-	const int NEED_VAL = 0;
+	const int NEED_VAL = -100;
 
 	while (shopping) {
-		graphics.clearScreen();
-		//display upgradeMenu .bmp
-		upgrade.drawUpgradeScreen();
-		draw();
+		drawUpdateMenu();
 
 		if (SDL_PollEvent(&event)) {
 			if (event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT) { /* The different clickable events */
 
-				shopping = false; //FOR DEBUG ONLY - EXIT FUNTION ALREADY IMPLEMENTED BELOW
+				//printf("Location ->  x: %i   y: %i \n", event.button.x, event.button.y);
 
 				/* Wall defense upgrades */
 				if ((event.button.x < NEED_VAL && event.button.x > NEED_VAL) && (event.button.y < NEED_VAL && event.button.y > NEED_VAL)) {
@@ -213,9 +211,9 @@ void Game::clearObjects() {
 }
 
 //***************************************************
-// draw
+// drawWave
 //***************************************************
-void Game::draw() {
+void Game::drawWave() {
     graphics.drawBackground("Images/bg.bmp"); //sets background
 
 	castle.drawCastle(data.wallDefUpgrades, data.wallOffUpgrades);	//places castle
@@ -227,6 +225,59 @@ void Game::draw() {
     gun.drawGuns();
 
 	updateStatsBar();
+}
+
+//***************************************************
+// drawUpdateMenu
+//***************************************************
+void Game::drawUpdateMenu() {
+	const int BAR_WIDTH = 79;
+	const int UPGRADE_WIDTH = 1138;
+	const int UPGRADE_HEIGHT = 599;
+
+	graphics.drawBackground("Images/bg.bmp");
+
+	graphics.displaySprite("Images/statsbar.bmp",0,0,0,0,1280,50);
+	updateStatsBar();
+
+	graphics.displaySprite("Images/upgrade_menu.bmp", 0, 0, GAME_WIDTH/2 - UPGRADE_WIDTH/2, GAME_HEIGHT/2 - UPGRADE_HEIGHT/2 + 15, UPGRADE_WIDTH, UPGRADE_HEIGHT);
+
+	/* Draw text */
+	graphics.drawText("Upgrades", 90, 90, 55, 255, 255, 255);
+	graphics.drawText("Buy", 40, 118, 206, 0, 0, 0);
+	graphics.drawText("Buy", 40, 118, 316, 0, 0, 0);
+	graphics.drawText("Buy", 40, 118, 426, 0, 0, 0);
+	graphics.drawText("Buy", 40, 118, 535, 0, 0, 0);
+	graphics.drawText("Castle Wall", 40, 247, 204, 0, 0, 0);
+	graphics.drawText("Castle Defences", 40, 217, 316, 0, 0, 0);
+	graphics.drawText("Bullets", 40, 269, 426, 0, 0, 0);
+	graphics.drawText("Rate of Fire", 40, 242, 535, 0, 0, 0);
+	//graphics.drawText("anInteger", 40, 100, 100, 0, 0, 0);
+	//graphics.drawText("anInteger", 40, 100, 100, 0, 0, 0);
+	//graphics.drawText("anInteger", 40, 100, 100, 0, 0, 0);
+	//graphics.drawText("anInteger", 40, 100, 100, 0, 0, 0);
+	graphics.drawText("Launch Wave", 40, 1015, 602, 0, 0, 0);
+	
+	data.wallDefUpgrades = 7;
+	data.wallOffUpgrades = 7;
+	data.bulletUpgrades = 7;
+	data.rateOfFire = 7;
+
+	/* Draw upgrade progress squares */
+	for(int i = 0; i < data.wallDefUpgrades; ++i) { // wall upgrades
+		graphics.displaySprite("Images/buy_cover.bmp", 0, 0, 610 + i * BAR_WIDTH, 204, 76, 41);
+	}
+	for(int i = 0; i < data.wallOffUpgrades; ++i) { // wall offensive upgrades
+		graphics.displaySprite("Images/buy_cover.bmp", 0, 0, 610 + i * BAR_WIDTH, 314, 76, 41);
+	}
+	for(int i = 0; i < data.bulletUpgrades; ++i) { // bullet upgrades
+		graphics.displaySprite("Images/buy_cover.bmp", 0, 0, 610 + i * BAR_WIDTH, 424, 76, 41);
+	}
+	for(int i = 0; i < data.rateOfFire; ++i) { // rate of fire
+		graphics.displaySprite("Images/buy_cover.bmp", 0, 0, 610 + i * BAR_WIDTH, 534, 76, 41);
+	}
+
+	graphics.flip();
 }
 
 //***************************************************
