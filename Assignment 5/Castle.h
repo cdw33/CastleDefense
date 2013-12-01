@@ -1,4 +1,4 @@
-#ifndef CASTLE_H
+#ifndef CASTLE_Hstatic int Screen
 #define CASTLE_H
 
 #include "SDL.h"
@@ -11,6 +11,11 @@ using namespace std;
 
 static int SCREEN_WIDTH = 1280;
 static int SCREEN_HEIGHT = 720;
+
+static int STATBAR_HEIGHT = 40;
+
+static int GAME_HEIGHT = SCREEN_HEIGHT - STATBAR_HEIGHT;
+static int GAME_WIDTH = SCREEN_WIDTH;
 
 static int CASTLE_WIDTH = 81;
 static int CASTLE_HEIGHT = 628;
@@ -81,8 +86,8 @@ class Castle {
 		static const int totalOffenceUpgrades() { return OFF_UPGRADES; }
 
 		void drawCastle(int wallDefUpgrades = 0, int walloffUpgrades = 0) {
-			graphics.displaySprite(defInfo[wallDefUpgrades].path, 0, 0, SCREEN_WIDTH-CASTLE_WIDTH ,(SCREEN_HEIGHT-CASTLE_HEIGHT)/2 ,CASTLE_WIDTH,CASTLE_HEIGHT);
-			graphics.displaySprite(offInfo[walloffUpgrades].path, 0, 0, SCREEN_WIDTH-CASTLE_OFFENCE_WIDTH, (SCREEN_HEIGHT-CASTLE_OFFENCE_HEIGHT)/2, CASTLE_OFFENCE_WIDTH, CASTLE_OFFENCE_HEIGHT);
+			graphics.displaySprite(defInfo[wallDefUpgrades].path, 0, 0, SCREEN_WIDTH-CASTLE_WIDTH , STATBAR_HEIGHT+(((SCREEN_HEIGHT - STATBAR_HEIGHT)/2)-(CASTLE_HEIGHT/2)),CASTLE_WIDTH,CASTLE_HEIGHT);
+			graphics.displaySprite(offInfo[walloffUpgrades].path, 0, 0, SCREEN_WIDTH-CASTLE_OFFENCE_WIDTH, STATBAR_HEIGHT+(((SCREEN_HEIGHT - STATBAR_HEIGHT)/2)-(CASTLE_OFFENCE_HEIGHT/2)), CASTLE_OFFENCE_WIDTH, CASTLE_OFFENCE_HEIGHT);
 		}
 };
 

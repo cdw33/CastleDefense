@@ -11,11 +11,6 @@
 #include "Gun.h"
 #include "Graphics.h"
 
-static int STATBAR_HEIGHT = 40;
-
-static int GAME_HEIGHT = SCREEN_HEIGHT - STATBAR_HEIGHT;
-static int GAME_WIDTH = SCREEN_WIDTH;
-
 using namespace std;
 
 class Game {
@@ -226,19 +221,19 @@ bool Game::detectHit(double x, double y, int width, int height){
 void Game::updateStatsBar(){
 
 	//TODO - make xCoors static
-	graphics.drawText("Wave: ", 35, 10, 0, 255, 255, 255); 
-	graphics.drawText("Points: ", 35, 160, 0, 255, 255, 255); 
-	graphics.drawText("Enemies Killed: ", 35, 370, 0, 255, 255, 255); 
-	graphics.drawText("Enemies Remaining: ", 35, 700, 0, 255, 255, 255); 
-	graphics.drawText("Money: ", 35, 1080, 0, 255, 255, 255); 
+	graphics.drawText("Wave: ", 35, 10, 3, 255, 255, 255); 
+	graphics.drawText("Points: ", 35, 160, 3, 255, 255, 255); 
+	graphics.drawText("Enemies Killed: ", 35, 370, 3, 255, 255, 255); 
+	graphics.drawText("Enemies Remaining: ", 35, 700, 3, 255, 255, 255); 
+	graphics.drawText("Money: ", 35, 1080, 3, 255, 255, 255); 
 
 
 	//debugging data
-	graphics.drawText("5", 35, 80, 0, 255, 255, 255); 
-	graphics.drawText("584", 35, 245, 0, 255, 255, 255); 
-	graphics.drawText("125", 35, 540, 0, 255, 255, 255); 
-	graphics.drawText("654", 35, 930, 0, 255, 255, 255); 
-	graphics.drawText("545", 35, 1170, 0, 255, 255, 255); 
+	graphics.drawText("5", 35, 80, 3, 255, 255, 255); 
+	graphics.drawText("584", 35, 245, 3, 255, 255, 255); 
+	graphics.drawText("125", 35, 540, 3, 255, 255, 255); 
+	graphics.drawText("654", 35, 930, 3, 255, 255, 255); 
+	graphics.drawText("545", 35, 1170, 3, 255, 255, 255); 
 
 
 }

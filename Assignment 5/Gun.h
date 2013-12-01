@@ -15,7 +15,7 @@ static int GUN_WIDTH = 42;
 static int GUN_HEIGHT = 13;
 
 static int BULLET_START_X = SCREEN_WIDTH-CASTLE_WIDTH-GUN_WIDTH+10;
-static int BULLET_START_Y = (SCREEN_HEIGHT-GUN_HEIGHT)/2;
+static int BULLET_START_Y = STATBAR_HEIGHT + (GAME_HEIGHT-GUN_HEIGHT)/2;
 
 class Gun {
     
@@ -27,8 +27,8 @@ public:
 	vector<Bullet *> bullets;
 	Bullet bulletValRef; // needed to access bulletData struct values
 
-	void drawGuns() {
-        graphics.displaySprite("Images/cannon.bmp",0,0,SCREEN_WIDTH-CASTLE_WIDTH-GUN_WIDTH+10,(SCREEN_HEIGHT-GUN_HEIGHT)/2,GUN_WIDTH,GUN_HEIGHT);
+	void drawGuns() {//
+        graphics.displaySprite("Images/cannon.bmp",0,0,SCREEN_WIDTH-CASTLE_WIDTH-GUN_WIDTH+10,STATBAR_HEIGHT+(((SCREEN_HEIGHT - STATBAR_HEIGHT)/2)-(GUN_HEIGHT/2)),GUN_WIDTH,GUN_HEIGHT);
     }
 
 	bool fireGuns(const int bulletUpgrades){
@@ -63,7 +63,7 @@ public:
 		double delta_x = ((mouseX - BULLET_START_X) + cos(angle))*bulletSpeed;
 		double delta_y = ((mouseY - BULLET_START_Y) - sin(angle))*bulletSpeed;
 		
-		bullets.push_back(new Bullet(SCREEN_WIDTH-CASTLE_WIDTH-GUN_WIDTH, (SCREEN_HEIGHT-GUN_HEIGHT)/2, delta_x, delta_y, bulletUpgrades));	//add new bullet to vector
+		bullets.push_back(new Bullet(BULLET_START_X, BULLET_START_Y, delta_x, delta_y, bulletUpgrades));	//add new bullet to vector
 	}
 
 	//Checks if bullet is off the screen
