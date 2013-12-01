@@ -27,6 +27,8 @@ class Game {
 		Bullet bulletValRef;
 		Upgrade upgrade;
 	    DefeatScreen defeat;
+
+		int enemyCount;
     
 		Game();
 		void setupGame(); //initialize game screen
@@ -93,7 +95,9 @@ bool Game::launchWave(int waveNumber) { // difficulty by wave number still needs
 	
 	data.health = castle.setHealth(data.wallDefUpgrades);
 
-	for(int i=0; i<5*waveNumber; i++){ // enemies need scattered
+	enemyCount = 5*waveNumber;
+
+	for(int i=0; i<enemyCount; i++){ // enemies need scattered
 		enemy.createEnemy(1,1,3);
 	}
 
@@ -276,9 +280,7 @@ void Game::drawUpdateMenu() {
 	} else {
 		graphics.drawText(to_string(bulletValRef.getRateOfFireCost(data.rateOfFire+1)).c_str(), 40, 487, 535, 0, 0, 0);
 	}
-	
-	
-	
+
 
 	/* Draw upgrade progress squares */
 	for(int i = 0; i < data.wallDefUpgrades; ++i) { // wall upgrades
@@ -314,19 +316,16 @@ void Game::updateStatsBar(){
 	//TODO - make xCoors static
 	graphics.drawText("Wave: ", 35, 10, 3, 255, 255, 255); 
 	graphics.drawText("Points: ", 35, 160, 3, 255, 255, 255); 
-	graphics.drawText("Enemies Killed: ", 35, 370, 3, 255, 255, 255); 
-	graphics.drawText("Enemies Remaining: ", 35, 700, 3, 255, 255, 255); 
-	graphics.drawText("Money: ", 35, 1080, 3, 255, 255, 255); 
+	graphics.drawText("Enemies Remaining: ", 35, 370, 3, 255, 255, 255); 
+	graphics.drawText("Money: ", 35, 700, 3, 255, 255, 255); 
+	graphics.drawText("Castle Health: ", 35, 880, 3, 255, 255, 255); 
 
-
-	//debugging data
+	//pull data
 	graphics.drawText(to_string(data.waveCount).c_str(), 35, 80, 3, 255, 255, 255); 
-	graphics.drawText("584", 35, 245, 3, 255, 255, 255); 
-	graphics.drawText("125", 35, 540, 3, 255, 255, 255); 
-	graphics.drawText("654", 35, 930, 3, 255, 255, 255); 
-	graphics.drawText("545", 35, 1170, 3, 255, 255, 255); 
-
-
+	graphics.drawText(to_string(data.points).c_str(), 35, 245, 3, 255, 255, 255); 
+	graphics.drawText(to_string(enemyCount - data.killed).c_str(), 35, 600, 3, 255, 255, 255); 
+	graphics.drawText(to_string(data.money).c_str(), 35, 790, 3, 255, 255, 255); 
+	graphics.drawText(to_string(data.health).c_str(), 35, 1040, 3, 255, 255, 255); 
 }
 
 
