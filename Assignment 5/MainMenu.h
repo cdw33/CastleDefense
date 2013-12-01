@@ -22,10 +22,12 @@ public:
 
 		//setup screen
 		graphics.drawBackground("Images/bg.bmp");
-		graphics.displaySprite("Images/MM_Placeholder.bmp",0,0,350,300,505,120);	//main menu placeholder text
 
-		//not working
-		graphics.drawText("Castle Defense\nMain Menu Test Page\nClick Anywhere to Start", 12, 250, 100, 255, 255, 255, 255, 255, 255);
+		//write text
+		graphics.drawText("Castle Defense", 80, 250, 100, 0, 0, 0);   
+		graphics.drawText("Main Menu Test Page", 80, 250, 180, 0, 0, 0);
+		graphics.drawText("Click Anywhere to Start", 80, 250, 260, 0, 0, 0);
+
 
 		graphics.flip();
 

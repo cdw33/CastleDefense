@@ -66,24 +66,21 @@ public:
     }
 
     //NOT WORKING
-    void drawText(const char* string,
-            int size,
-            int x, int y,
-            int fR, int fG, int fB,
-            int bR, int bG, int bB) {
+    void drawText(const char* string, int size, int x, int y, int fR, int fG, int fB) {
         TTF_Font* font = TTF_OpenFont("Ardagh.ttf", size);
 
         SDL_Color foregroundColor = {fR, fG, fB};
-        SDL_Color backgroundColor = {bR, bG, bB};
 
-        SDL_Surface* textSurface = TTF_RenderText_Shaded(font, string,
-                foregroundColor, backgroundColor);
+        SDL_Surface* textSurface = TTF_RenderText_Blended(font, string,
+                foregroundColor);
+
+		SDL_SetColorKey(textSurface, SDL_SRCCOLORKEY, SDL_MapRGB(textSurface->format, 255, 0, 255));
 
         SDL_Rect textLocation = {x, y, 0, 0};
 
         SDL_BlitSurface(textSurface, NULL, screen, &textLocation);
 
-        //SDL_FreeSurface(textSurface);  //crashing program
+        SDL_FreeSurface(textSurface);  //crashing program
 
         TTF_CloseFont(font);
     }
