@@ -75,7 +75,7 @@ void Game::runGame() {
 		gameRunning = launchWave(i); // return false if player looses wave, wave money bonus can be added if all enemies are killed in a wave
 							
 		if (gameRunning) {
-			upgradeMenu(); /* no way to exit yet */
+			upgradeMenu();
 			data.waveCount++;
 			data.killed=0;
 		} else {
@@ -99,7 +99,7 @@ bool Game::launchWave(int waveNumber) { // difficulty by wave number still needs
 	enemyCount = 5*waveNumber;
 
 	for(int i=0; i<enemyCount; i++){ // enemies need scattered
-		enemy.createEnemy(1,1,3,1000); /* Damage, hp, speed, attack rate (in ms) */
+		enemy.createEnemy(1,2,3,1000); /* Damage, hp, speed, attack rate (in ms) */
 	}
 
 	//game loop
@@ -122,12 +122,13 @@ bool Game::launchWave(int waveNumber) { // difficulty by wave number still needs
 			if (!gun.fireGuns(data.bulletUpgrades)) fireBullet = false;
 			for(int i=0; i<gun.bullets.size();i++){
 				if(detectHit(gun.bullets[i]->x,gun.bullets[i]->y, bulletValRef.getWidth(data.bulletUpgrades), bulletValRef.getHeight(data.bulletUpgrades))){
-					gun.deleteBullet(i);
-					data.killed++;
+					if (bulletValRef.stopOnContact(data.bulletUpgrades)) {
+						gun.deleteBullet(i);
+					}
+					//data.killed++;
 				}
 			}
         }
-
 
 		if (enemy.noEnemies()) {
 			gameRunning = false;
@@ -154,8 +155,6 @@ bool Game::launchWave(int waveNumber) { // difficulty by wave number still needs
 void Game::upgradeMenu() {
 	bool shopping = true;
 	SDL_Event event;
-
-	data.money = 40;
 
 	while (shopping) {
 		drawUpdateMenu();
@@ -307,7 +306,7 @@ void Game::drawUpdateMenu() {
 // detectHit
 //***************************************************
 bool Game::detectHit(double x, double y, int width, int height){
-		if(enemy.detectHit(x,y,width,height,data.bulletUpgrades)) return true;
+		if(enemy.detectHit(x, y, width, height, data)) return true;
 
 		else return false;
 }

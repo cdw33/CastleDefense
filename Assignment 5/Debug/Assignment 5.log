@@ -1,4 +1,4 @@
-﻿Build started 12/1/2013 4:33:25 PM.
+﻿Build started 12/1/2013 5:17:14 PM.
      1>Project "C:\Users\Aaron\Documents\GitHub\CastleDefense\Assignment 5\Assignment 5.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\SDL 1.2\include" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
@@ -8,8 +8,7 @@
      1>c:\users\aaron\documents\github\castledefense\assignment 5\enemy.h(27): warning C4018: '<' : signed/unsigned mismatch
      1>c:\users\aaron\documents\github\castledefense\assignment 5\enemy.h(28): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
      1>c:\users\aaron\documents\github\castledefense\assignment 5\enemy.h(33): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\aaron\documents\github\castledefense\assignment 5\enemy.h(56): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\aaron\documents\github\castledefense\assignment 5\enemy.h(80): warning C4244: '=' : conversion from 'const double' to 'int', possible loss of data
+     1>c:\users\aaron\documents\github\castledefense\assignment 5\enemy.h(84): warning C4244: '=' : conversion from 'const double' to 'int', possible loss of data
      1>c:\users\aaron\documents\github\castledefense\assignment 5\gun.h(38): warning C4018: '<' : signed/unsigned mismatch
      1>c:\users\aaron\documents\github\castledefense\assignment 5\gun.h(48): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
      1>c:\users\aaron\documents\github\castledefense\assignment 5\game.h(123): warning C4018: '<' : signed/unsigned mismatch
@@ -21,4 +20,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:07.15
+Time Elapsed 00:00:05.04

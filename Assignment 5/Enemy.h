@@ -50,12 +50,16 @@ public:
 		enemies[enemies.size()-1]->lastAttack = clock() - enemies[enemies.size()-1]->attackRate;
 	}
 
-	bool detectHit(double bulletX, double bulletY, int bulletWidth, int bulletHeight, const int bulletUpgrades) {
+	bool detectHit(double bulletX, double bulletY, int bulletWidth, int bulletHeight, Data &data) {
 		Bullet bulletValRef;
 		//if bullet is in the same area as enemy
-		for(int i=0; i<enemies.size(); i++){
-			if (bulletY + bulletValRef.getHeight(bulletUpgrades) > enemies[i]->yCoor && bulletY < enemies[i]->yCoor + GHOST_HEIGHT && bulletX < enemies[i]->xCoor + GHOST_WIDTH && bulletX + bulletValRef.getWidth(bulletUpgrades) > enemies[i]->xCoor){
-				deleteEnemy(i);
+		for(int i = enemies.size()-1; i >= 0; --i){
+			if (bulletY + bulletValRef.getHeight(data.bulletUpgrades) > enemies[i]->yCoor && bulletY < enemies[i]->yCoor + GHOST_HEIGHT && bulletX < enemies[i]->xCoor + GHOST_WIDTH && bulletX + bulletValRef.getWidth(data.bulletUpgrades) > enemies[i]->xCoor){
+				enemies[i]->hp = max(enemies[i]->hp - bulletValRef.getDamage(data.bulletUpgrades), 0.0);
+				if (enemies[i]->hp == 0) {
+					deleteEnemy(i);
+					++data.killed;
+				}
 				return true;
 			}
 		}
