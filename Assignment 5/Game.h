@@ -11,6 +11,11 @@
 #include "Gun.h"
 #include "Graphics.h"
 
+static int STATBAR_HEIGHT = 40;
+
+static int GAME_HEIGHT = SCREEN_HEIGHT - STATBAR_HEIGHT;
+static int GAME_WIDTH = SCREEN_WIDTH;
+
 using namespace std;
 
 class Game {
@@ -29,6 +34,7 @@ class Game {
 		void defeatDisplay();
 		void draw();
 		bool detectHit(double, double, int, int);
+		void updateStatsBar();
 };
 
 //***************************************************
@@ -83,7 +89,7 @@ bool Game::launchWave(int waveNumber) { // difficulty by wave number still needs
 	data.health = castle.setHealth(data.wallDefUpgrades);
 
 	for(int i=0; i<5*waveNumber; i++){ // enemies need scattered
-		enemy.createEnemy(1,1);
+		enemy.createEnemy(1,1,3);
 	}
 
 	//game loop
@@ -106,7 +112,7 @@ bool Game::launchWave(int waveNumber) { // difficulty by wave number still needs
 			if (!gun.fireGuns(data.bulletUpgrades)) fireBullet = false;
 			for(int i=0; i<gun.bullets.size();i++){
 				if(detectHit(gun.bullets[i]->x,gun.bullets[i]->y, valRef.getWidth(data.bulletUpgrades), valRef.getHeight(data.bulletUpgrades))){
-					enemy.deleteEnemy(i);
+					gun.deleteBullet(i);
 				}
 			}
         }
@@ -197,13 +203,41 @@ void Game::draw() {
     enemy.drawEnemies();
 
     gun.drawGuns();
+
+	updateStatsBar();
 }
 
 //***************************************************
 // detectHit
 //***************************************************
 bool Game::detectHit(double x, double y, int width, int height){
-	return enemy.detectHit(x,y,width,height, data.bulletUpgrades);
+		if(enemy.detectHit(x,y,width,height,data.bulletUpgrades)) return true;
+
+		else return false;
 }
+
+//***************************************************
+// updateStatsBar
+//***************************************************
+void Game::updateStatsBar(){
+
+	//TODO - make xCoors static
+	graphics.drawText("Wave: ", 35, 10, 0, 255, 255, 255); 
+	graphics.drawText("Points: ", 35, 160, 0, 255, 255, 255); 
+	graphics.drawText("Enemies Killed: ", 35, 370, 0, 255, 255, 255); 
+	graphics.drawText("Enemies Remaining: ", 35, 700, 0, 255, 255, 255); 
+	graphics.drawText("Money: ", 35, 1080, 0, 255, 255, 255); 
+
+
+	//debugging data
+	graphics.drawText("5", 35, 80, 0, 255, 255, 255); 
+	graphics.drawText("584", 35, 245, 0, 255, 255, 255); 
+	graphics.drawText("125", 35, 540, 0, 255, 255, 255); 
+	graphics.drawText("654", 35, 930, 0, 255, 255, 255); 
+	graphics.drawText("545", 35, 1170, 0, 255, 255, 255); 
+
+
+}
+
 
 #endif

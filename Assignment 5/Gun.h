@@ -45,12 +45,14 @@ public:
 			
 			//check if bullet is off the screen
 			if(checkBulletLocale(bullets[i]->x,bullets[i]->y)) {		
-				bullets.erase(bullets.begin() + i); //delete bullet from vector
+				deleteBullet(i); //delete bullet from vector
 			}
 		}
 	}
 	
 	void createBullet(int mouseX, int mouseY, const int bulletUpgrades){
+
+		if(mouseX > BULLET_START_X) mouseX = BULLET_START_X+1;
 
 		double angle = tan((BULLET_START_Y - mouseY) / (BULLET_START_X - mouseX));
 
@@ -69,6 +71,10 @@ public:
 		if (curX < 0 || curY < 0 || curY > 1024) return true;  //TODO fix static int SCREEN_WIDTH/SCREEN_HEIGHT
 
 		else return false;
+	}
+
+	void deleteBullet(int i){
+		bullets.erase(bullets.begin() + i); //delete bullet from vector
 	}
 
 private:
