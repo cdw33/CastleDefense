@@ -10,7 +10,7 @@ static int GHOST_WIDTH = 71;
 
 struct Enemies{
 	double xCoor, yCoor, damage, hp, speed;
-
+	int attackRate, lastAttack;
 };
 
 class Enemy { //TODO - attacking the base needs to be handeled
@@ -29,16 +29,16 @@ public:
 		}
     }
 
-	void moveEnemy(){
+	void moveEnemy(Data &data){
 		for(int i=0; i<enemies.size(); i++){
-			if(enemies[i]->xCoor >= SCREEN_WIDTH - CASTLE_WIDTH - 75) attack(); //if enemy reaches wall, attack()
+			if(enemies[i]->xCoor >= SCREEN_WIDTH - CASTLE_WIDTH - 75) attack(data.health, i); //if enemy reaches wall, attack()
 
 			else
 				enemies[i]->xCoor+=enemies[i]->speed;	//else step speed distance
 		}
 	}
 
-	void createEnemy(double damage, double hp, double speed){	
+	void createEnemy(double damage, double hp, double speed, int attackRate){	
 		enemies.push_back(new Enemies());	//add new enemy to vector
 		enemies[enemies.size()-1]->xCoor=0;
 		enemies[enemies.size()-1]->yCoor=40 + rand()%(680-GHOST_HEIGHT); //keeps enemies withing game screen
@@ -46,6 +46,8 @@ public:
 		enemies[enemies.size()-1]->damage=damage;
 		enemies[enemies.size()-1]->hp=hp;
 		enemies[enemies.size()-1]->speed=speed;
+		enemies[enemies.size()-1]->attackRate = attackRate; //turn into seconds
+		enemies[enemies.size()-1]->lastAttack = clock() - enemies[enemies.size()-1]->attackRate;
 	}
 
 	bool detectHit(double bulletX, double bulletY, int bulletWidth, int bulletHeight, const int bulletUpgrades) {
@@ -73,8 +75,11 @@ public:
 		return enemies.size() == 0;
 	}
 
-	void attack(){
-
+	void attack(int &health, int enemyIndex){
+		if (clock() - enemies[enemyIndex]->lastAttack > enemies[enemyIndex]->attackRate) {
+			health = max(health - enemies[enemyIndex]->damage, 0.0);
+			enemies[enemyIndex]->lastAttack = clock();
+		}
 	}
 
 private:

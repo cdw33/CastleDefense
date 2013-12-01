@@ -44,8 +44,8 @@ class Castle {
 
 		Castle() {
 			defInfo = new defData[8];
-				setVal(defInfo[0], "Images/Castle_Defense/hay.bmp", 10, 0);
-				setVal(defInfo[1], "Images/Castle_Defense/wood.bmp", 25, 20);
+				setVal(defInfo[0], "Images/Castle_Defense/hay.bmp", 20, 0);
+				setVal(defInfo[1], "Images/Castle_Defense/wood.bmp", 30, 20);
 				setVal(defInfo[2], "Images/Castle_Defense/brick.bmp", 45, 50);
 				setVal(defInfo[3], "Images/Castle_Defense/iron.bmp", 70, 70);
 				setVal(defInfo[4], "Images/Castle_Defense/steel.bmp", 100, 100);
@@ -55,10 +55,10 @@ class Castle {
 
 			offInfo = new offData[9];
 				setVal(offInfo[0], "Images/Castle_Offense/nothing.bmp", 0, 0);
-				setVal(offInfo[1], "Images/Castle_Offense/barbed_wire.bmp", 3, 10);
-				setVal(offInfo[2], "Images/Castle_Offense/stakes.bmp", 7, 20);
-				setVal(offInfo[3], "Images/Castle_Offense/spike.bmp", 12, 40);
-				setVal(offInfo[4], "Images/Castle_Offense/poison_spike.bmp", 18, 70);
+				setVal(offInfo[1], "Images/Castle_Offense/barbed_wire.bmp", 3, 20);
+				setVal(offInfo[2], "Images/Castle_Offense/stakes.bmp", 7, 40);
+				setVal(offInfo[3], "Images/Castle_Offense/spike.bmp", 12, 60);
+				setVal(offInfo[4], "Images/Castle_Offense/poison_spike.bmp", 18, 80);
 				setVal(offInfo[5], "Images/Castle_Offense/lava.bmp", 25, 100);
 				setVal(offInfo[6], "Images/Castle_Offense/lava_poison_spike.bmp", 35, 130);
 				setVal(offInfo[7], "Images/Castle_Offense/electric_1.bmp", 50, 150); /* Part 1 - use this index for values*/

@@ -99,14 +99,14 @@ bool Game::launchWave(int waveNumber) { // difficulty by wave number still needs
 	enemyCount = 5*waveNumber;
 
 	for(int i=0; i<enemyCount; i++){ // enemies need scattered
-		enemy.createEnemy(1,1,3);
+		enemy.createEnemy(1,1,3,1000); /* Damage, hp, speed, attack rate (in ms) */
 	}
 
 	//game loop
     while (gameRunning) {
 		graphics.clearScreen();
 		drawWave();
-		enemy.moveEnemy();
+		enemy.moveEnemy(data);
         if (SDL_PollEvent(&event)) { //check for new event
             if (event.type == SDL_MOUSEBUTTONDOWN) {
                 //If the left mouse button was pressed
@@ -155,6 +155,8 @@ void Game::upgradeMenu() {
 	bool shopping = true;
 	SDL_Event event;
 
+	data.money = 40;
+
 	while (shopping) {
 		drawUpdateMenu();
 
@@ -183,7 +185,7 @@ void Game::upgradeMenu() {
 					}
 				/* Rate of fire upgrades */
 				} else if ((event.button.x < 173 && event.button.x > 108)  &&  (event.button.y < 585 && event.button.y > 523)) {
-					if(data.money >= bulletValRef.getRateOfFire(data.rateOfFire+1) && data.rateOfFire < bulletValRef.totalRateOfFireUpgrades()) {
+					if(data.money >= bulletValRef.getRateOfFireCost(data.rateOfFire+1) && data.rateOfFire < bulletValRef.totalRateOfFireUpgrades()) {
 						data.money -= bulletValRef.getRateOfFireCost(data.rateOfFire+1);
 						++data.rateOfFire;
 					}
