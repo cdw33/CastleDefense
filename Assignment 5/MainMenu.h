@@ -20,18 +20,8 @@ public:
 		bool optionSelected = false;
 		SDL_Event event;
 
-		//setup screen
-		graphics.drawBackground("Images/bg.bmp");
-
-		//write text
-		graphics.drawText("Castle Defense", 80, 250, 100, 0, 0, 0);   
-		graphics.drawText("Main Menu Test Page", 80, 250, 180, 0, 0, 0);
-		graphics.drawText("Click Anywhere to Start", 80, 250, 260, 0, 0, 0);
-
-
-		graphics.flip();
-
-        //game loop
+		drawMainMenu();
+		//game loop
         while (!optionSelected) {
 
             if (SDL_PollEvent(&event)) { //check for new event
@@ -40,12 +30,10 @@ public:
                     if (event.button.button == SDL_BUTTON_LEFT){
 						game.setupGame();
 						game.runGame(); 
-						optionSelected = true;
+						drawMainMenu();
                     }
                 }
             }
-
-           
 
             //exit event
             if (event.type == SDL_QUIT) {
@@ -56,6 +44,19 @@ public:
 		
 
 	}
+
+void drawMainMenu(){
+	//setup screen
+		graphics.drawBackground("Images/bg.bmp");
+
+		//write text
+		graphics.drawText("Castle Defense", 80, 250, 100, 0, 0, 0);   
+		graphics.drawText("Main Menu Test Page", 80, 250, 180, 0, 0, 0);
+		graphics.drawText("Click Anywhere to Start", 80, 250, 260, 0, 0, 0);
+
+
+		graphics.flip(); 
+}
 
 
 private:

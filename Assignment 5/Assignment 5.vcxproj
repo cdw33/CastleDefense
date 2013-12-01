@@ -83,6 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Data.h" />
+    <ClInclude Include="DefeatScreen.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Game.h" />
@@ -90,6 +91,7 @@
     <ClInclude Include="Gun.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="MainMenu.h" />
+    <ClInclude Include="Upgrade.h" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="Ardagh.ttf" />

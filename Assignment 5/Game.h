@@ -10,6 +10,10 @@
 #include "Enemy.h"
 #include "Gun.h"
 #include "Graphics.h"
+#include "Upgrade.h"
+#include "DefeatScreen.h"
+
+#include <string>
 
 using namespace std;
 
@@ -20,6 +24,8 @@ class Game {
 		Castle castle; // now holds variables specific to the type of wall being used ( health cap, offensive castle stats, .bmp path location )
 		Gun gun;
 		Data data;     // holds game variables
+		Upgrade upgrade;
+	    DefeatScreen defeat;
     
 		Game();
 		void setupGame(); //initialize game screen
@@ -63,9 +69,10 @@ void Game::runGame() {
 
 	for(int i = 1; gameRunning; ++i) {
 		gameRunning = launchWave(i); // return false if player looses wave, wave money bonus can be added if all enemies are killed in a wave
-										
+		if(data.waveCount == 1) gameRunning = false;					
 		if (gameRunning) {
 			upgradeMenu(); 
+			data.waveCount++;
 		} else {
 			defeatDisplay(); // We could do something simple like dispaly a screen that says "You Have Lost" - while displaying final player stats.
 		}		             // The only interaction the player has with this screen is to press a "Continue" button which ends that function, subsequently this
@@ -138,7 +145,7 @@ bool Game::launchWave(int waveNumber) { // difficulty by wave number still needs
 // upgradeMenu
 //***************************************************
 void Game::upgradeMenu() {
-	bool shopping = /*true*/ false;
+	bool shopping = true;
 	Bullet bulletValRef;
 	SDL_Event event;
 	const int NEED_VAL = 0;
@@ -146,10 +153,13 @@ void Game::upgradeMenu() {
 	while (shopping) {
 		graphics.clearScreen();
 		//display upgradeMenu .bmp
+		upgrade.drawUpgradeScreen();
 		draw();
 
 		if (SDL_PollEvent(&event)) {
 			if (event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT) { /* The different clickable events */
+
+				shopping = false; //FOR DEBUG ONLY - EXIT FUNTION ALREADY IMPLEMENTED BELOW
 
 				/* Wall defense upgrades */
 				if ((event.button.x < NEED_VAL && event.button.x > NEED_VAL) && (event.button.y < NEED_VAL && event.button.y > NEED_VAL)) {
@@ -191,7 +201,7 @@ void Game::upgradeMenu() {
 // defeatDisplay
 //***************************************************
 void Game::defeatDisplay() {
-
+	defeat.drawDefeatScreen();
 }
 
 //***************************************************
@@ -242,7 +252,7 @@ void Game::updateStatsBar(){
 
 
 	//debugging data
-	graphics.drawText("5", 35, 80, 3, 255, 255, 255); 
+	graphics.drawText(to_string(data.waveCount).c_str(), 35, 80, 3, 255, 255, 255); 
 	graphics.drawText("584", 35, 245, 3, 255, 255, 255); 
 	graphics.drawText("125", 35, 540, 3, 255, 255, 255); 
 	graphics.drawText("654", 35, 930, 3, 255, 255, 255); 
