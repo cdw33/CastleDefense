@@ -40,13 +40,12 @@ public:
 			bullets[i]->x+=bullets[i]->deltaX;
 			bullets[i]->y+=bullets[i]->deltaY;
 
-			//graphics.displaySprite("Images/Bullets/bullet.bmp",0,0,bullets[i]->x,bullets[i]->y, BULLET_WIDTH, BULLET_HEIGHT);	//redraw bullet sprite
-			graphics.displaySprite(bulletValRef.getPath(bulletUpgrades),0,0,bullets[i]->x,bullets[i]->y, bulletValRef.getWidth(bulletUpgrades), bulletValRef.getHeight(bulletUpgrades));	//redraw bullet sprite
-			
 			//check if bullet is off the screen
 			if(checkBulletLocale(bullets[i]->x,bullets[i]->y)) {		
 				deleteBullet(i); //delete bullet from vector
 			}
+			else //graphics.displaySprite("Images/Bullets/bullet.bmp",0,0,bullets[i]->x,bullets[i]->y, BULLET_WIDTH, BULLET_HEIGHT);	//redraw bullet sprite
+				graphics.displaySprite(bulletValRef.getPath(bulletUpgrades),0,0,bullets[i]->x,bullets[i]->y, bulletValRef.getWidth(bulletUpgrades), bulletValRef.getHeight(bulletUpgrades));	//redraw bullet sprite
 		}
 	}
 	
@@ -68,7 +67,7 @@ public:
 
 	//Checks if bullet is off the screen
 	bool checkBulletLocale(double curX, double curY){
-		if (curX < 0 || curY < 0 || curY > 1024) return true;  //TODO fix static int SCREEN_WIDTH/SCREEN_HEIGHT
+		if (curX < 0 || curY < STATBAR_HEIGHT || curY > 1024) return true;  //TODO fix static int SCREEN_WIDTH/SCREEN_HEIGHT
 
 		else return false;
 	}

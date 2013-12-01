@@ -77,6 +77,7 @@ void Game::runGame() {
 		if (gameRunning) {
 			upgradeMenu(); /* no way to exit yet */
 			data.waveCount++;
+			data.killed=0;
 		} else {
 			defeatDisplay(); // We could do something simple like dispaly a screen that says "You Have Lost" - while displaying final player stats.
 		}		             // The only interaction the player has with this screen is to press a "Continue" button which ends that function, subsequently this
@@ -122,6 +123,7 @@ bool Game::launchWave(int waveNumber) { // difficulty by wave number still needs
 			for(int i=0; i<gun.bullets.size();i++){
 				if(detectHit(gun.bullets[i]->x,gun.bullets[i]->y, bulletValRef.getWidth(data.bulletUpgrades), bulletValRef.getHeight(data.bulletUpgrades))){
 					gun.deleteBullet(i);
+					data.killed++;
 				}
 			}
         }
