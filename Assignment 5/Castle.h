@@ -38,7 +38,8 @@ class Castle {
 		Graphics graphics;
 		defData* defInfo;
 		offData* offInfo;
-		static const int def_UPGRADES = 7; /* 0 based indexing */
+		bool flip;
+		static const int DEF_UPGRADES = 7; /* 0 based indexing */
 		static const int OFF_UPGRADES = 7;  /* 0 based indexing */
 
 		Castle() {
@@ -52,15 +53,18 @@ class Castle {
 				setVal(defInfo[6], "Images/Castle_Defense/diamond.bmp", 175, 190);
 				setVal(defInfo[7], "Images/Castle_Defense/lonsdaleite.bmp", 220, 250);
 
-			offInfo = new offData[8];
+			offInfo = new offData[9];
 				setVal(offInfo[0], "Images/Castle_Offense/nothing.bmp", 0, 0);
 				setVal(offInfo[1], "Images/Castle_Offense/barbed_wire.bmp", 3, 10);
 				setVal(offInfo[2], "Images/Castle_Offense/stakes.bmp", 7, 20);
 				setVal(offInfo[3], "Images/Castle_Offense/spike.bmp", 12, 40);
 				setVal(offInfo[4], "Images/Castle_Offense/poison_spike.bmp", 18, 70);
-				setVal(offInfo[5], "Images/Castle_Offense/lava_poison_spike.bmp", 25, 100);
-				// NEED TO IMPLEMENT
-				// NEED TO IMPLEMENT
+				setVal(offInfo[5], "Images/Castle_Offense/lava.bmp", 25, 100);
+				setVal(offInfo[6], "Images/Castle_Offense/lava_poison_spike.bmp", 35, 130);
+				setVal(offInfo[7], "Images/Castle_Offense/electric_1.bmp", 50, 150); /* Part 1 - use this index for values*/
+				setVal(offInfo[8], "Images/Castle_Offense/electric_2.bmp", -1, -1);  /* Part 2 */
+
+				flip = false;
 		};
 
 		~Castle() {
@@ -84,12 +88,22 @@ class Castle {
 		int setHealth(int wallDefUpgrades) { return defInfo[wallDefUpgrades].healthCap; }
 		int setHealth(Data &data) { return defInfo[data.wallDefUpgrades].healthCap; }
 
-		static const int totaldefenceUpgrades() { return def_UPGRADES; }
+		static const int totaldefenceUpgrades() { return DEF_UPGRADES; }
 		static const int totalOffenceUpgrades() { return OFF_UPGRADES; }
 
 		void drawCastle(int wallDefUpgrades = 0, int walloffUpgrades = 0) {
 			graphics.displaySprite(defInfo[wallDefUpgrades].path, 0, 0, SCREEN_WIDTH-CASTLE_WIDTH , STATBAR_HEIGHT+(((SCREEN_HEIGHT - STATBAR_HEIGHT)/2)-(CASTLE_HEIGHT/2)),CASTLE_WIDTH,CASTLE_HEIGHT);
-			graphics.displaySprite(offInfo[walloffUpgrades].path, 0, 0, SCREEN_WIDTH-CASTLE_OFFENCE_WIDTH, STATBAR_HEIGHT+(((SCREEN_HEIGHT - STATBAR_HEIGHT)/2)-(CASTLE_OFFENCE_HEIGHT/2))-1, CASTLE_OFFENCE_WIDTH, CASTLE_OFFENCE_HEIGHT);
+
+			if(walloffUpgrades != 7) {
+				graphics.displaySprite(offInfo[walloffUpgrades].path, 0, 0, SCREEN_WIDTH-CASTLE_OFFENCE_WIDTH, STATBAR_HEIGHT+(((SCREEN_HEIGHT - STATBAR_HEIGHT)/2)-(CASTLE_OFFENCE_HEIGHT/2))-1, CASTLE_OFFENCE_WIDTH, CASTLE_OFFENCE_HEIGHT);
+			} else {
+				if(flip) {
+					graphics.displaySprite(offInfo[walloffUpgrades].path, 0, 0, SCREEN_WIDTH-CASTLE_OFFENCE_WIDTH, STATBAR_HEIGHT+(((SCREEN_HEIGHT - STATBAR_HEIGHT)/2)-(CASTLE_OFFENCE_HEIGHT/2))-1, CASTLE_OFFENCE_WIDTH, CASTLE_OFFENCE_HEIGHT);
+				} else {
+					graphics.displaySprite(offInfo[walloffUpgrades+1].path, 0, 0, SCREEN_WIDTH-CASTLE_OFFENCE_WIDTH, STATBAR_HEIGHT+(((SCREEN_HEIGHT - STATBAR_HEIGHT)/2)-(CASTLE_OFFENCE_HEIGHT/2))-1, CASTLE_OFFENCE_WIDTH, CASTLE_OFFENCE_HEIGHT);
+				}
+				flip = !flip;
+			}
 		}
 };
 

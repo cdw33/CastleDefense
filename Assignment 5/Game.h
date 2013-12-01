@@ -155,7 +155,7 @@ void Game::upgradeMenu() {
 		if (SDL_PollEvent(&event)) {
 			if (event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT) { /* The different clickable events */
 
-				printf("Location ->  x: %i   y: %i \n", event.button.x, event.button.y);
+				//printf("Location ->  x: %i   y: %i \n", event.button.x, event.button.y);
 
 				/* Wall defense upgrades */
 				if ((event.button.x < 173 && event.button.x > 108) && (event.button.y < 255 && event.button.y > 193)) {
@@ -256,10 +256,29 @@ void Game::drawUpdateMenu() {
 	graphics.drawText("Rate of Fire", 40, 242, 535, 0, 0, 0);
 	graphics.drawText("Launch Wave", 40, 1015, 602, 0, 0, 0);
 	
-	graphics.drawText(to_string(castle.defInfo[castle.def_UPGRADES+1].cost).c_str(), 40, 487, 206, 0, 0, 0);
-	graphics.drawText(to_string(castle.offInfo[castle.OFF_UPGRADES+1].cost).c_str(), 40, 487, 316, 0, 0, 0);
-	graphics.drawText(to_string(bulletValRef.getCost(data.bulletUpgrades+1)).c_str(), 40, 487, 426, 0, 0, 0);
-	graphics.drawText(to_string(bulletValRef.getRateOfFireCost(data.rateOfFire+1)).c_str(), 40, 487, 535, 0, 0, 0);
+	if (data.wallDefUpgrades == castle.totaldefenceUpgrades()) {
+		graphics.drawText("MAX", 40, 484, 206, 0, 0, 0);
+	} else {
+		graphics.drawText(to_string(castle.defInfo[data.wallDefUpgrades+1].cost).c_str(), 40, 487, 206, 0, 0, 0);
+	}
+	if (data.wallOffUpgrades == castle.totalOffenceUpgrades()) {
+		graphics.drawText("MAX", 40, 484, 316, 0, 0, 0);
+	} else {
+		graphics.drawText(to_string(castle.offInfo[data.wallOffUpgrades+1].cost).c_str(), 40, 487, 316, 0, 0, 0);
+	}
+	if (data.bulletUpgrades == bulletValRef.totalBulletUpgrades()) {
+		graphics.drawText("MAX", 40, 484, 426, 0, 0, 0);
+	} else {
+		graphics.drawText(to_string(bulletValRef.getCost(data.bulletUpgrades+1)).c_str(), 40, 487, 426, 0, 0, 0);
+	}
+	if (data.rateOfFire == bulletValRef.totalRateOfFireUpgrades()) {
+		graphics.drawText("MAX", 40, 484, 535, 0, 0, 0);
+	} else {
+		graphics.drawText(to_string(bulletValRef.getRateOfFireCost(data.rateOfFire+1)).c_str(), 40, 487, 535, 0, 0, 0);
+	}
+	
+	
+	
 
 	/* Draw upgrade progress squares */
 	for(int i = 0; i < data.wallDefUpgrades; ++i) { // wall upgrades
