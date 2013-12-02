@@ -28,9 +28,17 @@ public:
                 if (event.type == SDL_MOUSEBUTTONDOWN) {
                     //If the left mouse button was pressed
                     if (event.button.button == SDL_BUTTON_LEFT){
-						game.setupGame();
-						game.runGame(); 
-						drawMainMenu();
+						if ((event.button.x < 830 && event.button.x > 500) && (event.button.y < 367 && event.button.y > 300)) {
+							game.setupGame();
+							game.runGame(); 
+							drawMainMenu();
+						}
+						if ((event.button.x < 830 && event.button.x > 500 ) && (event.button.y < 467 && event.button.y > 400)) {
+							//open about page
+						}
+						if ((event.button.x < 830 && event.button.x > 500 ) && (event.button.y < 567 && event.button.y > 500)) {
+							event.type = SDL_QUIT;
+						}
                     }
                 }
             }
@@ -62,8 +70,8 @@ void drawMainMenu(){
 
 		//display text
 		graphics.drawText("New Game", 60, 570, 300, 0, 0, 0);
-		graphics.drawText("About", 80, 250, 260, 0, 0, 0);
-		graphics.drawText("Exit", 80, 250, 260, 0, 0, 0);
+		graphics.drawText("About", 60, 610, 400, 0, 0, 0);
+		graphics.drawText("Exit", 60, 630, 500, 0, 0, 0);
 
 
 		graphics.flip(); 
