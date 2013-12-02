@@ -35,7 +35,7 @@ class Game {
 		void runGame();
 		bool launchWave(int);
 		void upgradeMenu();
-		void defeatDisplay();
+		void defeatDisplay(bool&);
 		void clearObjects();
 		void drawWave();
 		void drawUpdateMenu();
@@ -70,17 +70,16 @@ void Game::setupGame() {
 void Game::runGame() {
 	bool gameRunning = true;
 	data.resetData();
-	for(int i = 1; gameRunning; ++i) {
-		gameRunning = launchWave(i); // return false if player looses wave, wave money bonus can be added if all enemies are killed in a wave
+	for(int i = data.waveCount; gameRunning; ++data.waveCount) {
+		gameRunning = launchWave(data.waveCount); // return false if player looses wave, wave money bonus can be added if all enemies are killed in a wave
 
 		if (gameRunning) {
 			upgradeMenu();
-			data.waveCount++;
 			data.killed=0;
 		} else {
-			defeatDisplay(); // We could do something simple like dispaly a screen that says "You Have Lost" - while displaying final player stats.
-		}		             // The only interaction the player has with this screen is to press a "Continue" button which ends that function, subsequently this
-	}					     // would return them to the main menue function
+			defeatDisplay(gameRunning); 
+		}		             
+	}					    
 }
 
 //***************************************************
@@ -210,8 +209,8 @@ void Game::upgradeMenu() {
 //***************************************************
 // defeatDisplay
 //***************************************************
-void Game::defeatDisplay() {
-	defeat.drawDefeatScreen();
+void Game::defeatDisplay(bool &skipMenu) {
+	defeat.drawDefeatScreen(data, skipMenu);
 }
 
 //***************************************************

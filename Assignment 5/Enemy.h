@@ -15,7 +15,7 @@ struct Enemies{
 	vector<int> hitList;
 };
 
-class Enemy { //TODO - attacking the base needs to be handeled
+class Enemy {
    
 public:
 
@@ -42,7 +42,7 @@ public:
 
 	void createEnemy(double damage, double hp, double speed, int attackRate){	
 		enemies.push_back(new Enemies());	//add new enemy to vector
-		enemies[enemies.size()-1]->xCoor=-20;
+		enemies[enemies.size()-1]->xCoor=-GHOST_WIDTH;
 		enemies[enemies.size()-1]->yCoor=40 + rand()%(680-GHOST_HEIGHT); //keeps enemies withing game screen
 
 		enemies[enemies.size()-1]->damage=damage;
@@ -76,6 +76,7 @@ public:
 	}
 
 	bool hasNotHit(int index, int id) {
+		cout << "Checking\n";
 		for(int i = 0; i < enemies[index]->hitList.size(); ++i) {
 			if (enemies[index]->hitList[i] == id) {
 				return false;
