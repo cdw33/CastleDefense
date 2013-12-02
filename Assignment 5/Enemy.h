@@ -12,6 +12,7 @@ static int GHOST_WIDTH = 71;
 struct Enemies{
 	double xCoor, yCoor, damage, hp, speed;
 	int attackRate, lastAttack;
+	vector<int> hit;
 };
 
 class Enemy { //TODO - attacking the base needs to be handeled
@@ -32,7 +33,7 @@ public:
 
 	void moveEnemy(Data &data, int wallAttack){
 		for(int i=0; i<enemies.size(); i++){
-			if(enemies[i]->xCoor >= SCREEN_WIDTH - CASTLE_WIDTH - 75) attack(data.health, i, wallAttack); //if enemy reaches wall, attack()
+			if(enemies[i]->xCoor >= SCREEN_WIDTH - CASTLE_WIDTH - 75) attack(data, i, wallAttack); //if enemy reaches wall, attack()
 
 			else
 				enemies[i]->xCoor+=enemies[i]->speed;	//else step speed distance
@@ -41,7 +42,7 @@ public:
 
 	void createEnemy(double damage, double hp, double speed, int attackRate){	
 		enemies.push_back(new Enemies());	//add new enemy to vector
-		enemies[enemies.size()-1]->xCoor=-20;
+		enemies[enemies.size()-1]->xCoor=-GHOST_WIDTH;
 		enemies[enemies.size()-1]->yCoor=40 + rand()%(680-GHOST_HEIGHT); //keeps enemies withing game screen
 
 		enemies[enemies.size()-1]->damage=damage;
@@ -51,23 +52,37 @@ public:
 		enemies[enemies.size()-1]->lastAttack = clock() - enemies[enemies.size()-1]->attackRate;
 	}
 
-	bool detectHit(double bulletX, double bulletY, int bulletWidth, int bulletHeight, Data &data) {
+	bool detectHit(double bulletX, double bulletY, int bulletWidth, int bulletHeight, int serialCode, Data &data) {
 		Bullet bulletValRef;
 		//if bullet is in the same area as enemy
 		for(int i = enemies.size()-1; i >= 0; --i){
 			if (bulletY + bulletValRef.getHeight(data.bulletUpgrades) > enemies[i]->yCoor && bulletY < enemies[i]->yCoor + GHOST_HEIGHT && bulletX < enemies[i]->xCoor + GHOST_WIDTH && bulletX + bulletValRef.getWidth(data.bulletUpgrades) > enemies[i]->xCoor){
-				enemies[i]->hp = max(enemies[i]->hp - bulletValRef.getDamage(data.bulletUpgrades), 0.0);
-				if (enemies[i]->hp == 0) {
-					deleteEnemy(i);
-					data.money += (1 + data.waveCount/2);
-					++data.killed;
-					++data.points;
+				if(bulletValRef.stopOnContact(data.bulletUpgrades) || hasNotHit(i, serialCode)) {
+					enemies[i]->hp = max(enemies[i]->hp - bulletValRef.getDamage(data.bulletUpgrades), 0.0);
+					if (enemies[i]->hp == 0) {
+						deleteEnemy(i);
+						data.money += (1 + data.waveCount/2);
+						++data.killed;
+						++data.killTotal;
+						++data.points;
+					}
+					return true;
 				}
-				return true;
 			}
 		}
 
 		return false;
+	}
+
+	bool hasNotHit(int enemyIndex, int serialCode) {
+		for (int i = 0; i < enemies[enemyIndex]->hit.size(); ++i) {
+			if (enemies[enemyIndex]->hit[i] == serialCode) {
+				return false;
+			}
+		}
+
+		enemies[enemyIndex]->hit.push_back(serialCode);
+		return true;
 	}
 
 	void deleteEnemy(int i){
@@ -82,14 +97,16 @@ public:
 		return enemies.size() == 0;
 	}
 
-	void attack(int &health, int enemyIndex, int wallAttack){
+	void attack(Data &data, int enemyIndex, int wallAttack){
 		if (clock() - enemies[enemyIndex]->lastAttack > enemies[enemyIndex]->attackRate) {
-			health = max(health - enemies[enemyIndex]->damage, 0.0);
+			data.health = max(data.health - enemies[enemyIndex]->damage, 0.0);
 			enemies[enemyIndex]->lastAttack = clock();
 
 			enemies[enemyIndex]->hp = max(enemies[enemyIndex]->hp - wallAttack, 0.0);
 			if(enemies[enemyIndex]->hp == 0) {
 				deleteEnemy(enemyIndex);
+				++data.killed;
+				++data.killTotal;
 			}
 		}
 	}

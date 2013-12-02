@@ -39,7 +39,7 @@ class Game {
 		void clearObjects();
 		void drawWave();
 		void drawUpdateMenu();
-		bool detectHit(double, double, int, int);
+		bool detectHit(double, double, int, int, int);
 		void updateStatsBar();
 };
 
@@ -75,8 +75,6 @@ void Game::runGame() {
 
 		if (gameRunning) {
 			upgradeMenu();
-			data.waveCount++;
-			data.killed=0;
 		} else {
 			defeatDisplay(); // We could do something simple like dispaly a screen that says "You Have Lost" - while displaying final player stats.
 		}		             // The only interaction the player has with this screen is to press a "Continue" button which ends that function, subsequently this
@@ -96,7 +94,7 @@ bool Game::launchWave(int waveNumber) { // difficulty by wave number still needs
 	int startOfWave = clock();
 
 	const int ENEMIES_PER_WAVE = 5;
-	
+
 	data.health = castle.setHealth(data.wallDefUpgrades);
 	enemy.generateSpawnTime(spawnTime, waveNumber, ENEMIES_PER_WAVE);	
 	enemyCount = waveNumber * ENEMIES_PER_WAVE;
@@ -125,11 +123,10 @@ bool Game::launchWave(int waveNumber) { // difficulty by wave number still needs
         if (fireBullet) {				
 			if (!gun.fireGuns(data.bulletUpgrades)) fireBullet = false;
 			for(int i=0; i<gun.bullets.size();i++){
-				if(detectHit(gun.bullets[i]->x,gun.bullets[i]->y, bulletValRef.getWidth(data.bulletUpgrades), bulletValRef.getHeight(data.bulletUpgrades))){
+				if(detectHit(gun.bullets[i]->x,gun.bullets[i]->y, bulletValRef.getWidth(data.bulletUpgrades), bulletValRef.getHeight(data.bulletUpgrades), gun.bullets[i]->serialCode)){
 					if (bulletValRef.stopOnContact(data.bulletUpgrades)) {
 						gun.deleteBullet(i);
 					}
-					//data.killed++;
 				}
 			}
         }
@@ -138,6 +135,8 @@ bool Game::launchWave(int waveNumber) { // difficulty by wave number still needs
 			gameRunning = false;
 			roundWin = true;
 			data.money += waveNumber * 5; /* wave bonus */
+			data.waveCount++;
+			data.killed=0;
 		} else if (data.health == 0) {
 			gameRunning = false;
 			roundWin = false;
@@ -163,6 +162,8 @@ void Game::upgradeMenu() {
 	while (shopping) {
 		drawUpdateMenu();
 
+		data.health = castle.defInfo[data.wallDefUpgrades].healthCap;
+
 		if (SDL_PollEvent(&event)) {
 			if (event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT) { /* The different clickable events */
 
@@ -173,6 +174,7 @@ void Game::upgradeMenu() {
 					if(data.money >= castle.defInfo[data.wallDefUpgrades+1].cost && data.wallDefUpgrades < castle.totaldefenceUpgrades()) {
 						data.money -= castle.defInfo[data.wallDefUpgrades+1].cost;
 						++data.wallDefUpgrades;
+						data.health = castle.defInfo[data.wallDefUpgrades].healthCap;
 					}
 				/* Wall offense upgrades */
 				} else if ((event.button.x < 173 && event.button.x > 108)  &&  (event.button.y < 366 && event.button.y > 303)) {
@@ -309,8 +311,8 @@ void Game::drawUpdateMenu() {
 //***************************************************
 // detectHit
 //***************************************************
-bool Game::detectHit(double x, double y, int width, int height){
-		if(enemy.detectHit(x, y, width, height, data)) return true;
+bool Game::detectHit(double x, double y, int width, int height, int serialCode){
+		if(enemy.detectHit(x, y, width, height, serialCode, data)) return true;
 
 		else return false;
 }
