@@ -5,11 +5,13 @@
 /* Add / remove items as necessary                                                   */
 
 struct Data {
-	Data(int health = 0, int money = 0, int points = 0, int killed= 0, int waveCount = 1, int rateOfFire = 0, int wallDefUpgrades = 0, int wallOffUpgrades = 0, int bulletUpgrades = 0) {
+	Data(int health = 0, int money = 0, int moneyTotal = 0, int points = 0, int killed= 0, int killedTotal = 0, int waveCount = 1, int rateOfFire = 0, int wallDefUpgrades = 0, int wallOffUpgrades = 0, int bulletUpgrades = 0) {
 		this->health = health;
 		this->money = money;
+		this->money = moneyTotal;
 		this->points = points;
 		this->killed = killed;
+		this->killed = killedTotal;
 		this->waveCount = waveCount;
 		this->rateOfFire = rateOfFire;
 		this->wallDefUpgrades = wallDefUpgrades;  /* Type of wall being used                     */
@@ -19,8 +21,10 @@ struct Data {
 
 	int health,
 		money,
+		moneyTotal,
 		points,
 		killed,
+		killedTotal,
 		waveCount,
 		rateOfFire,
 		wallDefUpgrades,  /* Intended to keep track of */
@@ -30,8 +34,10 @@ struct Data {
 	void resetData() {
 		health = 0;
 		money = 0;
+		moneyTotal = 0;
 		points = 0;
 		killed = 0;
+		killedTotal = 0;
 		waveCount = 1;
 		rateOfFire = 0;
 		wallDefUpgrades = 0;

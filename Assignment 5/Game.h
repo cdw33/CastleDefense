@@ -129,7 +129,6 @@ bool Game::launchWave(int waveNumber) { // difficulty by wave number still needs
 					if (bulletValRef.stopOnContact(data.bulletUpgrades)) {
 						gun.deleteBullet(i);
 					}
-					//data.killed++;
 				}
 			}
         }
@@ -138,6 +137,7 @@ bool Game::launchWave(int waveNumber) { // difficulty by wave number still needs
 			gameRunning = false;
 			roundWin = true;
 			data.money += waveNumber * 5; /* wave bonus */
+			data.moneyTotal += waveNumber * 5; /* change this if you change wave bonus */
 		} else if (data.health == 0) {
 			gameRunning = false;
 			roundWin = false;
@@ -160,6 +160,8 @@ void Game::upgradeMenu() {
 	bool shopping = true;
 	SDL_Event event;
 
+	data.health = castle.setHealth(data.wallDefUpgrades);
+
 	while (shopping) {
 		drawUpdateMenu();
 
@@ -173,6 +175,7 @@ void Game::upgradeMenu() {
 					if(data.money >= castle.defInfo[data.wallDefUpgrades+1].cost && data.wallDefUpgrades < castle.totaldefenceUpgrades()) {
 						data.money -= castle.defInfo[data.wallDefUpgrades+1].cost;
 						++data.wallDefUpgrades;
+						data.health = castle.setHealth(data.wallDefUpgrades);
 					}
 				/* Wall offense upgrades */
 				} else if ((event.button.x < 173 && event.button.x > 108)  &&  (event.button.y < 366 && event.button.y > 303)) {

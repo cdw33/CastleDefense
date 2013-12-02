@@ -50,12 +50,13 @@ public:
 	}
 	
 	void createBullet(int mouseX, int mouseY, const int bulletUpgrades){
+		Bullet bulletValRef;
 
 		if(mouseX > BULLET_START_X) mouseX = BULLET_START_X+1;
 
 		double angle = tan((BULLET_START_Y - mouseY) / max(BULLET_START_X - mouseX, 1));
 
-		double bulletSpeed = .05; //increase for faster bullet (.01 - .1 seems to be a good range)
+		double bulletSpeed = .01 * bulletValRef.getSpeed(bulletUpgrades); //increase for faster bullet (.01 - .1 seems to be a good range)
 
 		if(mouseX > BULLET_START_X) mouseX = BULLET_START_X;
 

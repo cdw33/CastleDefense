@@ -17,14 +17,14 @@ struct bulletData {
 
 /* Indicies of bulletData accessed by the bulletUpgrades variable found in data.h */
 bulletData bulletInfo[8] = { /*Sample data, real input needed for damage, speed, and cost */
-	{ "Images/Bullets/spitball.bmp", 1,  1, 10,  9,  8,  0},
+	{ "Images/Bullets/spitball.bmp", 1,  2, 10,  9,  8,  0},
 	{ "Images/Bullets/pea.bmp"     , 2,  2, 20,  8,  8,  0},
 	{ "Images/Bullets/rock.bmp"    , 4,  3, 30,  10, 10, 0},
 	{ "Images/Bullets/bullet.bmp"  , 8,  4, 50,  21, 12, 0},
-	{ "Images/Bullets/strong.bmp"  , 16, 5, 70, 24, 14,  0},
-	{ "Images/Bullets/big.bmp"     , 32, 6, 90, 34, 14,  0},
-	{ "Images/Bullets/through.bmp" , 50, 7, 110, 34, 19, 1},
-	{ "Images/Bullets/uber.bmp"  , 75, 8, 130, 34, 19, 1}
+	{ "Images/Bullets/strong.bmp"  , 16, 5, 70,  24, 14, 0},
+	{ "Images/Bullets/big.bmp"     , 32, 6, 90,  34, 14, 0},
+	{ "Images/Bullets/uber.bmp"    , 50, 7, 110, 34, 19, 0},
+	{ "Images/Bullets/through.bmp" , 75, 8, 130, 34, 19, 1}
 };
 
 int rateOfFireList[8] = { 1200, 900, 750, 450, 200, 100, 50, 20 }; /* Indices accessed by the rateOfFire variable found in data.h */
