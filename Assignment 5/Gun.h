@@ -53,7 +53,7 @@ public:
 
 		if(mouseX > BULLET_START_X) mouseX = BULLET_START_X+1;
 
-		double angle = tan((BULLET_START_Y - mouseY) / (BULLET_START_X - mouseX));
+		double angle = tan((BULLET_START_Y - mouseY) / max(BULLET_START_X - mouseX, 1));
 
 		double bulletSpeed = .05; //increase for faster bullet (.01 - .1 seems to be a good range)
 
