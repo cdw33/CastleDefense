@@ -49,10 +49,21 @@ void drawMainMenu(){
 	//setup screen
 		graphics.drawBackground("Images/bg.bmp");
 
-		//write text
-		graphics.drawText("Castle Defense", 80, 250, 100, 0, 0, 0);   
-		graphics.drawText("Main Menu Test Page", 80, 250, 180, 0, 0, 0);
-		graphics.drawText("Click Anywhere to Start", 80, 250, 260, 0, 0, 0);
+		
+
+		//write Title
+		graphics.drawText("Castle Defense", 180, 250, 80, 180, 180, 180); 
+
+		//push buttons
+		graphics.displaySprite("Images/MMbutton.bmp", 0, 0, 500, 300, 330, 67);
+		graphics.displaySprite("Images/MMbutton.bmp", 0, 0, 500, 400, 330, 67);
+		graphics.displaySprite("Images/MMbutton.bmp", 0, 0, 500, 500, 330, 67);
+
+
+		//display text
+		graphics.drawText("New Game", 60, 570, 300, 0, 0, 0);
+		graphics.drawText("About", 80, 250, 260, 0, 0, 0);
+		graphics.drawText("Exit", 80, 250, 260, 0, 0, 0);
 
 
 		graphics.flip(); 
