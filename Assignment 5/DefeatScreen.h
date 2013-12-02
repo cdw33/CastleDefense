@@ -22,36 +22,54 @@ public:
 
 		draw();
 
-        //display end stats loop
-        while (!optionSelected) {
+		//display end stats loop
+		while (!optionSelected) {
 
-            if (SDL_PollEvent(&event)) { //check for new event
-                if (event.type == SDL_MOUSEBUTTONDOWN) {
-                    //If the left mouse button was pressed
-                    if (event.button.button == SDL_BUTTON_LEFT){
-						optionSelected = true;
-                    }
-                }
-            }
+			if (SDL_PollEvent(&event)) { //check for new event
+				if (event.type == SDL_MOUSEBUTTONDOWN) {
+					//If the left mouse button was pressed
+					if (event.button.button == SDL_BUTTON_LEFT){
+						if(event.button.x > 602 && event.button.x < 817 && event.button.y > 572 && event.button.y < 633);
+							//restart game
 
-            //exit event
-            if (event.type == SDL_QUIT) {
-                exit(0);
-            }
-        }
+						if(event.button.x > 910 && event.button.x < 1125 && event.button.y > 572 && event.button.y < 632)
+							optionSelected = true;
+						cout << event.button.x << " - " << event.button.y << endl;
+					}
+				}
+			}
 
-		
-
+			//exit event
+			if (event.type == SDL_QUIT) {
+				exit(0);
+			}
+		}
 	}
 
 	void draw(){
+
+		const int UPGRADE_WIDTH = 1138;
+		const int UPGRADE_HEIGHT = 599;
 		//setup screen
 		graphics.drawBackground("Images/bg.bmp");
 
+		//display defeat screen .bmp
+		graphics.displaySprite("Images/defeat_screen.bmp", 0, 0, GAME_WIDTH/2 - UPGRADE_WIDTH/2, GAME_HEIGHT/2 - UPGRADE_HEIGHT/2 + 15, UPGRADE_WIDTH, UPGRADE_HEIGHT);
+
 		//write text
-		graphics.drawText("Defeat Test Page", 80, 250, 100, 0, 0, 0);
-		graphics.drawText("Click Anywhere to", 80, 250, 180, 0, 0, 0);
-		graphics.drawText("Return to Main Menu", 80, 250, 260, 0, 0, 0);
+		graphics.drawText("Game Over", 90, 90, 55, 255, 255, 255);
+		graphics.drawText("Defeat", 200, 650, 240, 100, 100, 100);
+		graphics.drawText("Play Again", 55, 618, 575, 0, 0, 0);
+		graphics.drawText("Main Menu", 55, 918, 575, 0, 0, 0);
+
+		graphics.drawText("Stats", 55, 265, 170, 255, 255, 255);
+
+		graphics.drawText("Enemies Killed: ", 30, 160, 240, 255, 255, 255);	graphics.drawText("24", 30, 320, 240, 255, 255, 255);
+		graphics.drawText("Points Earned: ", 30, 160, 270, 255, 255, 255);	graphics.drawText("24", 30, 320, 270, 255, 255, 255);
+		graphics.drawText("Cash Earned: ", 30, 160, 300, 255, 255, 255);	graphics.drawText("24", 30, 320, 300, 255, 255, 255);
+		//graphics.drawText("Enemies Killed: ", 30, 160, 330, 255, 255, 255);	graphics.drawText("24", 30, 320, 330, 255, 255, 255);
+		//graphics.drawText("Enemies Killed: ", 30, 160, 360, 255, 255, 255);	graphics.drawText("24", 30, 320, 360, 255, 255, 255);
+		//graphics.drawText("Enemies Killed: ", 30, 160, 390, 255, 255, 255);	graphics.drawText("24", 30, 320, 390, 255, 255, 255);
 
 		graphics.flip();
 	}
