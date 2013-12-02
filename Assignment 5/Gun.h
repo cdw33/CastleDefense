@@ -43,20 +43,19 @@ public:
 			//check if bullet is off the screen
 			if(checkBulletLocale(bullets[i]->x,bullets[i]->y)) {		
 				deleteBullet(i); //delete bullet from vector
-			} else {
-				graphics.displaySprite(bulletValRef.getPath(bulletUpgrades),0,0,bullets[i]->x,bullets[i]->y, bulletValRef.getWidth(bulletUpgrades), bulletValRef.getHeight(bulletUpgrades));	//redraw bullet sprite
 			}
+			else //graphics.displaySprite("Images/Bullets/bullet.bmp",0,0,bullets[i]->x,bullets[i]->y, BULLET_WIDTH, BULLET_HEIGHT);	//redraw bullet sprite
+				graphics.displaySprite(bulletValRef.getPath(bulletUpgrades),0,0,bullets[i]->x,bullets[i]->y, bulletValRef.getWidth(bulletUpgrades), bulletValRef.getHeight(bulletUpgrades));	//redraw bullet sprite
 		}
 	}
 	
 	void createBullet(int mouseX, int mouseY, const int bulletUpgrades){
-		Bullet bulletValRef;
 
 		if(mouseX > BULLET_START_X) mouseX = BULLET_START_X+1;
 
 		double angle = tan((BULLET_START_Y - mouseY) / max(BULLET_START_X - mouseX, 1));
 
-		double bulletSpeed = .01 * bulletValRef.getSpeed(bulletUpgrades); //increase for faster bullet (.01 - .1 seems to be a good range)
+		double bulletSpeed = .05; //increase for faster bullet (.01 - .1 seems to be a good range)
 
 		if(mouseX > BULLET_START_X) mouseX = BULLET_START_X;
 
