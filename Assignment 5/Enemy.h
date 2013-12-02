@@ -12,6 +12,7 @@ static int GHOST_WIDTH = 71;
 struct Enemies{
 	double xCoor, yCoor, damage, hp, speed;
 	int attackRate, lastAttack;
+	vector<int> hitList;
 };
 
 class Enemy { //TODO - attacking the base needs to be handeled
@@ -51,25 +52,38 @@ public:
 		enemies[enemies.size()-1]->lastAttack = clock() - enemies[enemies.size()-1]->attackRate;
 	}
 
-	bool detectHit(double bulletX, double bulletY, int bulletWidth, int bulletHeight, Data &data) {
+	bool detectHit(double bulletX, double bulletY, int bulletWidth, int bulletHeight, int id, Data &data) {
 		Bullet bulletValRef;
 		//if bullet is in the same area as enemy
 		for(int i = enemies.size()-1; i >= 0; --i){
 			if (bulletY + bulletValRef.getHeight(data.bulletUpgrades) > enemies[i]->yCoor && bulletY < enemies[i]->yCoor + GHOST_HEIGHT && bulletX < enemies[i]->xCoor + GHOST_WIDTH && bulletX + bulletValRef.getWidth(data.bulletUpgrades) > enemies[i]->xCoor){
-				enemies[i]->hp = max(enemies[i]->hp - bulletValRef.getDamage(data.bulletUpgrades), 0.0);
-				if (enemies[i]->hp == 0) {
-					deleteEnemy(i);
-					data.money += (1 + data.waveCount/2);
-					data.moneyTotal += (1 + data.waveCount/2);
-					++data.killed;
-					++data.killedTotal;
-					++data.points;
+				if (bulletValRef.stopOnContact(data.bulletUpgrades) || hasNotHit(i, id)) {
+					enemies[i]->hp = max(enemies[i]->hp - bulletValRef.getDamage(data.bulletUpgrades), 0.0);
+					if (enemies[i]->hp == 0) {
+						deleteEnemy(i);
+						data.money += (1 + data.waveCount/2);
+						data.moneyTotal += (1 + data.waveCount/2);
+						++data.killed;
+						++data.killedTotal;
+						++data.points;
+					}
+					return true;
 				}
-				return true;
 			}
 		}
 
 		return false;
+	}
+
+	bool hasNotHit(int index, int id) {
+		for(int i = 0; i < enemies[index]->hitList.size(); ++i) {
+			if (enemies[index]->hitList[i] == id) {
+				return false;
+			}
+		}
+
+		enemies[index]->hitList.push_back(id);
+		return true;
 	}
 
 	void deleteEnemy(int i){

@@ -5,6 +5,7 @@
 #include "SDL_TTF.h"
 #include "Graphics.h"
 #include <vector>
+#include <ctime>
 #include <iostream>
 
 using namespace std;
@@ -32,6 +33,7 @@ int rateOfFireCost[8] = { 10, 20, 30, 50, 70, 90, 110, 130};
 
 class Bullet { 
 	public:
+		int id;
 		double x,y,damage,speed,deltaX,deltaY;
 		static const int BULLET_UPGRADES = 7; /* 0 based indexing */
 		static const int FIRE_RATE_UPGRADES = 7; /* 0 based indexing */
@@ -40,6 +42,9 @@ class Bullet {
 
 		Bullet(){};
 		Bullet(double newX, double newY, double newDeltaX, double newDeltaY, int bulletUpgrades) {
+			srand(time(0));
+			id = rand() % 1000000;
+
 			x = newX;
 			y = newY;
 			deltaX = newDeltaX;

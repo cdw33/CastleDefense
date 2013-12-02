@@ -39,7 +39,7 @@ class Game {
 		void clearObjects();
 		void drawWave();
 		void drawUpdateMenu();
-		bool detectHit(double, double, int, int);
+		bool detectHit(double, double, int, int, int);
 		void updateStatsBar();
 };
 
@@ -125,7 +125,7 @@ bool Game::launchWave(int waveNumber) { // difficulty by wave number still needs
         if (fireBullet) {				
 			if (!gun.fireGuns(data.bulletUpgrades)) fireBullet = false;
 			for(int i=0; i<gun.bullets.size();i++){
-				if(detectHit(gun.bullets[i]->x,gun.bullets[i]->y, bulletValRef.getWidth(data.bulletUpgrades), bulletValRef.getHeight(data.bulletUpgrades))){
+				if(detectHit(gun.bullets[i]->x,gun.bullets[i]->y, bulletValRef.getWidth(data.bulletUpgrades), bulletValRef.getHeight(data.bulletUpgrades), gun.bullets[i]->id)){
 					if (bulletValRef.stopOnContact(data.bulletUpgrades)) {
 						gun.deleteBullet(i);
 					}
@@ -312,8 +312,8 @@ void Game::drawUpdateMenu() {
 //***************************************************
 // detectHit
 //***************************************************
-bool Game::detectHit(double x, double y, int width, int height){
-		if(enemy.detectHit(x, y, width, height, data)) return true;
+bool Game::detectHit(double x, double y, int width, int height, int id){
+		if(enemy.detectHit(x, y, width, height, id, data)) return true;
 
 		else return false;
 }

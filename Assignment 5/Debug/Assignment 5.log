@@ -1,15 +1,17 @@
-﻿Build started 12/2/2013 3:34:03 PM.
+﻿Build started 12/2/2013 4:01:20 PM.
      1>Project "C:\Users\Aaron\Documents\GitHub\CastleDefense\Assignment 5\Assignment 5.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\SDL 1.2\include" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
          main.cpp
+     1>c:\users\aaron\documents\github\castledefense\assignment 5\bullet.h(45): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
      1>c:\users\aaron\documents\github\castledefense\assignment 5\castle.h(1): warning C4067: unexpected tokens following preprocessor directive - expected a newline
-     1>c:\users\aaron\documents\github\castledefense\assignment 5\enemy.h(22): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
-     1>c:\users\aaron\documents\github\castledefense\assignment 5\enemy.h(28): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\aaron\documents\github\castledefense\assignment 5\enemy.h(29): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
-     1>c:\users\aaron\documents\github\castledefense\assignment 5\enemy.h(34): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\aaron\documents\github\castledefense\assignment 5\enemy.h(89): warning C4244: '=' : conversion from 'const double' to 'int', possible loss of data
-     1>c:\users\aaron\documents\github\castledefense\assignment 5\enemy.h(109): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\aaron\documents\github\castledefense\assignment 5\enemy.h(23): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
+     1>c:\users\aaron\documents\github\castledefense\assignment 5\enemy.h(29): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\aaron\documents\github\castledefense\assignment 5\enemy.h(30): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\aaron\documents\github\castledefense\assignment 5\enemy.h(35): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\aaron\documents\github\castledefense\assignment 5\enemy.h(79): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\aaron\documents\github\castledefense\assignment 5\enemy.h(103): warning C4244: '=' : conversion from 'const double' to 'int', possible loss of data
+     1>c:\users\aaron\documents\github\castledefense\assignment 5\enemy.h(123): warning C4018: '<' : signed/unsigned mismatch
      1>c:\users\aaron\documents\github\castledefense\assignment 5\gun.h(38): warning C4018: '<' : signed/unsigned mismatch
      1>c:\users\aaron\documents\github\castledefense\assignment 5\gun.h(48): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
      1>c:\users\aaron\documents\github\castledefense\assignment 5\defeatscreen.h(35): warning C4390: ';' : empty controlled statement found; is this the intent?
@@ -22,4 +24,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:05.52
+Time Elapsed 00:00:05.39
