@@ -94,15 +94,17 @@ bool Game::launchWave(int waveNumber) { // difficulty by wave number still needs
 	bool roundWin = false;
 	int lastShot = clock() - bulletValRef.getRateOfFire(data.rateOfFire);
 	int startOfWave = clock();
+
+	const int ENEMIES_PER_WAVE = 5;
 	
 	data.health = castle.setHealth(data.wallDefUpgrades);
-	enemy.generateSpawnTime(spawnTime, waveNumber);	
-	enemyCount = waveNumber * 5;
+	enemy.generateSpawnTime(spawnTime, waveNumber, ENEMIES_PER_WAVE);	
+	enemyCount = waveNumber * ENEMIES_PER_WAVE;
 
 	//game loop
     while (gameRunning) {
 		drawWave();
-		enemy.moveEnemy(data, castle.offInfo[data.wallOffUpgrades].dammage);
+		enemy.moveEnemy(data, castle.offInfo[data.wallOffUpgrades].damage);
 
 		while(spawnTime.size() != 0 && spawnTime[0] < clock() - startOfWave) {
 			spawnTime.erase(spawnTime.begin());

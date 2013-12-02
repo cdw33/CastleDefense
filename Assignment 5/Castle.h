@@ -31,7 +31,7 @@ class Castle {
 		};
 		struct offData { /* Offensive wall data */
 			const char* path;
-			int dammage; /* Damage over time for those attacking the castle */
+			int damage; /* Damage over time for those attacking the castle */
 			int cost;
 		};
 
@@ -78,9 +78,9 @@ class Castle {
 			structPiece.cost = cost;
 		}
 
-		void setVal(offData &structPiece, const char* path, int dammage, int cost) {
+		void setVal(offData &structPiece, const char* path, int damage, int cost) {
 			structPiece.path = path;
-			structPiece.dammage = dammage;
+			structPiece.damage = damage;
 			structPiece.cost = cost;
 		}
 

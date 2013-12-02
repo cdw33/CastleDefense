@@ -94,13 +94,13 @@ public:
 		}
 	}
 
-	void generateSpawnTime(vector<int> &waveTime, int waveNumber) {
-		for(int i = 0; i < waveNumber * 5; ++i) {
-			waveTime.push_back(rand() % (5000 * waveNumber)); // each wave reliece span increases by 5 seconds in length
+	void generateSpawnTime(vector<int> &waveTime, int waveNumber, const int ENEMIES_PER_WAVE) {
+		for(int i = 0; i < waveNumber * ENEMIES_PER_WAVE; ++i) {
+			waveTime.push_back(rand() % (5000 * waveNumber)); /* each wave released  span increases by 5 seconds in length */
 		}
 		sort(waveTime.begin(), waveTime.end());
 	
-		//makes it so that enemies are reliced imediatly
+		/* makes it so that enemies are released imediatly */
 		int min = waveTime[0];
 		for(int i = 0; i < waveTime.size(); ++i) {
 			waveTime[i] -= min;
