@@ -4,6 +4,7 @@
 #include "SDL.h"
 #include "SDL_TTF.h"
 #include <ctime>
+#include <algorithm>
 
 static int GHOST_HEIGHT = 64;
 static int GHOST_WIDTH = 71;
@@ -40,7 +41,7 @@ public:
 
 	void createEnemy(double damage, double hp, double speed, int attackRate){	
 		enemies.push_back(new Enemies());	//add new enemy to vector
-		enemies[enemies.size()-1]->xCoor=0;
+		enemies[enemies.size()-1]->xCoor=-20;
 		enemies[enemies.size()-1]->yCoor=40 + rand()%(680-GHOST_HEIGHT); //keeps enemies withing game screen
 
 		enemies[enemies.size()-1]->damage=damage;
@@ -58,7 +59,9 @@ public:
 				enemies[i]->hp = max(enemies[i]->hp - bulletValRef.getDamage(data.bulletUpgrades), 0.0);
 				if (enemies[i]->hp == 0) {
 					deleteEnemy(i);
+					data.money += (1 + data.waveCount/2);
 					++data.killed;
+					++data.points;
 				}
 				return true;
 			}
@@ -88,6 +91,19 @@ public:
 			if(enemies[enemyIndex]->hp == 0) {
 				deleteEnemy(enemyIndex);
 			}
+		}
+	}
+
+	void generateSpawnTime(vector<int> &waveTime, int waveNumber) {
+		for(int i = 0; i < waveNumber * 5; ++i) {
+			waveTime.push_back(rand() % (5000 * waveNumber)); // each wave reliece span increases by 5 seconds in length
+		}
+		sort(waveTime.begin(), waveTime.end());
+	
+		//makes it so that enemies are reliced imediatly
+		int min = waveTime[0];
+		for(int i = 0; i < waveTime.size(); ++i) {
+			waveTime[i] -= min;
 		}
 	}
 

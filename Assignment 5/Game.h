@@ -88,23 +88,26 @@ void Game::runGame() {
 //***************************************************
 bool Game::launchWave(int waveNumber) { // difficulty by wave number still needs implimented, so does enemy spawning, and win / loss conditions
     SDL_Event event;
+	vector<int> spawnTime;
 	bool gameRunning = true;
     bool fireBullet = false;
 	bool roundWin = false;
 	int lastShot = clock() - bulletValRef.getRateOfFire(data.rateOfFire);
+	int startOfWave = clock();
 	
 	data.health = castle.setHealth(data.wallDefUpgrades);
-	enemyCount = 5*waveNumber;
-
-	for(int i=0; i<enemyCount; i++){ // enemies need scattered
-		enemy.createEnemy(1,2,3,1000); /* Damage, hp, speed, attack rate (in ms) */
-	}
+	enemy.generateSpawnTime(spawnTime, waveNumber);	
+	enemyCount = waveNumber * 5;
 
 	//game loop
     while (gameRunning) {
-		graphics.clearScreen();
 		drawWave();
 		enemy.moveEnemy(data, castle.offInfo[data.wallOffUpgrades].dammage);
+
+		while(spawnTime.size() != 0 && spawnTime[0] < clock() - startOfWave) {
+			spawnTime.erase(spawnTime.begin());
+			enemy.createEnemy(1 + waveNumber, 1 + waveNumber/5, 3 + waveNumber/5, 1000); /* Damage, hp, speed, attack rate (in ms) */ /* <- speed increases every 5 rounds */
+		}
 
         if (SDL_PollEvent(&event)) { //check for new event
             if (event.type == SDL_MOUSEBUTTONDOWN) {
@@ -129,7 +132,7 @@ bool Game::launchWave(int waveNumber) { // difficulty by wave number still needs
 			}
         }
 
-		if (enemy.noEnemies()) {
+		if (enemy.noEnemies() && spawnTime.size() == 0) {
 			gameRunning = false;
 			roundWin = true;
 			data.money += waveNumber * 5; /* wave bonus */
