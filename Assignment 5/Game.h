@@ -137,6 +137,22 @@ bool Game::launchWave(int waveNumber) { // difficulty by wave number still needs
 			roundWin = true;
 			data.money += waveNumber * 5; /* wave bonus */
 			data.moneyTotal += waveNumber * 5; /* change this if you change wave bonus */
+			if(waveNumber >= 3) {
+				data.money += 20;
+				data.moneyTotal += 20;
+			}
+			if(waveNumber >= 7) {
+				data.money += 25;
+				data.moneyTotal += 25;
+			}
+			if(waveNumber >= 11) {
+				data.money += 40;
+				data.moneyTotal += 40;
+			}
+			if(waveNumber >= 15) {
+				data.money += 65;
+				data.moneyTotal += 65;
+			}
 		} else if (data.health == 0) {
 			gameRunning = false;
 			roundWin = false;
