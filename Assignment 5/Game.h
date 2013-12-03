@@ -108,7 +108,7 @@ bool Game::launchWave(int waveNumber) { // difficulty by wave number still needs
 
 		while(spawnTime.size() != 0 && spawnTime[0] < clock() - startOfWave) {
 			spawnTime.erase(spawnTime.begin());
-			enemy.createEnemy(1 + waveNumber, 1 + waveNumber/5, 3 + waveNumber/5, 1000); /* Damage, hp, speed, attack rate (in ms) */ /* <- speed increases every 5 rounds */
+			enemy.createEnemy(1 + waveNumber, 1 + waveNumber/4, 3 + waveNumber/5, 1000); /* Damage, hp, speed, attack rate (in ms) */ /* <- speed increases every 5 rounds */
 		}
 
         if (SDL_PollEvent(&event)) { //check for new event

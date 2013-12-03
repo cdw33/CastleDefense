@@ -20,16 +20,16 @@ struct bulletData {
 bulletData bulletInfo[8] = { /*Sample data, real input needed for damage, speed, and cost */
 	{ "Images/Bullets/spitball.bmp", 1,  2, 10,  9,  8,  0},
 	{ "Images/Bullets/pea.bmp"     , 2,  2, 20,  8,  8,  0},
-	{ "Images/Bullets/rock.bmp"    , 4,  3, 30,  10, 10, 0},
-	{ "Images/Bullets/bullet.bmp"  , 8,  4, 50,  21, 12, 0},
-	{ "Images/Bullets/strong.bmp"  , 16, 5, 70,  24, 14, 0},
-	{ "Images/Bullets/big.bmp"     , 32, 6, 90,  34, 14, 0},
-	{ "Images/Bullets/uber.bmp"    , 50, 7, 110, 34, 19, 0},
-	{ "Images/Bullets/through.bmp" , 75, 8, 130, 34, 19, 1}
+	{ "Images/Bullets/rock.bmp"    , 3,  3, 40,  10, 10, 0},
+	{ "Images/Bullets/bullet.bmp"  , 4,  4, 100,  21, 12, 0},
+	{ "Images/Bullets/strong.bmp"  , 5, 5, 140,  24, 14, 0},
+	{ "Images/Bullets/big.bmp"     , 6, 6, 180,  34, 14, 0},
+	{ "Images/Bullets/uber.bmp"    , 7, 7, 210, 34, 19, 0},
+	{ "Images/Bullets/through.bmp" , 8, 8, 250, 34, 19, 1}
 };
 
 int rateOfFireList[8] = { 1200, 900, 750, 450, 200, 100, 50, 20 }; /* Indices accessed by the rateOfFire variable found in data.h */
-int rateOfFireCost[8] = { 10, 20, 30, 50, 70, 90, 110, 130}; 
+int rateOfFireCost[8] = { 10, 20, 40, 70, 100, 150, 190, 250}; 
 
 class Bullet { 
 	public:
