@@ -88,6 +88,20 @@ void drawAbout() {
 	/* draw text */
 	graphics.drawText("About", 85, 268, 70, 0, 0, 0);
 	graphics.drawText("Back", 50, 862, 585, 0, 0, 0);
+	graphics.drawText("Fight off the ghost armies!", 50, 330, 200, 0, 0, 0);
+	graphics.drawText("-Stay alive for as long as you can.", 40, 360, 250, 0, 0, 0);
+	graphics.drawText("-Don't forget to upgrade bullets.", 40, 360, 300, 0, 0, 0);
+	graphics.drawText("-enemies get stronger and more plentiful", 40, 360, 350, 0, 0, 0);
+	graphics.drawText("as the wave count increases", 40, 385, 385, 0, 0, 0);
+
+	/* authors */
+	graphics.drawText("Creators:", 30, 300, 540, 0, 0, 0);
+	graphics.drawText("-Aaron Battershell", 30, 300, 560, 0, 0, 0);
+	graphics.drawText("-Christopher Wilson", 30, 300, 580, 0, 0, 0);
+	graphics.drawText("-Cory Boveington", 30, 300, 600, 0, 0, 0);
+
+
+
 
 	graphics.flip();
 }
