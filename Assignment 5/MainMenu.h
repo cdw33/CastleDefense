@@ -20,10 +20,10 @@ public:
 		bool optionSelected = false;
 		SDL_Event event;
 
-		drawMainMenu();
+		
 		//game loop
         while (!optionSelected) {
-
+			drawMainMenu();
             if (SDL_PollEvent(&event)) { //check for new event
                 if (event.type == SDL_MOUSEBUTTONDOWN) {
                     //If the left mouse button was pressed
@@ -34,7 +34,8 @@ public:
 							drawMainMenu();
 						}
 						if ((event.button.x < 830 && event.button.x > 500 ) && (event.button.y < 467 && event.button.y > 400)) {
-							//open about page
+							drawAbout();
+							aboutLoop();
 						}
 						if ((event.button.x < 830 && event.button.x > 500 ) && (event.button.y < 567 && event.button.y > 500)) {
 							event.type = SDL_QUIT;
@@ -79,8 +80,38 @@ void drawMainMenu(){
 		graphics.flip(); 
 }
 
+void drawAbout() {
+	/* draw background */
+	graphics.drawBackground("Images/bg.bmp");
+	graphics.displaySprite("Images/about.bmp", 0, 0, 260, 75, 761, 567);
 
+	/* draw text */
+	graphics.drawText("About", 85, 268, 70, 0, 0, 0);
+	graphics.drawText("Back", 50, 862, 585, 0, 0, 0);
 
+	graphics.flip();
+}
+
+void aboutLoop() {
+	bool done = false;
+	SDL_Event event;
+
+    while (!done) {
+		if (SDL_PollEvent(&event)) { //check for new event
+			if (event.type == SDL_MOUSEBUTTONDOWN) {
+                if (event.button.button == SDL_BUTTON_LEFT){
+					printf("location -> x: %i  y: %i\n", event.button.x, event.button.y);
+					if ((event.button.x < 1009 && event.button.x > 784 ) && (event.button.y < 627 && event.button.y > 586)) {
+						done = true;
+					}
+				}
+			}
+		} else if (event.type == SDL_QUIT) {
+                SDL_Quit();
+				exit(0);
+        }
+	}
+}
 
 private:
 	Graphics graphics;
