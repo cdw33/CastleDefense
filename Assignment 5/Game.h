@@ -142,16 +142,16 @@ bool Game::launchWave(int waveNumber) { // difficulty by wave number still needs
 				data.moneyTotal += 20;
 			}
 			if(waveNumber >= 7) {
-				data.money += 25;
-				data.moneyTotal += 25;
+				data.money += 35;
+				data.moneyTotal += 35;
 			}
 			if(waveNumber >= 11) {
-				data.money += 40;
-				data.moneyTotal += 40;
+				data.money += 60;
+				data.moneyTotal += 60;
 			}
 			if(waveNumber >= 15) {
-				data.money += 65;
-				data.moneyTotal += 65;
+				data.money += 90;
+				data.moneyTotal += 90;
 			}
 		} else if (data.health == 0) {
 			gameRunning = false;
