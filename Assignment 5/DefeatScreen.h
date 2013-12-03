@@ -6,6 +6,7 @@
 #include "Graphics.h"
 #include "Game.h"
 #include "Data.h"
+#include <string>
 
 using namespace std;
 
@@ -16,11 +17,11 @@ public:
 
 	};
 
-	void drawDefeatScreen(){
+	void drawDefeatScreen(Data &data, bool &skipMenu){
 		bool optionSelected = false;
 		SDL_Event event;
 
-		draw();
+		draw(data);
 
 		//display end stats loop
 		while (!optionSelected) {
@@ -29,11 +30,16 @@ public:
 				if (event.type == SDL_MOUSEBUTTONDOWN) {
 					//If the left mouse button was pressed
 					if (event.button.button == SDL_BUTTON_LEFT){
-						if(event.button.x > 602 && event.button.x < 817 && event.button.y > 572 && event.button.y < 633);
-							//restart game
-
-						if(event.button.x > 910 && event.button.x < 1125 && event.button.y > 572 && event.button.y < 632)
+						if(event.button.x > 602 && event.button.x < 817 && event.button.y > 572 && event.button.y < 633) {
+							skipMenu = true;
+							data.resetData();
+							data.waveCount = 0;
 							optionSelected = true;
+						}
+
+						if(event.button.x > 910 && event.button.x < 1125 && event.button.y > 572 && event.button.y < 632) {
+							optionSelected = true;
+						}
 						cout << event.button.x << " - " << event.button.y << endl;
 					}
 				}
@@ -46,7 +52,7 @@ public:
 		}
 	}
 
-	void draw(){
+	void draw(const Data &data){
 
 		const int UPGRADE_WIDTH = 1138;
 		const int UPGRADE_HEIGHT = 599;
@@ -64,13 +70,12 @@ public:
 
 		graphics.drawText("Stats", 55, 265, 170, 255, 255, 255);
 
-		graphics.drawText("Enemies Killed: ", 30, 160, 240, 255, 255, 255);	graphics.drawText("24", 30, 320, 240, 255, 255, 255);
-		graphics.drawText("Points Earned: ", 30, 160, 270, 255, 255, 255);	graphics.drawText("24", 30, 320, 270, 255, 255, 255);
-		graphics.drawText("Cash Earned: ", 30, 160, 300, 255, 255, 255);	graphics.drawText("24", 30, 320, 300, 255, 255, 255);
-		//graphics.drawText("Enemies Killed: ", 30, 160, 330, 255, 255, 255);	graphics.drawText("24", 30, 320, 330, 255, 255, 255);
-		//graphics.drawText("Enemies Killed: ", 30, 160, 360, 255, 255, 255);	graphics.drawText("24", 30, 320, 360, 255, 255, 255);
-		//graphics.drawText("Enemies Killed: ", 30, 160, 390, 255, 255, 255);	graphics.drawText("24", 30, 320, 390, 255, 255, 255);
+		graphics.drawText("Waves Completed: ", 30, 160, 240, 255, 255, 255);  graphics.drawText(to_string(data.waveCount).c_str(), 30, 340, 240, 255, 255, 255);
+		graphics.drawText("Enemies Killed: ", 30, 160, 270, 255, 255, 255);	  graphics.drawText(to_string(data.killedTotal).c_str(), 30, 340, 270, 255, 255, 255);
+		graphics.drawText("Points Earned: ", 30, 160, 300, 255, 255, 255);	  graphics.drawText(to_string(data.points).c_str(), 30, 340, 300, 255, 255, 255);
+		graphics.drawText("Cash Earned: ", 30, 160, 330, 255, 255, 255);	  graphics.drawText(to_string(data.moneyTotal).c_str(), 30, 340, 330, 255, 255, 255);
 
+		//to_string("").c_str()
 		graphics.flip();
 	}
 
