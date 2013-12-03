@@ -60,6 +60,8 @@ void drawMainMenu(){
 		
 
 		//write Title
+		graphics.drawText("Castle Defense", 179, 252, 80, 255, 255, 255);
+		graphics.drawText("Castle Defense", 182, 245, 80, 0, 0, 0); 
 		graphics.drawText("Castle Defense", 180, 250, 80, 180, 180, 180); 
 
 		//push buttons
@@ -76,6 +78,8 @@ void drawMainMenu(){
 
 		graphics.flip(); 
 }
+
+
 
 
 private:
