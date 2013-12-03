@@ -40,7 +40,6 @@ public:
 						if(event.button.x > 910 && event.button.x < 1125 && event.button.y > 572 && event.button.y < 632) {
 							optionSelected = true;
 						}
-						cout << event.button.x << " - " << event.button.y << endl;
 					}
 				}
 			}
@@ -70,12 +69,11 @@ public:
 
 		graphics.drawText("Stats", 55, 265, 170, 255, 255, 255);
 
-		graphics.drawText("Waves Completed: ", 30, 160, 240, 255, 255, 255);  graphics.drawText(to_string(data.waveCount).c_str(), 30, 340, 240, 255, 255, 255);
+		graphics.drawText("Waves Completed: ", 30, 160, 240, 255, 255, 255);  graphics.drawText(to_string(data.waveCount-1).c_str(), 30, 340, 240, 255, 255, 255);
 		graphics.drawText("Enemies Killed: ", 30, 160, 270, 255, 255, 255);	  graphics.drawText(to_string(data.killedTotal).c_str(), 30, 340, 270, 255, 255, 255);
 		graphics.drawText("Points Earned: ", 30, 160, 300, 255, 255, 255);	  graphics.drawText(to_string(data.points).c_str(), 30, 340, 300, 255, 255, 255);
 		graphics.drawText("Cash Earned: ", 30, 160, 330, 255, 255, 255);	  graphics.drawText(to_string(data.moneyTotal).c_str(), 30, 340, 330, 255, 255, 255);
 
-		//to_string("").c_str()
 		graphics.flip();
 	}
 

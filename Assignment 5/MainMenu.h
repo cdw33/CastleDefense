@@ -114,7 +114,6 @@ void aboutLoop() {
 		if (SDL_PollEvent(&event)) { //check for new event
 			if (event.type == SDL_MOUSEBUTTONDOWN) {
                 if (event.button.button == SDL_BUTTON_LEFT){
-					printf("location -> x: %i  y: %i\n", event.button.x, event.button.y);
 					if ((event.button.x < 1009 && event.button.x > 784 ) && (event.button.y < 627 && event.button.y > 586)) {
 						done = true;
 					}

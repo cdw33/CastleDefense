@@ -21,7 +21,7 @@ class Game {
 	public:
 		Graphics graphics;
 		Enemy enemy;
-		Castle castle; // now holds variables specific to the type of wall being used ( health cap, offensive castle stats, .bmp path location )
+		Castle castle; 
 		Gun gun;
 		Data data;     // holds game variables
 		Bullet bulletValRef;
@@ -71,7 +71,7 @@ void Game::runGame() {
 	bool gameRunning = true;
 	data.resetData();
 	for(int i = data.waveCount; gameRunning; ++data.waveCount) {
-		gameRunning = launchWave(data.waveCount); // return false if player looses wave, wave money bonus can be added if all enemies are killed in a wave
+		gameRunning = launchWave(data.waveCount); 
 
 		if (gameRunning) {
 			upgradeMenu();
@@ -85,7 +85,7 @@ void Game::runGame() {
 //***************************************************
 // launchWave
 //***************************************************
-bool Game::launchWave(int waveNumber) { // difficulty by wave number still needs implimented, so does enemy spawning, and win / loss conditions
+bool Game::launchWave(int waveNumber) { 
     SDL_Event event;
 	vector<int> spawnTime;
 	bool gameRunning = true;
@@ -182,8 +182,6 @@ void Game::upgradeMenu() {
 
 		if (SDL_PollEvent(&event)) {
 			if (event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT) { /* The different clickable events */
-
-				//printf("Location ->  x: %i   y: %i \n", event.button.x, event.button.y);
 
 				/* Wall defense upgrades */
 				if ((event.button.x < 173 && event.button.x > 108) && (event.button.y < 255 && event.button.y > 193)) {
