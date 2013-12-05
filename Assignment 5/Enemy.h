@@ -116,10 +116,10 @@ public:
 		for(int i = 0; i < waveNumber * ENEMIES_PER_WAVE; ++i) {
 			waveTime.push_back(rand() % (5000 * waveNumber)); /* each wave released  span increases by 5 seconds in length */
 		}
-		sort(waveTime.begin(), waveTime.end());
+		sort(waveTime.rbegin(), waveTime.rend());
 	
 		/* makes it so that enemies are released imediatly */
-		int min = waveTime[0];
+		int min = waveTime[waveTime.size()-1];
 		for(int i = 0; i < waveTime.size(); ++i) {
 			waveTime[i] -= min;
 		}

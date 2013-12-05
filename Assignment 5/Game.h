@@ -100,17 +100,17 @@ bool Game::launchWave(int waveNumber) {
 
 	const int ENEMIES_PER_WAVE = 5;
 	
+	enemyCount = waveNumber * ENEMIES_PER_WAVE;
 	data.health = castle.setHealth(data.wallDefUpgrades);
 	enemy.generateSpawnTime(spawnTime, waveNumber, ENEMIES_PER_WAVE);	
-	enemyCount = waveNumber * ENEMIES_PER_WAVE;
 
 	//game loop
     while (gameRunning) {
 		drawWave();
 		enemy.moveEnemy(data, castle.offInfo[data.wallOffUpgrades].damage);
 
-		while(spawnTime.size() != 0 && spawnTime[0] < clock() - startOfWave) {
-			spawnTime.erase(spawnTime.begin());
+		while(spawnTime.size() != 0 && spawnTime[spawnTime.size()-1] < clock() - startOfWave) {
+			spawnTime.erase(spawnTime.begin() + spawnTime.size() - 1);
 			enemy.createEnemy(1 + waveNumber, 1 + waveNumber/4, 3 + waveNumber/5, 1000); /* Damage, hp, speed, attack rate (in ms) */ /* <- speed increases every 5 rounds */
 		}
 
