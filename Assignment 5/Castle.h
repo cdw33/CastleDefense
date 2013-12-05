@@ -44,14 +44,14 @@ class Castle {
 
 		Castle() {
 			defInfo = new defData[8];
-				setVal(defInfo[0], "Images/Castle_Defense/hay.bmp", 20, 0);
-				setVal(defInfo[1], "Images/Castle_Defense/wood.bmp", 40, 10);
-				setVal(defInfo[2], "Images/Castle_Defense/brick.bmp", 60, 20);
-				setVal(defInfo[3], "Images/Castle_Defense/iron.bmp", 80, 40);
-				setVal(defInfo[4], "Images/Castle_Defense/steel.bmp", 120, 80);
-				setVal(defInfo[5], "Images/Castle_Defense/mithril.bmp", 160, 100);
-				setVal(defInfo[6], "Images/Castle_Defense/diamond.bmp", 250, 130);
-				setVal(defInfo[7], "Images/Castle_Defense/lonsdaleite.bmp", 350, 200);
+				setVal(defInfo[0], "Images/Castle_Defense/hay.bmp", 25, 0);
+				setVal(defInfo[1], "Images/Castle_Defense/wood.bmp", 50, 10);
+				setVal(defInfo[2], "Images/Castle_Defense/brick.bmp", 100, 20);
+				setVal(defInfo[3], "Images/Castle_Defense/iron.bmp", 150, 40);
+				setVal(defInfo[4], "Images/Castle_Defense/steel.bmp", 200, 80);
+				setVal(defInfo[5], "Images/Castle_Defense/mithril.bmp", 250, 100);
+				setVal(defInfo[6], "Images/Castle_Defense/diamond.bmp", 300, 130);
+				setVal(defInfo[7], "Images/Castle_Defense/lonsdaleite.bmp", 400, 200);
 
 			offInfo = new offData[9];
 				setVal(offInfo[0], "Images/Castle_Offense/nothing.bmp", 0, 0);

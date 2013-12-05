@@ -40,7 +40,7 @@ class Game {
 		void drawWave();
 		void drawUpdateMenu();
 		bool detectHit(double, double, int, int, int);
-		void updateStatsBar();
+		void updateStatsBar(bool = false);
 };
 
 //***************************************************
@@ -70,12 +70,16 @@ void Game::setupGame() {
 void Game::runGame() {
 	bool gameRunning = true;
 	data.resetData();
-	for(int i = data.waveCount; gameRunning; ++data.waveCount) {
-		gameRunning = launchWave(data.waveCount); 
+
+	for(data.waveCount = 1; gameRunning; ++data.waveCount) {
+		/* uncomment for more money for easy testing / game demonstration purposes
+			data.money = 1000000;
+		*/
+
+		gameRunning = launchWave(data.waveCount);
 
 		if (gameRunning) {
 			upgradeMenu();
-			data.killed=0;
 		} else {
 			defeatDisplay(gameRunning); 
 		}		             
@@ -135,6 +139,7 @@ bool Game::launchWave(int waveNumber) {
 		if (enemy.noEnemies() && spawnTime.size() == 0) {
 			gameRunning = false;
 			roundWin = true;
+			data.killed=0;
 			data.money += waveNumber * 5; /* wave bonus */
 			data.moneyTotal += waveNumber * 5; /* change this if you change wave bonus */
 			if(waveNumber >= 3) {
@@ -263,7 +268,7 @@ void Game::drawUpdateMenu() {
 	graphics.drawBackground("Images/bg.bmp");
 
 	graphics.displaySprite("Images/statsbar.bmp",0,0,0,0,1280,50);
-	updateStatsBar();
+	updateStatsBar(true); /* true denotes that you are calling it from this function */
 
 	graphics.displaySprite("Images/upgrade_menu.bmp", 0, 0, GAME_WIDTH/2 - UPGRADE_WIDTH/2, GAME_HEIGHT/2 - UPGRADE_HEIGHT/2 + 15, UPGRADE_WIDTH, UPGRADE_HEIGHT);
 
@@ -334,7 +339,7 @@ bool Game::detectHit(double x, double y, int width, int height, int id){
 //***************************************************
 // updateStatsBar
 //***************************************************
-void Game::updateStatsBar(){
+void Game::updateStatsBar(bool callFromUpdate){
 
 	//TODO - make xCoors static
 	graphics.drawText("Wave: ", 35, 10, 3, 255, 255, 255); 
@@ -346,7 +351,7 @@ void Game::updateStatsBar(){
 	//pull data
 	graphics.drawText(to_string(data.waveCount).c_str(), 35, 80, 3, 255, 255, 255); 
 	graphics.drawText(to_string(data.points).c_str(), 35, 245, 3, 255, 255, 255); 
-	graphics.drawText(to_string(enemyCount - data.killed).c_str(), 35, 600, 3, 255, 255, 255); 
+	graphics.drawText((callFromUpdate ? "~" : to_string(enemyCount - data.killed).c_str()), 35, 600, 3, 255, 255, 255); 
 	graphics.drawText(to_string(data.money).c_str(), 35, 790, 3, 255, 255, 255); 
 	graphics.drawText(to_string(data.health).c_str(), 35, 1040, 3, 255, 255, 255); 
 }

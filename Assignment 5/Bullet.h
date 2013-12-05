@@ -28,22 +28,25 @@ bulletData bulletInfo[8] = { /*Sample data, real input needed for damage, speed,
 	{ "Images/Bullets/through.bmp" , 8, 8, 250, 34, 19, 1}
 };
 
-int rateOfFireList[8] = { 1200, 900, 750, 450, 200, 100, 50, 20 }; /* Indices accessed by the rateOfFire variable found in data.h */
+/* Indices accessed by the rateOfFire variable found in data.h */
+int rateOfFireList[8] = { 1200, 900, 750, 450, 200, 100, 50, 20 }; 
 int rateOfFireCost[8] = { 10, 20, 40, 70, 100, 150, 190, 250}; 
 
 class Bullet { 
 	public:
 		int id;
 		double x,y,damage,speed,deltaX,deltaY;
-		static const int BULLET_UPGRADES = 7; /* 0 based indexing */
+		static const int BULLET_UPGRADES = 7;    /* 0 based indexing */
 		static const int FIRE_RATE_UPGRADES = 7; /* 0 based indexing */
-		static const int DAMAGE_OVER_TIME = 1000 * 60; /* 1 second per cycle for poison*/
-		static const int DAMAGE_PER_CYCLE = 10;
 
 		Bullet(){};
 		Bullet(double newX, double newY, double newDeltaX, double newDeltaY, int bulletUpgrades) {
-			srand(time(0));
-			id = rand() % 1000000;
+			if(stopOnContact(bulletUpgrades)) {
+				srand(time(0));
+				id = rand() % 1000000;
+			} else {
+				id = 0;
+			}
 
 			x = newX;
 			y = newY;

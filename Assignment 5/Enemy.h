@@ -76,7 +76,6 @@ public:
 	}
 
 	bool hasNotHit(int index, int id) {
-		cout << "Checking\n";
 		for(int i = 0; i < enemies[index]->hitList.size(); ++i) {
 			if (enemies[index]->hitList[i] == id) {
 				return false;
