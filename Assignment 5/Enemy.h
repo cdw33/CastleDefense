@@ -61,8 +61,7 @@ public:
 					enemies[i]->hp = max(enemies[i]->hp - bulletValRef.getDamage(data.bulletUpgrades), 0.0);
 					if (enemies[i]->hp == 0) {
 						deleteEnemy(i);
-						data.money += 1;
-						data.moneyTotal += 1;
+						data.addMoney(1);
 						++data.killed;
 						++data.killedTotal;
 						++data.points;

@@ -40,14 +40,14 @@ class Game {
 		void drawWave();
 		void drawUpdateMenu();
 		bool detectHit(double, double, int, int, int);
-		void updateStatsBar(bool = false);
+		void updateStatsBar();
 };
 
 //***************************************************
 // Constructor
 //***************************************************
 Game::Game() {
-
+	srand(time(0));
 };
 
 //***************************************************
@@ -111,7 +111,7 @@ bool Game::launchWave(int waveNumber) {
 
 		while(spawnTime.size() != 0 && spawnTime[spawnTime.size()-1] < clock() - startOfWave) {
 			spawnTime.erase(spawnTime.begin() + spawnTime.size() - 1);
-			enemy.createEnemy(1 + waveNumber, 1 + waveNumber/4, 3 + waveNumber/5, 1000); /* Damage, hp, speed, attack rate (in ms) */ /* <- speed increases every 5 rounds */
+			enemy.createEnemy(1 + waveNumber, 1 + waveNumber/4, (rand()%2 ? 3 : 4) + waveNumber/5, 1000); /* Damage, hp, speed, attack rate (in ms) */ /* <- speed increases every 5 rounds */
 		}
 
         if (SDL_PollEvent(&event)) { //check for new event
@@ -140,23 +140,18 @@ bool Game::launchWave(int waveNumber) {
 			gameRunning = false;
 			roundWin = true;
 			data.killed=0;
-			data.money += waveNumber * 5; /* wave bonus */
-			data.moneyTotal += waveNumber * 5; /* change this if you change wave bonus */
+			data.addMoney(waveNumber * 5);
 			if(waveNumber >= 3) {
-				data.money += 20;
-				data.moneyTotal += 20;
+				data.addMoney(20);
 			}
 			if(waveNumber >= 7) {
-				data.money += 35;
-				data.moneyTotal += 35;
+				data.addMoney(35);
 			}
 			if(waveNumber >= 11) {
-				data.money += 60;
-				data.moneyTotal += 60;
+				data.addMoney(60);
 			}
 			if(waveNumber >= 15) {
-				data.money += 90;
-				data.moneyTotal += 90;
+				data.addMoney(90);
 			}
 		} else if (data.health == 0) {
 			gameRunning = false;
@@ -177,52 +172,7 @@ bool Game::launchWave(int waveNumber) {
 // upgradeMenu
 //***************************************************
 void Game::upgradeMenu() {
-	bool shopping = true;
-	SDL_Event event;
-
-	data.health = castle.setHealth(data.wallDefUpgrades);
-
-	while (shopping) {
-		drawUpdateMenu();
-
-		if (SDL_PollEvent(&event)) {
-			if (event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT) { /* The different clickable events */
-
-				/* Wall defense upgrades */
-				if ((event.button.x < 173 && event.button.x > 108) && (event.button.y < 255 && event.button.y > 193)) {
-					if(data.money >= castle.defInfo[data.wallDefUpgrades+1].cost && data.wallDefUpgrades < castle.totaldefenceUpgrades()) {
-						data.money -= castle.defInfo[data.wallDefUpgrades+1].cost;
-						++data.wallDefUpgrades;
-						data.health = castle.setHealth(data.wallDefUpgrades);
-					}
-				/* Wall offense upgrades */
-				} else if ((event.button.x < 173 && event.button.x > 108)  &&  (event.button.y < 366 && event.button.y > 303)) {
-					if(data.money >= castle.offInfo[data.wallOffUpgrades+1].cost && data.wallOffUpgrades < castle.totalOffenceUpgrades()) {
-						data.money -= castle.offInfo[data.wallOffUpgrades+1].cost;
-						++data.wallOffUpgrades;
-					}
-				/* Bullet type upgrades */ 
-				} else if ((event.button.x < 173 && event.button.x > 108)  &&  (event.button.y < 476 && event.button.y > 413)) {
-					if(data.money >= bulletValRef.getCost(data.bulletUpgrades+1) && data.bulletUpgrades < bulletValRef.totalBulletUpgrades()) {
-						data.money -= bulletValRef.getCost(data.bulletUpgrades+1);
-						++data.bulletUpgrades;
-					}
-				/* Rate of fire upgrades */
-				} else if ((event.button.x < 173 && event.button.x > 108)  &&  (event.button.y < 585 && event.button.y > 523)) {
-					if(data.money >= bulletValRef.getRateOfFireCost(data.rateOfFire+1) && data.rateOfFire < bulletValRef.totalRateOfFireUpgrades()) {
-						data.money -= bulletValRef.getRateOfFireCost(data.rateOfFire+1);
-						++data.rateOfFire;
-					}
-				/* Exit the function */
-				} else if ((event.button.x < 1204 && event.button.x > 988)  &&  (event.button.y < 650 && event.button.y > 590)) {
-					shopping = false;
-				} 
-			} else if (event.type == SDL_QUIT) { /* event quit */
-				SDL_Quit();
-				exit(0);
-			}
-		}
-	}
+	upgrade.upgradeMenu(data, castle);
 }
 
 //***************************************************
@@ -258,76 +208,6 @@ void Game::drawWave() {
 }
 
 //***************************************************
-// drawUpdateMenu
-//***************************************************
-void Game::drawUpdateMenu() {
-	const int BAR_WIDTH = 79;
-	const int UPGRADE_WIDTH = 1138;
-	const int UPGRADE_HEIGHT = 599;
-
-	graphics.drawBackground("Images/bg.bmp");
-
-	graphics.displaySprite("Images/statsbar.bmp",0,0,0,0,1280,50);
-	updateStatsBar(true); /* true denotes that you are calling it from this function */
-
-	graphics.displaySprite("Images/upgrade_menu.bmp", 0, 0, GAME_WIDTH/2 - UPGRADE_WIDTH/2, GAME_HEIGHT/2 - UPGRADE_HEIGHT/2 + 15, UPGRADE_WIDTH, UPGRADE_HEIGHT);
-
-	/* Draw text */
-	graphics.drawText("Upgrades", 90, 90, 55, 255, 255, 255);
-	graphics.drawText("Catagory", 40, 260, 145, 255, 255, 255);
-	graphics.drawText("Cost", 40, 478, 145, 255, 255, 255);
-	graphics.drawText("Progress", 40, 820, 145, 255, 255, 255);
-
-	graphics.drawText("Buy", 40, 118, 206, 0, 0, 0);
-	graphics.drawText("Buy", 40, 118, 316, 0, 0, 0);
-	graphics.drawText("Buy", 40, 118, 426, 0, 0, 0);
-	graphics.drawText("Buy", 40, 118, 535, 0, 0, 0);
-	graphics.drawText("Castle Wall", 40, 247, 204, 0, 0, 0);
-	graphics.drawText("Castle Defences", 40, 217, 316, 0, 0, 0);
-	graphics.drawText("Bullets", 40, 269, 426, 0, 0, 0);
-	graphics.drawText("Rate of Fire", 40, 242, 535, 0, 0, 0);
-	graphics.drawText("Launch Wave", 40, 1015, 602, 0, 0, 0);
-	
-	if (data.wallDefUpgrades == castle.totaldefenceUpgrades()) {
-		graphics.drawText("MAX", 40, 484, 206, 0, 0, 0);
-	} else {
-		graphics.drawText(to_string(castle.defInfo[data.wallDefUpgrades+1].cost).c_str(), 40, 487, 206, 0, 0, 0);
-	}
-	if (data.wallOffUpgrades == castle.totalOffenceUpgrades()) {
-		graphics.drawText("MAX", 40, 484, 316, 0, 0, 0);
-	} else {
-		graphics.drawText(to_string(castle.offInfo[data.wallOffUpgrades+1].cost).c_str(), 40, 487, 316, 0, 0, 0);
-	}
-	if (data.bulletUpgrades == bulletValRef.totalBulletUpgrades()) {
-		graphics.drawText("MAX", 40, 484, 426, 0, 0, 0);
-	} else {
-		graphics.drawText(to_string(bulletValRef.getCost(data.bulletUpgrades+1)).c_str(), 40, 487, 426, 0, 0, 0);
-	}
-	if (data.rateOfFire == bulletValRef.totalRateOfFireUpgrades()) {
-		graphics.drawText("MAX", 40, 484, 535, 0, 0, 0);
-	} else {
-		graphics.drawText(to_string(bulletValRef.getRateOfFireCost(data.rateOfFire+1)).c_str(), 40, 487, 535, 0, 0, 0);
-	}
-
-
-	/* Draw upgrade progress squares */
-	for(int i = 0; i < data.wallDefUpgrades; ++i) { // wall upgrades
-		graphics.displaySprite("Images/buy_cover.bmp", 0, 0, 610 + i * BAR_WIDTH, 204, 76, 41);
-	}
-	for(int i = 0; i < data.wallOffUpgrades; ++i) { // wall offensive upgrades
-		graphics.displaySprite("Images/buy_cover.bmp", 0, 0, 610 + i * BAR_WIDTH, 314, 76, 41);
-	}
-	for(int i = 0; i < data.bulletUpgrades; ++i) { // bullet upgrades
-		graphics.displaySprite("Images/buy_cover.bmp", 0, 0, 610 + i * BAR_WIDTH, 424, 76, 41);
-	}
-	for(int i = 0; i < data.rateOfFire; ++i) { // rate of fire
-		graphics.displaySprite("Images/buy_cover.bmp", 0, 0, 610 + i * BAR_WIDTH, 534, 76, 41);
-	}
-
-	graphics.flip();
-}
-
-//***************************************************
 // detectHit
 //***************************************************
 bool Game::detectHit(double x, double y, int width, int height, int id){
@@ -339,7 +219,7 @@ bool Game::detectHit(double x, double y, int width, int height, int id){
 //***************************************************
 // updateStatsBar
 //***************************************************
-void Game::updateStatsBar(bool callFromUpdate){
+void Game::updateStatsBar(){
 
 	//TODO - make xCoors static
 	graphics.drawText("Wave: ", 35, 10, 3, 255, 255, 255); 
@@ -351,7 +231,7 @@ void Game::updateStatsBar(bool callFromUpdate){
 	//pull data
 	graphics.drawText(to_string(data.waveCount).c_str(), 35, 80, 3, 255, 255, 255); 
 	graphics.drawText(to_string(data.points).c_str(), 35, 245, 3, 255, 255, 255); 
-	graphics.drawText((callFromUpdate ? "~" : to_string(enemyCount - data.killed).c_str()), 35, 600, 3, 255, 255, 255); 
+	graphics.drawText(to_string(enemyCount - data.killed).c_str(), 35, 600, 3, 255, 255, 255); 
 	graphics.drawText(to_string(data.money).c_str(), 35, 790, 3, 255, 255, 255); 
 	graphics.drawText(to_string(data.health).c_str(), 35, 1040, 3, 255, 255, 255); 
 }

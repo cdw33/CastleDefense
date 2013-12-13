@@ -26,7 +26,7 @@ struct Data {
 		killed,
 		killedTotal,
 		waveCount,
-		rateOfFire,
+		rateOfFire,		  /*                           */
 		wallDefUpgrades,  /* Intended to keep track of */
 		wallOffUpgrades,  /*    number of upgrades     */
 		bulletUpgrades;   /*        purchased          */ 
@@ -43,6 +43,11 @@ struct Data {
 		wallDefUpgrades = 0;
 		wallOffUpgrades = 0;
 		bulletUpgrades = 0;
+	}
+
+	void addMoney(int toAdd) {
+		money += toAdd;
+		moneyTotal += toAdd;
 	}
 };
 

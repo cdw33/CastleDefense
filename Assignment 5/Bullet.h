@@ -41,7 +41,7 @@ class Bullet {
 
 		Bullet(){};
 		Bullet(double newX, double newY, double newDeltaX, double newDeltaY, int bulletUpgrades) {
-			if(stopOnContact(bulletUpgrades)) {
+			if(!stopOnContact(bulletUpgrades)) {
 				srand(time(0));
 				id = rand() % 1000000;
 			} else {
