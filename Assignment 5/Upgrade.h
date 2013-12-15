@@ -12,12 +12,12 @@ using namespace std;
 class Upgrade{
 	private:
 		Graphics graphics;
+		Background background;
 		Bullet bulletValRef;
 
 	public:
-		Upgrade() {
-
-		};
+		Upgrade()  { }
+		~Upgrade() { }
 
 		void upgradeMenu(Data &, Castle &);
 		void drawUpdateMenu(Data &, Castle &);
@@ -30,6 +30,7 @@ class Upgrade{
 void Upgrade::upgradeMenu(Data &data, Castle &castle) {
 	bool shopping = true;
 	SDL_Event event;
+	background.reset();
 
 	data.health = castle.setHealth(data.wallDefUpgrades);
 
@@ -84,7 +85,7 @@ void Upgrade::drawUpdateMenu(Data &data, Castle &castle) {
 	const int UPGRADE_WIDTH = 1138;
 	const int UPGRADE_HEIGHT = 599;
 
-	graphics.drawBackground("Images/bg.bmp");
+	background.display(Background::UPGRADE);
 
 	graphics.displaySprite("Images/statsbar.bmp",0,0,0,0,1280,50);
 	updateStatsBar(data); /* true denotes that you are calling it from this function */

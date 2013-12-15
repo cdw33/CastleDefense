@@ -13,9 +13,8 @@ using namespace std;
 class DefeatScreen{
 public:
 
-	DefeatScreen() {
-
-	};
+	DefeatScreen()  { };
+	~DefeatScreen() { };
 
 	void drawDefeatScreen(Data &data, bool &skipMenu){
 		bool optionSelected = false;
@@ -56,7 +55,8 @@ public:
 		const int UPGRADE_WIDTH = 1138;
 		const int UPGRADE_HEIGHT = 599;
 		//setup screen
-		graphics.drawBackground("Images/bg.bmp");
+		//graphics.drawBackground("Images/bg_new_1.bmp");
+		background.display(Background::DEFEAT);
 
 		//display defeat screen .bmp
 		graphics.displaySprite("Images/defeat_screen.bmp", 0, 0, GAME_WIDTH/2 - UPGRADE_WIDTH/2, GAME_HEIGHT/2 - UPGRADE_HEIGHT/2 + 15, UPGRADE_WIDTH, UPGRADE_HEIGHT);
@@ -78,6 +78,7 @@ public:
 	}
 
 private:
+	Background background;
 	Graphics graphics;
 };
 

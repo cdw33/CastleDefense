@@ -9,7 +9,7 @@
 static int GHOST_HEIGHT = 64;
 static int GHOST_WIDTH = 71;
 
-struct Enemies{
+struct Enemies {
 	double xCoor, yCoor, damage, hp, speed;
 	int attackRate, lastAttack;
 	vector<int> hitList;
@@ -55,7 +55,7 @@ public:
 	bool detectHit(double bulletX, double bulletY, int bulletWidth, int bulletHeight, int id, Data &data) {
 		Bullet bulletValRef;
 		//if bullet is in the same area as enemy
-		for(int i = enemies.size()-1; i >= 0; --i){
+		for (int i = enemies.size()-1; i >= 0; --i){
 			if (bulletY + bulletValRef.getHeight(data.bulletUpgrades) > enemies[i]->yCoor && bulletY < enemies[i]->yCoor + GHOST_HEIGHT && bulletX < enemies[i]->xCoor + GHOST_WIDTH && bulletX + bulletValRef.getWidth(data.bulletUpgrades) > enemies[i]->xCoor){
 				if (bulletValRef.stopOnContact(data.bulletUpgrades) || hasNotHit(i, id)) {
 					enemies[i]->hp = max(enemies[i]->hp - bulletValRef.getDamage(data.bulletUpgrades), 0.0);
@@ -75,7 +75,7 @@ public:
 	}
 
 	bool hasNotHit(int index, int id) {
-		for(int i = 0; i < enemies[index]->hitList.size(); ++i) {
+		for (int i = 0; i < enemies[index]->hitList.size(); ++i) {
 			if (enemies[index]->hitList[i] == id) {
 				return false;
 			}
@@ -126,7 +126,6 @@ public:
 
 private:
 	vector<Enemies *> enemies;
-
 };
 
 #endif

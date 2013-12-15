@@ -4,14 +4,15 @@
 #include "SDL.h"
 #include "SDL_TTF.h"
 
+#include "Background.h"
 #include "Bullet.h"
 #include "Castle.h"
 #include "Data.h"
+#include "DefeatScreen.h"
 #include "Enemy.h"
 #include "Gun.h"
 #include "Graphics.h"
 #include "Upgrade.h"
-#include "DefeatScreen.h"
 
 #include <string>
 
@@ -19,14 +20,15 @@ using namespace std;
 
 class Game {
 	public:
-		Graphics graphics;
-		Enemy enemy;
-		Castle castle; 
-		Gun gun;
-		Data data;     // holds game variables
+		Background background;
 		Bullet bulletValRef;
-		Upgrade upgrade;
+		Castle castle; 
+		Data data;     
 	    DefeatScreen defeat;
+		Enemy enemy;
+		Gun gun;
+		Graphics graphics;
+		Upgrade upgrade;
 
 		int enemyCount;
     
@@ -55,7 +57,8 @@ Game::Game() {
 //***************************************************
 void Game::setupGame() {
 
-    graphics.drawBackground("Images/bg.bmp"); //sets background
+    //graphics.drawBackground("Images/bg_new_1.bmp"); //sets background
+	background.display(Background::GAME);
 
     castle.drawCastle(); //places castle
 
@@ -100,6 +103,7 @@ bool Game::launchWave(int waveNumber) {
 
 	const int ENEMIES_PER_WAVE = 5;
 	
+	background.reset();
 	enemyCount = waveNumber * ENEMIES_PER_WAVE;
 	data.health = castle.setHealth(data.wallDefUpgrades);
 	enemy.generateSpawnTime(spawnTime, waveNumber, ENEMIES_PER_WAVE);	
@@ -194,7 +198,8 @@ void Game::clearObjects() {
 // drawWave
 //***************************************************
 void Game::drawWave() {
-    graphics.drawBackground("Images/bg.bmp"); //sets background
+    //graphics.drawBackground("Images/bg_new_1.bmp"); //sets background
+	background.display(Background::GAME);
 
 	castle.drawCastle(data.wallDefUpgrades, data.wallOffUpgrades);	//places castle
 

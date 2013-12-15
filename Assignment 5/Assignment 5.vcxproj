@@ -82,6 +82,7 @@
     <Image Include="enemy.bmp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Background.h" />
     <ClInclude Include="Data.h" />
     <ClInclude Include="DefeatScreen.h" />
     <ClInclude Include="Graphics.h" />

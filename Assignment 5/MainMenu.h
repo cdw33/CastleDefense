@@ -11,12 +11,11 @@ using namespace std;
 class MainMenu {
 public:
 
-    MainMenu() {
-
-    };
+    MainMenu()  { }
+	~MainMenu() { }
 
     //initialize Main menu
-	void showMainMenu(){
+	void showMainMenu() {
 		bool optionSelected = false;
 		SDL_Event event;
 
@@ -31,10 +30,10 @@ public:
 						if ((event.button.x < 830 && event.button.x > 500) && (event.button.y < 367 && event.button.y > 300)) {
 							game.setupGame();
 							game.runGame(); 
+							background.reset();
 							drawMainMenu();
 						}
 						if ((event.button.x < 830 && event.button.x > 500 ) && (event.button.y < 467 && event.button.y > 400)) {
-							drawAbout();
 							aboutLoop();
 						}
 						if ((event.button.x < 830 && event.button.x > 500 ) && (event.button.y < 567 && event.button.y > 500)) {
@@ -49,40 +48,35 @@ public:
                 optionSelected = true;
             }
         }
-
-		
-
 	}
 
 void drawMainMenu(){
 	//setup screen
-		graphics.drawBackground("Images/bg.bmp");
+	background.display(Background::MAIN);
 
-		
+	//write Title
+	graphics.drawText("Castle Defense", 179, 252, 90, 255, 255, 255);
+	graphics.drawText("Castle Defense", 182, 245, 90, 0, 0, 0); 
+	graphics.drawText("Castle Defense", 180, 250, 90, 180, 180, 180); 
 
-		//write Title
-		graphics.drawText("Castle Defense", 179, 252, 80, 255, 255, 255);
-		graphics.drawText("Castle Defense", 182, 245, 80, 0, 0, 0); 
-		graphics.drawText("Castle Defense", 180, 250, 80, 180, 180, 180); 
-
-		//push buttons
-		graphics.displaySprite("Images/MMbutton.bmp", 0, 0, 500, 300, 330, 67);
-		graphics.displaySprite("Images/MMbutton.bmp", 0, 0, 500, 400, 330, 67);
-		graphics.displaySprite("Images/MMbutton.bmp", 0, 0, 500, 500, 330, 67);
+	//push buttons
+	graphics.displaySprite("Images/MMbutton.bmp", 0, 0, 500, 300, 330, 67);
+	graphics.displaySprite("Images/MMbutton.bmp", 0, 0, 500, 400, 330, 67);
+	graphics.displaySprite("Images/MMbutton.bmp", 0, 0, 500, 500, 330, 67);
 
 
-		//display text
-		graphics.drawText("New Game", 60, 570, 300, 0, 0, 0);
-		graphics.drawText("About", 60, 610, 400, 0, 0, 0);
-		graphics.drawText("Exit", 60, 630, 500, 0, 0, 0);
+	//display text
+	graphics.drawText("New Game", 60, 570, 300, 0, 0, 0);
+	graphics.drawText("About", 60, 610, 400, 0, 0, 0);
+	graphics.drawText("Exit", 60, 630, 500, 0, 0, 0);
 
 
-		graphics.flip(); 
+	graphics.flip(); 
 }
 
 void drawAbout() {
 	/* draw background */
-	graphics.drawBackground("Images/bg.bmp");
+	background.display(Background::MAIN);
 	graphics.displaySprite("Images/about.bmp", 0, 0, 260, 75, 761, 567);
 
 	/* draw text */
@@ -111,6 +105,7 @@ void aboutLoop() {
 	SDL_Event event;
 
     while (!done) {
+		drawAbout();
 		if (SDL_PollEvent(&event)) { //check for new event
 			if (event.type == SDL_MOUSEBUTTONDOWN) {
                 if (event.button.button == SDL_BUTTON_LEFT){
@@ -127,6 +122,7 @@ void aboutLoop() {
 }
 
 private:
+	Background background;
 	Graphics graphics;
 	Game game;  
 };
