@@ -1,4 +1,4 @@
-#ifndef CASTLE_Hstatic int Screen
+#ifndef CASTLE_H
 #define CASTLE_H
 
 #include "SDL.h"

@@ -7,7 +7,9 @@ class Background {
 	private:
 		Graphics graphics; 
 		string* skyPath;
-		bool down;
+		bool down,
+			sunFlag,
+			moonFlag;
 		int skyIndex,
 			skyPos_1,
 			skyPos_2,
@@ -18,30 +20,27 @@ class Background {
 			SKY_HEIGHT = 138,
 			SKY_START = 0,
 			TICKS_PER_MOVE = 0,
-			DAY_DELAY = -150,
-			SLIDE_COUNT = 8,
-			SUN_DOWN_Y = -50,
-			SUN_DOWN_X = 100,
-			SUN_down_Y = SKY_HEIGHT - 50,
-			SUN_down_X = 1000;
+			DAY_DELAY = -500,
+			SKY_SLIDES = 8;
 		
 		void moveSky();
-		void movePlanets();
+		void movePlanets(bool = false);
 		void moveEnemies();
+		void setBackground();
 
 	public:
 		static const enum calledFrom {MAIN, GAME, UPGRADE, DEFEAT};
 
-		Background(int = 0);
+		Background();
 		~Background();
 		void display(int);
 		void reset();
 };
 
-Background::Background(int i) {
+Background::Background() {
 	reset();
 
-	skyPath = new string[SLIDE_COUNT];
+	skyPath = new string[SKY_SLIDES];
 		skyPath[0] = "Images/Background/sky_1.bmp";
 		skyPath[1] = "Images/Background/sky_2.bmp";
 		skyPath[2] = "Images/Background/sky_3.bmp";
@@ -61,15 +60,17 @@ void Background::display(int from) {
 	if (from == MAIN) {
 		moveSky();
 		movePlanets();
-		graphics.displaySprite("Images/Background/bg_default.bmp",0,0,0,0,BG_WIDTH,BG_HEIGHT);
+		setBackground();
 		moveEnemies();
 	} else if (from == GAME) {
 		graphics.drawBackground("Images/Background/bg_game.bmp");
 	} else if (from == UPGRADE) {
 		graphics.displaySprite("Images/Background/sky_7.bmp", 0, 0, 0, 0, SKY_WIDTH, SKY_HEIGHT);
-		graphics.displaySprite("Images/Background/bg_upgrade.bmp",0,0,0,0,BG_WIDTH,BG_HEIGHT);
+		movePlanets(true);
+		graphics.displaySprite("Images/Background/bg_night_5.bmp",0,0,0,0,BG_WIDTH,BG_HEIGHT);
 	} else if (from == DEFEAT) {
 		graphics.displaySprite("Images/Background/sky_defeat.bmp", 0, 0, 0, 0, SKY_WIDTH, SKY_HEIGHT);
+		graphics.displaySprite("Images/Background/moon_defeat.bmp", 0, 0, 660, 5, 75, 76);
 		graphics.displaySprite("Images/Background/bg_defeat.bmp",0,0,0,0,BG_WIDTH,BG_HEIGHT);
 	}
 }
@@ -83,7 +84,7 @@ void Background::moveSky() {
 
 		if (skyPos_2 == 0) {
 			++skyIndex;
-			if (skyIndex == SLIDE_COUNT-1) {
+			if (skyIndex == SKY_SLIDES-1) {
 				down = false;
 				lastMove = DAY_DELAY;
 			} else {
@@ -110,40 +111,52 @@ void Background::moveSky() {
 	}
 }
 
-void Background::movePlanets() {
-	static int sunX, sunY;
-	static bool flag = true, move = true;
+void Background::movePlanets(bool riseMoon) {
+	static const int SUN_DOWN_Y = -50,
+		SUN_DOWN_X = 100,
+		SUN_down_Y = SKY_HEIGHT - 50,
+		SUN_down_X = 1000;
+	static int sunX, 
+		sunY,
+		moonX, 
+		moonY;
+	static bool sunMove = true,
+		moonMove = true;
 
 	if(skyIndex >= 2 && skyIndex <= 4) { //Sun Movement
 		if (down) {
-			if (flag) {
+			if (sunFlag) {
 				sunX = SUN_DOWN_X;
 				sunY = SUN_DOWN_Y;
-				flag = false;
+				sunFlag = false;
+				moonFlag = true;
 			}
 		
-			if (move) {
-				++sunY;
-				move = false;
-			} else {
-				move = true;
-			}
+			sunY += (sunMove ? 1 : 0);
+			sunMove = !sunMove;
 		} else { //(!down)
-			if(!flag) {
+			if(!sunFlag) {
 				sunX = SUN_down_X;
 				sunY = SUN_down_Y;
-				flag = true;
+				sunFlag = true;
 			}
-			if (move) {
-				--sunY;
-				move = false;
-			} else {
-				move = true;
-			}
+
+			sunY -= (sunMove ? 1 : 0);
+			sunMove = !sunMove;
 		}
-		graphics.displaySprite("Images/Background/sun.bmp",0,0,sunX,sunY,56,51);
-	} else if(skyIndex == 7) { //Moon movement
-	
+		graphics.displaySprite("Images/Background/sun.bmp",0,0,sunX,sunY,60,60);
+	} else if(skyIndex == 7 || riseMoon) { //moon movement
+		if (moonFlag == true) {
+			moonX = -10;
+			moonY = SKY_HEIGHT - 20;
+			moonFlag = false;
+		}
+
+		moonX += (moonMove ? 4 : 3);
+		moonY -= (moonMove ? 1 : 0);
+		moonMove = !moonMove;
+
+		graphics.displaySprite("Images/Background/moon.bmp",0,0,moonX,moonY,75,76);
 	}
 }
 
@@ -151,8 +164,40 @@ void Background::moveEnemies() {
 
 }
 
+void Background::setBackground() {
+	if (skyIndex == 3) {
+		graphics.displaySprite("Images/Background/bg_night_1.bmp",0,0,0,0,BG_WIDTH,BG_HEIGHT);
+	} else if (skyIndex == 4) {
+		if (skyPos_2 <= -SKY_HEIGHT/2) {
+			graphics.displaySprite("Images/Background/bg_night_2.bmp",0,0,0,0,BG_WIDTH,BG_HEIGHT);
+		} else {
+			graphics.displaySprite("Images/Background/bg_night_3.bmp",0,0,0,0,BG_WIDTH,BG_HEIGHT);
+		}
+	} else if (skyIndex == 5) {
+		if (skyPos_2 <= -SKY_HEIGHT/3) {
+			graphics.displaySprite("Images/Background/bg_night_4.bmp",0,0,0,0,BG_WIDTH,BG_HEIGHT);
+		} else if (skyPos_2 <= -SKY_HEIGHT/3*2) {
+			graphics.displaySprite("Images/Background/bg_night_5.bmp",0,0,0,0,BG_WIDTH,BG_HEIGHT);
+		} else {
+			graphics.displaySprite("Images/Background/bg_night_6.bmp",0,0,0,0,BG_WIDTH,BG_HEIGHT);
+		}
+	} else if (skyIndex == 6) {
+		if (skyPos_2 <= -SKY_HEIGHT/2) {
+			graphics.displaySprite("Images/Background/bg_night_7.bmp",0,0,0,0,BG_WIDTH,BG_HEIGHT);
+		} else {
+			graphics.displaySprite("Images/Background/bg_night_8.bmp",0,0,0,0,BG_WIDTH,BG_HEIGHT);
+		}
+	} else if (skyIndex == 7) {
+		graphics.displaySprite("Images/Background/bg_night_9.bmp",0,0,0,0,BG_WIDTH,BG_HEIGHT);
+	} else {
+		graphics.displaySprite("Images/Background/bg_default.bmp",0,0,0,0,BG_WIDTH,BG_HEIGHT);
+	}
+}
+
 void Background::reset() {
 	down = true;
+	sunFlag= true;
+	moonFlag = true;
 	lastMove = -25;
 	skyIndex = 0;
 	skyPos_1 = 0;

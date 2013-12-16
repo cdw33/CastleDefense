@@ -27,7 +27,6 @@ public:
 
     // REMEMBER:
     // Each call to loadBitmap() must have a corresponding call to closeBitmap().
-
     void drawBackground(const char* bitmapFileName) {
         SDL_Surface* bitmap = SDL_LoadBMP(bitmapFileName);
 
