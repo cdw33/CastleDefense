@@ -20,7 +20,7 @@ class Background {
 			SKY_HEIGHT = 138,
 			SKY_START = 0,
 			TICKS_PER_MOVE = 0,
-			DAY_DELAY = -500,
+			DAY_DELAY = -600,
 			SKY_SLIDES = 8;
 		
 		void moveSky();
@@ -112,7 +112,7 @@ void Background::moveSky() {
 }
 
 void Background::movePlanets(bool riseMoon) {
-	static const int SUN_DOWN_Y = -50,
+	static const int SUN_DOWN_Y = -100,
 		SUN_DOWN_X = 100,
 		SUN_down_Y = SKY_HEIGHT - 50,
 		SUN_down_X = 1000;

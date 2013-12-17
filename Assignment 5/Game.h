@@ -80,7 +80,7 @@ void Game::runGame() {
 		*/
 
 		gameRunning = launchWave(data.waveCount);
-		
+
 		if (gameRunning) {
 			upgradeMenu();
 		} else {
