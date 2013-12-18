@@ -59,6 +59,7 @@ public:
 			if (bulletY + bulletValRef.getHeight(data.bulletUpgrades) > enemies[i]->yCoor && bulletY < enemies[i]->yCoor + GHOST_HEIGHT && bulletX < enemies[i]->xCoor + GHOST_WIDTH && bulletX + bulletValRef.getWidth(data.bulletUpgrades) > enemies[i]->xCoor){
 				if (bulletValRef.stopOnContact(data.bulletUpgrades) || hasNotHit(i, id)) {
 					enemies[i]->hp = max(enemies[i]->hp - bulletValRef.getDamage(data.bulletUpgrades), 0.0);
+					++data.shotsHit;
 					if (enemies[i]->hp == 0) {
 						deleteEnemy(i);
 						data.addMoney(1);

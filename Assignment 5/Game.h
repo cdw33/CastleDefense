@@ -56,8 +56,6 @@ Game::Game() {
 // setupGame - initialize game screen
 //***************************************************
 void Game::setupGame() {
-
-    //graphics.drawBackground("Images/bg_new_1.bmp"); //sets background
 	background.display(Background::GAME);
 
     castle.drawCastle(); //places castle
@@ -124,6 +122,7 @@ bool Game::launchWave(int waveNumber) {
 				if (event.button.button == SDL_BUTTON_LEFT && clock() - lastShot >= bulletValRef.getRateOfFire(data.rateOfFire)) {
 					gun.createBullet(event.button.x, event.button.y, data.bulletUpgrades);
                     fireBullet = true;
+					++data.shotsFired;
 					lastShot = clock();
                 }
             }

@@ -20,7 +20,7 @@ class Background {
 			SKY_HEIGHT = 138,
 			SKY_START = 0,
 			TICKS_PER_MOVE = 0,
-			DAY_DELAY = -600,
+			DAY_DELAY = -800,
 			SKY_SLIDES = 8;
 		
 		void moveSky();
@@ -112,7 +112,7 @@ void Background::moveSky() {
 }
 
 void Background::movePlanets(bool riseMoon) {
-	static const int SUN_DOWN_Y = -100,
+	static const int SUN_DOWN_Y = -60,
 		SUN_DOWN_X = 100,
 		SUN_down_Y = SKY_HEIGHT - 50,
 		SUN_down_X = 1000;
@@ -147,8 +147,8 @@ void Background::movePlanets(bool riseMoon) {
 		graphics.displaySprite("Images/Background/sun.bmp",0,0,sunX,sunY,60,60);
 	} else if(skyIndex == 7 || riseMoon) { //moon movement
 		if (moonFlag == true) {
-			moonX = -10;
-			moonY = SKY_HEIGHT - 20;
+			moonX = -60;
+			moonY = SKY_HEIGHT;
 			moonFlag = false;
 		}
 

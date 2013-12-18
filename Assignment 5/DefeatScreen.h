@@ -16,6 +16,14 @@ public:
 	DefeatScreen()  { };
 	~DefeatScreen() { };
 
+	string getPercentage(int num, int den) {
+		string percentage = to_string(100.0*max(1,num)/max(1,den));
+		percentage.erase(percentage.begin()+4, percentage.end());
+		percentage.append("%");
+
+		return percentage;
+	}
+
 	void drawDefeatScreen(Data &data, bool &skipMenu){
 		bool optionSelected = false;
 		SDL_Event event;
@@ -122,7 +130,6 @@ public:
 		const int UPGRADE_WIDTH = 1138;
 		const int UPGRADE_HEIGHT = 599;
 		//setup screen
-		//graphics.drawBackground("Images/bg_new_1.bmp");
 		background.display(Background::DEFEAT);
 
 		//display defeat screen .bmp
@@ -140,6 +147,7 @@ public:
 		graphics.drawText("Enemies Killed: ", 30, 160, 270, 255, 255, 255);	  graphics.drawText(to_string(data.killedTotal).c_str(), 30, 340, 270, 255, 255, 255);
 		graphics.drawText("Points Earned: ", 30, 160, 300, 255, 255, 255);	  graphics.drawText(to_string(data.points).c_str(), 30, 340, 300, 255, 255, 255);
 		graphics.drawText("Cash Earned: ", 30, 160, 330, 255, 255, 255);	  graphics.drawText(to_string(data.moneyTotal).c_str(), 30, 340, 330, 255, 255, 255);
+		graphics.drawText("Accuracy: ", 30, 160, 360, 255, 255, 255);		  graphics.drawText(getPercentage(data.shotsHit, data.shotsFired).c_str(), 30, 340, 360, 255, 255, 255);
 
 		displayQuote();
 
