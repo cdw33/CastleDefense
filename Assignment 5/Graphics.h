@@ -4,13 +4,20 @@
 #include "SDL.h"
 #include "SDL_TTF.h"
 #include <iostream>
+#include <ctime>
 
 using namespace std;
 
 class Graphics {
+private:
+    SDL_Surface* screen;
+	int lastRefresh;
+
 public:
 
     Graphics() {
+		lastRefresh = clock();
+
         SDL_Init(SDL_INIT_VIDEO);
 
 		screen = SDL_SetVideoMode(1280, 720, 0, SDL_HWSURFACE | SDL_DOUBLEBUF);
@@ -95,8 +102,12 @@ public:
         SDL_Flip(screen);
     }
 
-private:
-    SDL_Surface* screen;
+	void setFps(int fps = 30) {
+		int rate = 1000 / fps;
+
+		while(clock() < lastRefresh + rate);
+		lastRefresh = clock();
+	}
 };
 
 #endif

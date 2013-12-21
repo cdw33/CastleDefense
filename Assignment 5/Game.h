@@ -36,6 +36,7 @@ class Game {
 		void setupGame(); //initialize game screen
 		void runGame();
 		bool launchWave(int);
+		void waveBonus(int);
 		void upgradeMenu();
 		void defeatDisplay(bool&);
 		void clearObjects();
@@ -92,29 +93,24 @@ void Game::runGame() {
 //***************************************************
 bool Game::launchWave(int waveNumber) { 
     SDL_Event event;
-	vector<int> spawnTime;
 	bool gameRunning = true;
     bool fireBullet = false;
 	bool roundWin = false;
 	int lastShot = clock() - bulletValRef.getRateOfFire(data.rateOfFire);
 	int startOfWave = clock();
 
-	const int ENEMIES_PER_WAVE = 5;
+	const int ENEMIES_PER_WAVE = 2;
 	
 	background.reset();
-	enemyCount = waveNumber * ENEMIES_PER_WAVE;
+	enemyCount = /*Ghosts ->*/(waveNumber < 7 ? waveNumber : waveNumber + 3) * ENEMIES_PER_WAVE + /*Wizards ->*/(waveNumber/2 - 1); 
 	data.health = castle.setHealth(data.wallDefUpgrades);
-	enemy.generateSpawnTime(spawnTime, waveNumber, ENEMIES_PER_WAVE);	
+	enemy.generateSpawnTime(waveNumber, ENEMIES_PER_WAVE);	
 
 	//game loop
     while (gameRunning) {
 		drawWave();
 		enemy.moveEnemy(data, castle.offInfo[data.wallOffUpgrades].damage);
-
-		while(spawnTime.size() != 0 && spawnTime[spawnTime.size()-1] < clock() - startOfWave) {
-			spawnTime.erase(spawnTime.begin() + spawnTime.size() - 1);
-			enemy.createEnemy(1 + waveNumber, 1 + waveNumber/4, (rand()%2 ? 3 : 4) + waveNumber/5, 1000); /* Damage, hp, speed, attack rate (in ms) */ /* <- speed increases every 5 rounds */
-		}
+		enemy.spawnEnemies(startOfWave, waveNumber);
 
         if (SDL_PollEvent(&event)) { //check for new event
             if (event.type == SDL_MOUSEBUTTONDOWN) {
@@ -139,24 +135,12 @@ bool Game::launchWave(int waveNumber) {
 			}
         }
 
-		if (enemy.noEnemies() && spawnTime.size() == 0) {
+		if (enemy.noEnemies() && enemy.noSpawns()) {
 			gameRunning = false;
 			roundWin = true;
 			data.killed=0;
-			data.addMoney(waveNumber * 5);
-			if(waveNumber >= 3) {
-				data.addMoney(20);
-			}
-			if(waveNumber >= 7) {
-				data.addMoney(35);
-			}
-			if(waveNumber >= 11) {
-				data.addMoney(60);
-			}
-			if(waveNumber >= 15) {
-				data.addMoney(90);
-			}
-		} else if (data.health == 0) {
+			waveBonus(waveNumber);
+		} else if (data.health <= 0) {
 			gameRunning = false;
 			roundWin = false;
 		} else if (event.type == SDL_QUIT) { /* event quit */
@@ -169,6 +153,22 @@ bool Game::launchWave(int waveNumber) {
 
 	clearObjects();
 	return (roundWin ? true : false);
+}
+
+//***************************************************
+// waveBonus
+//***************************************************
+void Game::waveBonus(int waveNumber) {
+	data.addMoney(waveNumber * 5);
+	/*if (waveNumber >= 3) {
+		data.addMoney(10);
+	}else if (waveNumber >= 7) {
+		data.addMoney(20);
+	} else if (waveNumber >= 11) {
+		data.addMoney(30);
+	} else if (waveNumber >= 15) {
+		data.addMoney(40);
+	}*/
 }
 
 //***************************************************
@@ -191,6 +191,7 @@ void Game::defeatDisplay(bool &skipMenu) {
 void Game::clearObjects() {
 	gun.deleteBullets();
 	enemy.deleteEnemies();
+	enemy.deleteSpawnTimes();
 }
 
 //***************************************************
