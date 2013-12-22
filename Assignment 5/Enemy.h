@@ -19,9 +19,8 @@ static int GHOST_WIDTH = 71;
 / Through implementing this extra enemy, the code has gotten really jumped and comfusing. I'm trying to comment code as
 / best I can so that it will be understandable in the future.
 /
-/ Ghosts do not have their own enemy type. Currently they are just created using the enemies struct type. If they are
-/ removed and replaced with a different type of enemy, that new enemy will get it's own specialized struct type that
-/ is a child of Enemies.
+/ Ghosts have been replaced with minions. The ghost height and width constants have been kept because they are a conveniant 
+/ measurement to use.
 /
 / Notes
 /	Enemy stats are created in the spawnEnemies function
@@ -42,9 +41,9 @@ struct imageInfo {
 
 struct enemyData {
 	enemyData() {
-		wizardWP.push_back(imageInfo("Images/Enemies/wizard_idle.bmp",24,63));
-		wizardWP.push_back(imageInfo("Images/Enemies/wizard_walk_1.bmp",37,63));
-		wizardAP.push_back(imageInfo("Images/Enemies/wizard_idle.bmp",24,63));
+		wizardWP.push_back(imageInfo("Images/Enemies/wizard_walk_1.bmp",24,63));
+		wizardWP.push_back(imageInfo("Images/Enemies/wizard_walk_2.bmp",37,63));
+		wizardAP.push_back(imageInfo("Images/Enemies/wizard_walk_1.bmp",24,63));
 		wizardAP.push_back(imageInfo("Images/Enemies/wizard_attack_1.bmp",31,63));
 		wizardAP.push_back(imageInfo("Images/Enemies/wizard_attack_2.bmp",43,63));
 		wizardAP.push_back(imageInfo("Images/Enemies/wizard_attack_3.bmp",49,63));
@@ -52,10 +51,25 @@ struct enemyData {
 		wizardSP.push_back(imageInfo("Images/Enemies/wizard_special_2.bmp",32,61));
 		wizardSP.push_back(imageInfo("Images/Enemies/wizard_special_3.bmp",39,61));
 		wizardSP.push_back(imageInfo("Images/Enemies/wizard_special_4.bmp",47,65));
+	
+		minionWP.push_back(imageInfo("Images/Enemies/minion_idle.bmp",56,63));
+		minionWP.push_back(imageInfo("Images/Enemies/minion_walk_1.bmp",55,62));
+		minionWP.push_back(imageInfo("Images/Enemies/minion_walk_2.bmp",55,61));
+		minionWP.push_back(imageInfo("Images/Enemies/minion_walk_3.bmp",56,60));
+		minionAP.push_back(imageInfo("Images/Enemies/minion_idle.bmp",56,63));
+		minionAP.push_back(imageInfo("Images/Enemies/minion_attack_1.bmp",56,63));
+		minionAP.push_back(imageInfo("Images/Enemies/minion_attack_2.bmp",56,63));
+		minionSP.push_back(imageInfo("Images/Enemies/minion_special_1.bmp",56,61));
+		minionSP.push_back(imageInfo("Images/Enemies/minion_special_2.bmp",56,61));
+		minionSP.push_back(imageInfo("Images/Enemies/minion_special_3.bmp",56,61));
 	}
 	vector<imageInfo> wizardWP; /* walk path    */
 	vector<imageInfo> wizardAP; /* attack path  */
 	vector<imageInfo> wizardSP; /* special path */
+
+	vector<imageInfo> minionWP; /* walk path    */
+	vector<imageInfo> minionAP; /* attack path  */
+	vector<imageInfo> minionSP; /* special path */
 };
 
 struct Enemies {
@@ -70,6 +84,8 @@ struct Enemies {
 		yCoor=40 + rand()%(680-GHOST_HEIGHT);
 		specialFlag = true;
 		attackFlag = true;
+		walkFlag = true;
+		attackAnimation = false;
 
 		curAction = WALK;
 		walkIndex = 0;
@@ -84,7 +100,7 @@ struct Enemies {
 	int walkIndex, attackIndex, specialIndex,
 		curWalkTick, curAttackTick, curSpecialTick,
 		curAction, attackRate, lastAttack;
-	bool specialFlag, attackFlag;
+	bool specialFlag, attackFlag, walkFlag, attackAnimation;
 	vector<int> hitList;
 	vector<imageInfo>* walkPath;
 	vector<imageInfo>* attackPath;
@@ -95,18 +111,15 @@ struct Enemies {
 struct Wizard : Enemies {
 	Wizard(double damage, double hp, double speed, int attackRate) : Enemies(damage, hp, speed, attackRate) { 
 		nextTeleport = clock() + SPECIAL_DELAY + rand() % SPECIAL_FREQUENCY;
-		attackAnimation = false;
 	}
 	static const int 
-		WALK_TICKS = 5, 
+		WALK_TICKS = 6, 
 		ATTACK_TICKS = 2,
 		SPECIAL_TICKS = 3,
 		SPECIAL_FREQUENCY = 3000, /* Increase for less teleporting */
 		SPECIAL_DELAY = 5000; /* Minimum of 2 seconds between teleports */
 	int 
 		nextTeleport;
-	bool
-		attackAnimation;
 
 	void update() {
 		/* Switch to your special ability animation if enough time has passed */
@@ -150,7 +163,7 @@ struct Wizard : Enemies {
 
 			/* Sets teleport ability */
 			if(specialIndex == specialPath->size()-1 && curSpecialTick == SPECIAL_TICKS) {
-				yCoor = 40 + rand()%(680-GHOST_HEIGHT);
+				yCoor = 40 + rand()%(680-GHOST_HEIGHT+30);
 				xCoor = min((int)(xCoor + 30 + rand()%150), (SCREEN_WIDTH - CASTLE_WIDTH - 50));
 				specialFlag = !specialFlag;
 			}
@@ -175,6 +188,103 @@ struct Wizard : Enemies {
 	}
 };
 
+struct Minion : Enemies {
+	Minion(double damage, double hp, double speed, int attackRate) : Enemies(damage, hp, speed, attackRate) { 
+		nextDefend = clock() + SPECIAL_DELAY + rand() % SPECIAL_FREQUENCY;
+	}
+	static const int 
+		WALK_TICKS = 3, 
+		ATTACK_TICKS = 1,
+		SPECIAL_TICKS = 8,
+		SPECIAL_FREQUENCY = 20000, /* Increase for less defending */
+		SPECIAL_DELAY = 8000; /* Minimum of 2 seconds between defends */
+	int 
+		nextDefend;
+
+	void update() {
+		/* Switch to your special ability animation if enough time has passed <- Disabled for now
+		if (clock() >= nextDefend && curAction == WALK) {
+			nextDefend = clock() + SPECIAL_DELAY + rand() % SPECIAL_FREQUENCY;
+			curAction = SPECIAL;
+		} */
+
+		/* Walk Cycle */
+		if (curAction == WALK) {
+			/* Updates the counter for how long you are displaying an image */
+			curWalkTick += (walkFlag ? 1 : -1);
+
+			/* Sets teleport ability */
+			if(walkIndex == walkPath->size()-1 && curWalkTick == WALK_TICKS) {
+				walkFlag = !walkFlag;
+				curWalkTick = 1;
+			}
+
+			/* Increments the picture you are looking at */
+			if ((curWalkTick == WALK_TICKS && walkFlag) || (curWalkTick == 0 && !walkFlag)) {
+				walkIndex += (walkFlag ? 1 : -1);
+			}
+
+			/* Reset the tick counter if you have reached the max / min */
+			if (curWalkTick == 0 || curWalkTick == WALK_TICKS) {
+				curWalkTick = (walkFlag ? 0 : WALK_TICKS);
+			}
+			
+			/* If you are done teleporting, then start walking */
+			if (curWalkTick == WALK_TICKS &&  walkIndex == 0 && walkFlag == false) {
+				curWalkTick = 0;
+				walkFlag = true;
+				curAction = WALK;
+			}
+		  /* Attack Cycle */
+		} else if (curAction == ATTACK) {
+
+			/* If you have attacked the castle, preform the attack animation (else the idle animation is displayed) */
+			if (attackAnimation) {
+				if (curAttackTick == ATTACK_TICKS) {
+					attackIndex += (attackFlag ? 1 : -1);
+				}
+				if (curAttackTick == ATTACK_TICKS && attackIndex == attackPath->size()-1) {
+					attackFlag = !attackFlag;
+				}
+
+				curAttackTick = (curAttackTick == ATTACK_TICKS ? 0 : curAttackTick + 1);
+				if(attackIndex == 0 && !attackFlag) {
+					curAttackTick == 0;
+					attackFlag = !attackFlag;
+					attackAnimation = false;
+				}
+			}
+
+		  /* Special Cycle */ /* If this is your current cycle, you cannot get hurt */
+		} else if (curAction == SPECIAL) {
+
+			/* Updates the counter for how long you are displaying an image */
+			curSpecialTick += (specialFlag ? 1 : -1);
+
+			/* Sets teleport ability */
+			if(specialIndex == specialPath->size()-1 && curSpecialTick == SPECIAL_TICKS) {
+				specialFlag = !specialFlag;
+			}
+
+			/* Increments the picture you are looking at */
+			if ((curSpecialTick == SPECIAL_TICKS && specialFlag) || (curSpecialTick == 0 && !specialFlag)) {
+				specialIndex += (specialFlag ? 1 : -1);
+			}
+
+			/* Reset the tick counter if you have reached the max / min */
+			if (curSpecialTick == 0 || curSpecialTick == SPECIAL_TICKS) {
+				curSpecialTick = (specialFlag ? 0 : SPECIAL_TICKS);
+			}
+			
+			/* If you are done teleporting, then start walking */
+			if (curSpecialTick == SPECIAL_TICKS &&  specialIndex == 0 && specialFlag == false) {
+				curSpecialTick = 0;
+				specialFlag = true;
+				curAction = WALK;
+			}
+		}
+	}
+};
 //End_Character_Data_Setup**********************************************************************************************************************
 //**********************************************************************************************************************************************
 
@@ -184,13 +294,13 @@ class Enemy {
 private:
 	Graphics graphics;
 	enemyData enemyValues;
-	vector<Enemies *> enemies;
 	vector<Wizard *> wizards;
-	vector<int> ghostSpawnTime;
+	vector<Minion *> minions;
 	vector<int> wizardSpawnTime;
+	vector<int> minionSpawnTime;
 
 public:
-	static const enum characterIndex { GHOST, WIZARD, MINION };
+	static const enum characterIndex { WIZARD, MINION };
 	static const enum characterAction { WALK, ATTACK, SPECIAL };
 
     Enemy() {
@@ -201,12 +311,13 @@ public:
 	// drawEnemies
 	//*******************************************************************
 	void drawEnemies() {
-		for (int i=0; i<enemies.size(); i++) {
-			graphics.displaySprite("Images/Enemies/ghost.bmp",0,0,enemies[i]->xCoor,enemies[i]->yCoor,GHOST_WIDTH,GHOST_HEIGHT);
-		}
 		for (int i=0; i<wizards.size(); i++) {
 			wizards[i]->update();	
 			graphics.displaySprite(getImage(wizards[i]).c_str(),0,0,wizards[i]->xCoor,wizards[i]->yCoor,getWidth(wizards[i]),getHeight(wizards[i]));
+		}
+		for (int i=0; i<minions.size(); i++) {
+			minions[i]->update();	
+			graphics.displaySprite(getImage(minions[i]).c_str(),0,0,minions[i]->xCoor,minions[i]->yCoor,getWidth(minions[i]),getHeight(minions[i]));
 		}
     }
 
@@ -214,15 +325,22 @@ public:
 	// moveEnemy
 	//*******************************************************************
 	void moveEnemy(Data &data, int wallAttack){
-		for (int i=0; i<enemies.size(); i++){
-			if (enemies[i]->xCoor >= SCREEN_WIDTH - CASTLE_WIDTH - 75) attack(GHOST, i, wallAttack, data); //if enemy reaches wall, attack()
-			else enemies[i]->xCoor+=enemies[i]->speed;	//else step speed distance
+		/* Minions */
+		for (int i = 0; i < minions.size(); ++i) {
+			if (minions[i]->xCoor >= SCREEN_WIDTH - CASTLE_WIDTH - 60) {
+				minions[i]->curAction = ATTACK; //Set wizard for attacking animation
+				attack(MINION, i, wallAttack, data); //if enemy reaches wall, attack()
+			}
+			else if (minions[i]->curAction != SPECIAL){
+				minions[i]->xCoor+=minions[i]->speed;	//else step speed distance
+			}
 		}
 
+		/* Wizards */
 		for (int i = 0; i < wizards.size(); ++i) {
 			if (wizards[i]->xCoor >= SCREEN_WIDTH - CASTLE_WIDTH - 50) {
-				attack(WIZARD, i, wallAttack, data); //if enemy reaches wall, attack()
 				wizards[i]->curAction = ATTACK; //Set wizard for attacking animation
+				attack(WIZARD, i, wallAttack, data); //if enemy reaches wall, attack()
 			}
 			else if (wizards[i]->curAction != SPECIAL){
 				wizards[i]->xCoor+=wizards[i]->speed;	//else step speed distance
@@ -234,13 +352,16 @@ public:
 	// createEnemy
 	//*******************************************************************
 	void createEnemy(int type, double damage, double hp, double speed, int attackRate){
-		if (type == GHOST) {
-			enemies.push_back(new Enemies(damage, hp, speed, attackRate));	//add new enemy to vector
-		} else if (type == WIZARD) {
+		if (type == WIZARD) {
 			wizards.push_back(new Wizard(damage, hp, speed, attackRate));   //add new enemy to vector
 			wizards[wizards.size()-1]->walkPath = &enemyValues.wizardWP;
 			wizards[wizards.size()-1]->attackPath = &enemyValues.wizardAP;
 			wizards[wizards.size()-1]->specialPath = &enemyValues.wizardSP;
+		} else if (type == MINION) {
+			minions.push_back(new Minion(damage, hp, speed, attackRate));   //add new enemy to vector
+			minions[minions.size()-1]->walkPath = &enemyValues.minionWP;
+			minions[minions.size()-1]->attackPath = &enemyValues.minionAP;
+			minions[minions.size()-1]->specialPath = &enemyValues.minionSP;
 		}
 	}
 
@@ -250,22 +371,22 @@ public:
 	bool detectHit(double bulletX, double bulletY, int bulletWidth, int bulletHeight, int id, Data &data) {
 		Bullet bulletValRef;
 
-		/* If bullet is in the same area as enemy - GHOSTS */
-		for (int i = enemies.size()-1; i >= 0; --i){
-			if (bulletY + bulletHeight > enemies[i]->yCoor 
-				&& bulletY < enemies[i]->yCoor + GHOST_HEIGHT
-				&& bulletX < enemies[i]->xCoor + GHOST_WIDTH
-				&& bulletX + bulletWidth > enemies[i]->xCoor) {
+		/* If bullet is in the same area as enemy - MINION */
+		for (int i = minions.size()-1; i >= 0; --i){
+			if (bulletY + bulletHeight > minions[i]->yCoor 
+				&& bulletY < minions[i]->yCoor + getHeight(minions[i])
+				&& bulletX < minions[i]->xCoor + getWidth(minions[i])
+				&& bulletX + bulletWidth > minions[i]->xCoor) {
 				
-				if (bulletValRef.stopOnContact(data.bulletUpgrades) || hasNotHit(GHOST, i, id)) {
-					enemies[i]->hp -= bulletValRef.getDamage(data.bulletUpgrades);
+				if (bulletValRef.stopOnContact(data.bulletUpgrades) || hasNotHit(MINION, i, id)) {
+					minions[i]->hp -= bulletValRef.getDamage(data.bulletUpgrades);
 					++data.shotsHit;
-					if (enemies[i]->hp <= 0) {
-						deleteEnemy(GHOST, i);
-						data.addMoney(data.waveCount == 1 ? 1 : (int)(data.waveCount/3 + data.waveCount/2));
+					if (minions[i]->hp <= 0) {
+						deleteEnemy(MINION, i);
+						data.addMoney(data.waveCount);
 						++data.killed;
 						++data.killedTotal;
-						data.points += 1;
+						data.points += 2;
 					}
 					return true;
 				}
@@ -301,14 +422,15 @@ public:
 	// hasNotHit
 	//*******************************************************************
 	bool hasNotHit(int type, int index, int id) {
-		if (type == GHOST) {
-			for (int i = 0; i < enemies[index]->hitList.size(); ++i) {
-				if (enemies[index]->hitList[i] == id) {
+		if (type == MINION) {
+			for (int i = 0; i < minions[index]->hitList.size(); ++i) {
+				if (minions[index]->hitList[i] == id) {
 					return false;
 				}
 			}
-			enemies[index]->hitList.push_back(id);
-		}
+			minions[index]->hitList.push_back(id);
+		}		
+
 		if (type == WIZARD) {
 			for (int i = 0; i < wizards[index]->hitList.size(); ++i) {
 				if (wizards[index]->hitList[i] == id) {
@@ -325,18 +447,18 @@ public:
 	// deleteEnemy
 	//*******************************************************************
 	void deleteEnemy(int type, int i){
-		if (type == GHOST) {
-			enemies.erase(enemies.begin() + i);
+		if (type == MINION) {
+			minions.erase(minions.begin() + i);
 		} else if (type == WIZARD) {
 			wizards.erase(wizards.begin() + i);
-		}
+		} 
 	}
 
 	//*******************************************************************
 	// deleteEnemies
 	//*******************************************************************
 	void deleteEnemies() {
-		enemies.erase(enemies.begin(), enemies.begin() + enemies.size());
+		minions.erase(minions.begin(), minions.begin() + minions.size());
 		wizards.erase(wizards.begin(), wizards.begin() + wizards.size());
 	}
 
@@ -344,7 +466,7 @@ public:
 	// deleteSpawnTimes
 	//*******************************************************************
 	void deleteSpawnTimes() {
-		ghostSpawnTime.erase(ghostSpawnTime.begin(), ghostSpawnTime.begin() + ghostSpawnTime.size());
+		minionSpawnTime.erase(minionSpawnTime.begin(), minionSpawnTime.begin() + minionSpawnTime.size());
 		wizardSpawnTime.erase(wizardSpawnTime.begin(), wizardSpawnTime.begin() + wizardSpawnTime.size());
 	}
 
@@ -352,28 +474,29 @@ public:
 	// noEnemies
 	//*******************************************************************
 	bool noEnemies() {
-		return (enemies.size() == 0 && wizards.size() == 0);
+		return (minions.size() == 0 && wizards.size() == 0);
 	}
 
 	//*******************************************************************
 	// noSpawns
 	//*******************************************************************
 	bool noSpawns() {
-		return (ghostSpawnTime.size() == 0 && wizardSpawnTime.size() == 0);
+		return (minionSpawnTime.size() == 0 && wizardSpawnTime.size() == 0);
 	}
 
 	//*******************************************************************
 	// attack
 	//*******************************************************************
 	void attack(int type, int enemyIndex, int wallAttack, Data &data){
-		if (type == GHOST) {
-			if (clock() - enemies[enemyIndex]->lastAttack > enemies[enemyIndex]->attackRate) {
-				data.health -= enemies[enemyIndex]->damage;
-				enemies[enemyIndex]->lastAttack = clock();
+		if (type == MINION) {
+			if (clock() - minions[enemyIndex]->lastAttack > minions[enemyIndex]->attackRate) {
+				data.health -= minions[enemyIndex]->damage;
+				minions[enemyIndex]->lastAttack = clock();
+				minions[enemyIndex]->attackAnimation = true;
 
-				enemies[enemyIndex]->hp -= wallAttack;
-				if(enemies[enemyIndex]->hp <= 0) {
-					deleteEnemy(GHOST, enemyIndex);
+				minions[enemyIndex]->hp -= wallAttack;
+				if(minions[enemyIndex]->hp <= 0) {
+					deleteEnemy(MINION, enemyIndex);
 					++data.killed;
 					++data.killedTotal;
 				}
@@ -391,25 +514,25 @@ public:
 					++data.killedTotal;
 				}
 			}
-		}
+		} 
 	}
 	
 	//*******************************************************************
 	// generateSpawnTime
 	//*******************************************************************
-	void generateSpawnTime(int waveNumber, const int ENEMIES_PER_WAVE) {
+	void generateSpawnTime(int waveNumber, const int ENEMY_WAVE_RATE) {
 		const int RELEASE_RATE = 3000;
 
 		/* GHOST SPAWN TIMES */
-		for(int i = 0; i < (waveNumber < 7 ? waveNumber : waveNumber + 3) * ENEMIES_PER_WAVE; ++i) {
-			ghostSpawnTime.push_back(rand() % (RELEASE_RATE * waveNumber)); /* each wave released  span increases by RELEASE_RATE seconds in length */
+		for(int i = 0; i < (waveNumber < 7 ? waveNumber * 2 : (waveNumber + max(1.0,(waveNumber/3) + 0.0)) * ENEMY_WAVE_RATE); ++i) {
+			minionSpawnTime.push_back(rand() % (RELEASE_RATE * waveNumber)); /* each wave released  span increases by RELEASE_RATE seconds in length */
 		}
-		sort(ghostSpawnTime.rbegin(), ghostSpawnTime.rend());
-		if(ghostSpawnTime.size() != 0) {
+		sort(minionSpawnTime.rbegin(), minionSpawnTime.rend());
+		if(minionSpawnTime.size() != 0) {
 			/* makes it so that enemies are released imediatly */
-			int min = ghostSpawnTime[ghostSpawnTime.size()-1];
-			for(int i = 0; i < ghostSpawnTime.size(); ++i) {
-				ghostSpawnTime[i] -= min;
+			int min = minionSpawnTime[minionSpawnTime.size()-1];
+			for(int i = 0; i < minionSpawnTime.size(); ++i) {
+				minionSpawnTime[i] -= min;
 			}
 		}
 
@@ -424,10 +547,10 @@ public:
 	// spawnEnemies
 	//*******************************************************************
 	void spawnEnemies(int startOfWave, int waveNumber) {
-		/* GHOST */
-		while(ghostSpawnTime.size() != 0 && ghostSpawnTime[ghostSpawnTime.size()-1] < clock() - startOfWave) {
-			ghostSpawnTime.erase(ghostSpawnTime.begin() + ghostSpawnTime.size() - 1);
-			createEnemy(GHOST, 1 + waveNumber, (1 + waveNumber/5) * 2, (rand()%2 ? 3 : 4) + waveNumber/8, 1000); /* Type, Damage, hp, speed, attack rate (in ms) */ /* <- speed increases every 6 rounds */
+		/* GHOST */ 
+		while(minionSpawnTime.size() != 0 && minionSpawnTime[minionSpawnTime.size()-1] < clock() - startOfWave) {
+			minionSpawnTime.erase(minionSpawnTime.begin() + minionSpawnTime.size() - 1);
+			createEnemy(MINION, 1 + waveNumber, (1 + waveNumber/5) * 2, (rand()%2 ? 3 : 4) + waveNumber/8, 1000); /* Type, Damage, hp, speed, attack rate (in ms) */ /* <- speed increases every 6 rounds */
 		}
 
 		/* WIZARD */

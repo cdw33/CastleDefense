@@ -99,12 +99,16 @@ bool Game::launchWave(int waveNumber) {
 	int lastShot = clock() - bulletValRef.getRateOfFire(data.rateOfFire);
 	int startOfWave = clock();
 
-	const int ENEMIES_PER_WAVE = 2;
+	const int ENEMY_WAVE_RATE = 2;
 	
 	background.reset();
-	enemyCount = /*Ghosts ->*/(waveNumber < 7 ? waveNumber : waveNumber + 3) * ENEMIES_PER_WAVE + /*Wizards ->*/(waveNumber/2 - 1); 
 	data.health = castle.setHealth(data.wallDefUpgrades);
-	enemy.generateSpawnTime(waveNumber, ENEMIES_PER_WAVE);	
+	enemy.generateSpawnTime(waveNumber, ENEMY_WAVE_RATE);	
+
+	/* The following should be adjusted to match what is found in Enemy::generateSpawnTime */ 
+	/* The enemyCount calculation has become Convoluted, but it is this way so that minion */
+	/* spawn rates will scale as the wave number increases                                 */
+	enemyCount = /*Minions ->*/(waveNumber < 7 ? waveNumber * 2 : (waveNumber + max(1.0,(waveNumber/3) + 0.0)) * ENEMY_WAVE_RATE) + /*Wizards ->*/max(0.0, (waveNumber/2 - 1)+0.0); 
 
 	//game loop
     while (gameRunning) {
