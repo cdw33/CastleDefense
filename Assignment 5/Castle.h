@@ -47,22 +47,22 @@ class Castle {
 				setVal(defInfo[0], "Images/Castle_Defense/hay.bmp", 25, 0);
 				setVal(defInfo[1], "Images/Castle_Defense/wood.bmp", 50, 10);
 				setVal(defInfo[2], "Images/Castle_Defense/brick.bmp", 100, 20);
-				setVal(defInfo[3], "Images/Castle_Defense/iron.bmp", 150, 40);
-				setVal(defInfo[4], "Images/Castle_Defense/steel.bmp", 200, 80);
-				setVal(defInfo[5], "Images/Castle_Defense/mithril.bmp", 250, 100);
-				setVal(defInfo[6], "Images/Castle_Defense/diamond.bmp", 300, 130);
-				setVal(defInfo[7], "Images/Castle_Defense/lonsdaleite.bmp", 400, 200);
+				setVal(defInfo[3], "Images/Castle_Defense/iron.bmp", 150, 50);
+				setVal(defInfo[4], "Images/Castle_Defense/steel.bmp", 200, 100);
+				setVal(defInfo[5], "Images/Castle_Defense/mithril.bmp", 250, 200);
+				setVal(defInfo[6], "Images/Castle_Defense/diamond.bmp", 300, 400);
+				setVal(defInfo[7], "Images/Castle_Defense/lonsdaleite.bmp", 400, 800);
 
 			offInfo = new offData[9];
 				setVal(offInfo[0], "Images/Castle_Offense/nothing.bmp", 0, 0);
-				setVal(offInfo[1], "Images/Castle_Offense/barbed_wire.bmp", 1, 20);
-				setVal(offInfo[2], "Images/Castle_Offense/stakes.bmp", 2, 30);
-				setVal(offInfo[3], "Images/Castle_Offense/spike.bmp", 3, 40);
-				setVal(offInfo[4], "Images/Castle_Offense/poison_spike.bmp", 4, 100);
-				setVal(offInfo[5], "Images/Castle_Offense/lava.bmp", 5, 130);
-				setVal(offInfo[6], "Images/Castle_Offense/lava_poison_spike.bmp", 6, 160);
-				setVal(offInfo[7], "Images/Castle_Offense/electric_1.bmp", 7, 200);  /* Part 1 - use this index for values*/
-				setVal(offInfo[8], "Images/Castle_Offense/electric_2.bmp", -1, -1);  /* Part 2 */
+				setVal(offInfo[1], "Images/Castle_Offense/stakes.bmp", 1, 20);
+				setVal(offInfo[2], "Images/Castle_Offense/barbed_wire.bmp", 2, 50);
+				setVal(offInfo[3], "Images/Castle_Offense/spike.bmp", 3, 100);
+				setVal(offInfo[4], "Images/Castle_Offense/poison_spike.bmp", 4, 200);
+				setVal(offInfo[5], "Images/Castle_Offense/lava.bmp", 5, 400);
+				setVal(offInfo[6], "Images/Castle_Offense/lava_poison_spike.bmp", 6, 800);
+				setVal(offInfo[7], "Images/Castle_Offense/electric_1.bmp", 7, 1000);  /* Part 1 - use this index for values*/
+				setVal(offInfo[8], "Images/Castle_Offense/electric_2.bmp", -1, -1);  /* Part 2 - don't used these values  */
 
 				flip = false;
 		};

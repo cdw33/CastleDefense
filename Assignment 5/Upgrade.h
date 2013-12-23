@@ -130,7 +130,7 @@ void Upgrade::drawUpdateMenu(Data &data, Castle &castle) {
 	}
 
 
-	/* Draw upgrade progress squares */
+	/* Draw upgrade progress squares and current upgrade names */
 	for(int i = 0; i < data.wallDefUpgrades; ++i) { // wall upgrades
 		graphics.displaySprite("Images/buy_cover.bmp", 0, 0, 610 + i * BAR_WIDTH, 204, 76, 41);
 	}
@@ -143,6 +143,8 @@ void Upgrade::drawUpdateMenu(Data &data, Castle &castle) {
 	for(int i = 0; i < data.rateOfFire; ++i) { // rate of fire
 		graphics.displaySprite("Images/buy_cover.bmp", 0, 0, 610 + i * BAR_WIDTH, 534, 76, 41);
 	}
+
+
 
 	graphics.flip();
 }

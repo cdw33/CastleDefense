@@ -16,7 +16,7 @@ static int GHOST_WIDTH = 71;
 / The way the wizards are set up, they have pointers to vectors that contain the information they need to be displayed.
 / They use pointers so that every wizard that is made will not need to contain this repetative information, saving space.
 /
-/ Through implementing this extra enemy, the code has gotten really jumped and comfusing. I'm trying to comment code as
+/ Through implementing this extra enemy, the code has gotten really jumbled and comfusing. I'm trying to comment code as
 / best I can so that it will be understandable in the future.
 /
 / Ghosts have been replaced with minions. The ghost height and width constants have been kept because they are a conveniant 
@@ -41,9 +41,10 @@ struct imageInfo {
 
 struct enemyData {
 	enemyData() {
-		wizardWP.push_back(imageInfo("Images/Enemies/wizard_walk_1.bmp",24,63));
+		wizardWP.push_back(imageInfo("Images/Enemies/wizard_idle.bmp",24,63));
+		wizardWP.push_back(imageInfo("Images/Enemies/wizard_walk_1.bmp",29,63));
 		wizardWP.push_back(imageInfo("Images/Enemies/wizard_walk_2.bmp",37,63));
-		wizardAP.push_back(imageInfo("Images/Enemies/wizard_walk_1.bmp",24,63));
+		wizardAP.push_back(imageInfo("Images/Enemies/wizard_idle.bmp",24,63));
 		wizardAP.push_back(imageInfo("Images/Enemies/wizard_attack_1.bmp",31,63));
 		wizardAP.push_back(imageInfo("Images/Enemies/wizard_attack_2.bmp",43,63));
 		wizardAP.push_back(imageInfo("Images/Enemies/wizard_attack_3.bmp",49,63));
@@ -59,9 +60,6 @@ struct enemyData {
 		minionAP.push_back(imageInfo("Images/Enemies/minion_idle.bmp",56,63));
 		minionAP.push_back(imageInfo("Images/Enemies/minion_attack_1.bmp",56,63));
 		minionAP.push_back(imageInfo("Images/Enemies/minion_attack_2.bmp",56,63));
-		minionSP.push_back(imageInfo("Images/Enemies/minion_special_1.bmp",56,61));
-		minionSP.push_back(imageInfo("Images/Enemies/minion_special_2.bmp",56,61));
-		minionSP.push_back(imageInfo("Images/Enemies/minion_special_3.bmp",56,61));
 	}
 	vector<imageInfo> wizardWP; /* walk path    */
 	vector<imageInfo> wizardAP; /* attack path  */
@@ -69,7 +67,6 @@ struct enemyData {
 
 	vector<imageInfo> minionWP; /* walk path    */
 	vector<imageInfo> minionAP; /* attack path  */
-	vector<imageInfo> minionSP; /* special path */
 };
 
 struct Enemies {
@@ -113,7 +110,7 @@ struct Wizard : Enemies {
 		nextTeleport = clock() + SPECIAL_DELAY + rand() % SPECIAL_FREQUENCY;
 	}
 	static const int 
-		WALK_TICKS = 6, 
+		WALK_TICKS = 3, 
 		ATTACK_TICKS = 2,
 		SPECIAL_TICKS = 3,
 		SPECIAL_FREQUENCY = 3000, /* Increase for less teleporting */
@@ -130,11 +127,31 @@ struct Wizard : Enemies {
 
 		/* Walk Cycle */
 		if (curAction == WALK) {
-			if (curWalkTick == WALK_TICKS) {
-				walkIndex = (walkIndex + 1) % walkPath->size();
-			}
-			curWalkTick = (curWalkTick > WALK_TICKS ? 0 : curWalkTick + 1);
 
+			/* Updates the counter for how long you are displaying an image */
+			curWalkTick += (walkFlag ? 1 : -1);
+
+			/* Sets teleport ability */
+			if(walkIndex == walkPath->size()-1 && curWalkTick == WALK_TICKS) {
+				walkFlag = !walkFlag;
+				curWalkTick = 1;
+			}
+
+			/* Increments the picture you are looking at */
+			if ((curWalkTick == WALK_TICKS && walkFlag) || (curWalkTick == 0 && !walkFlag)) {
+				walkIndex += (walkFlag ? 1 : -1);
+			}
+
+			/* Reset the tick counter if you have reached the max / min */
+			if (curWalkTick == 0 || curWalkTick == WALK_TICKS) {
+				curWalkTick = (walkFlag ? 0 : WALK_TICKS);
+			}
+			
+			/* End of cycle reached, restart */
+			if (curWalkTick == WALK_TICKS &&  walkIndex == 0 && walkFlag == false) {
+				curWalkTick = 0;
+				walkFlag = true;
+			}
 		  /* Attack Cycle */
 		} else if (curAction == ATTACK) {
 
@@ -189,24 +206,15 @@ struct Wizard : Enemies {
 };
 
 struct Minion : Enemies {
-	Minion(double damage, double hp, double speed, int attackRate) : Enemies(damage, hp, speed, attackRate) { 
-		nextDefend = clock() + SPECIAL_DELAY + rand() % SPECIAL_FREQUENCY;
-	}
+	Minion(double damage, double hp, double speed, int attackRate) : Enemies(damage, hp, speed, attackRate) { }
 	static const int 
 		WALK_TICKS = 3, 
 		ATTACK_TICKS = 1,
 		SPECIAL_TICKS = 8,
 		SPECIAL_FREQUENCY = 20000, /* Increase for less defending */
 		SPECIAL_DELAY = 8000; /* Minimum of 2 seconds between defends */
-	int 
-		nextDefend;
 
 	void update() {
-		/* Switch to your special ability animation if enough time has passed <- Disabled for now
-		if (clock() >= nextDefend && curAction == WALK) {
-			nextDefend = clock() + SPECIAL_DELAY + rand() % SPECIAL_FREQUENCY;
-			curAction = SPECIAL;
-		} */
 
 		/* Walk Cycle */
 		if (curAction == WALK) {
@@ -229,11 +237,10 @@ struct Minion : Enemies {
 				curWalkTick = (walkFlag ? 0 : WALK_TICKS);
 			}
 			
-			/* If you are done teleporting, then start walking */
+			/* End of cycle reached, restart */
 			if (curWalkTick == WALK_TICKS &&  walkIndex == 0 && walkFlag == false) {
 				curWalkTick = 0;
 				walkFlag = true;
-				curAction = WALK;
 			}
 		  /* Attack Cycle */
 		} else if (curAction == ATTACK) {
@@ -254,35 +261,7 @@ struct Minion : Enemies {
 					attackAnimation = false;
 				}
 			}
-
-		  /* Special Cycle */ /* If this is your current cycle, you cannot get hurt */
-		} else if (curAction == SPECIAL) {
-
-			/* Updates the counter for how long you are displaying an image */
-			curSpecialTick += (specialFlag ? 1 : -1);
-
-			/* Sets teleport ability */
-			if(specialIndex == specialPath->size()-1 && curSpecialTick == SPECIAL_TICKS) {
-				specialFlag = !specialFlag;
-			}
-
-			/* Increments the picture you are looking at */
-			if ((curSpecialTick == SPECIAL_TICKS && specialFlag) || (curSpecialTick == 0 && !specialFlag)) {
-				specialIndex += (specialFlag ? 1 : -1);
-			}
-
-			/* Reset the tick counter if you have reached the max / min */
-			if (curSpecialTick == 0 || curSpecialTick == SPECIAL_TICKS) {
-				curSpecialTick = (specialFlag ? 0 : SPECIAL_TICKS);
-			}
-			
-			/* If you are done teleporting, then start walking */
-			if (curSpecialTick == SPECIAL_TICKS &&  specialIndex == 0 && specialFlag == false) {
-				curSpecialTick = 0;
-				specialFlag = true;
-				curAction = WALK;
-			}
-		}
+		} 
 	}
 };
 //End_Character_Data_Setup**********************************************************************************************************************
@@ -361,7 +340,6 @@ public:
 			minions.push_back(new Minion(damage, hp, speed, attackRate));   //add new enemy to vector
 			minions[minions.size()-1]->walkPath = &enemyValues.minionWP;
 			minions[minions.size()-1]->attackPath = &enemyValues.minionAP;
-			minions[minions.size()-1]->specialPath = &enemyValues.minionSP;
 		}
 	}
 
@@ -523,7 +501,7 @@ public:
 	void generateSpawnTime(int waveNumber, const int ENEMY_WAVE_RATE) {
 		const int RELEASE_RATE = 3000;
 
-		/* GHOST SPAWN TIMES */
+		/* MINION SPAWN TIMES */
 		for(int i = 0; i < (waveNumber < 7 ? waveNumber * 2 : (waveNumber + max(1.0,(waveNumber/3) + 0.0)) * ENEMY_WAVE_RATE); ++i) {
 			minionSpawnTime.push_back(rand() % (RELEASE_RATE * waveNumber)); /* each wave released  span increases by RELEASE_RATE seconds in length */
 		}
@@ -547,7 +525,7 @@ public:
 	// spawnEnemies
 	//*******************************************************************
 	void spawnEnemies(int startOfWave, int waveNumber) {
-		/* GHOST */ 
+		/* MINION */ 
 		while(minionSpawnTime.size() != 0 && minionSpawnTime[minionSpawnTime.size()-1] < clock() - startOfWave) {
 			minionSpawnTime.erase(minionSpawnTime.begin() + minionSpawnTime.size() - 1);
 			createEnemy(MINION, 1 + waveNumber, (1 + waveNumber/5) * 2, (rand()%2 ? 3 : 4) + waveNumber/8, 1000); /* Type, Damage, hp, speed, attack rate (in ms) */ /* <- speed increases every 6 rounds */

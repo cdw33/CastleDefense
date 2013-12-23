@@ -111,7 +111,7 @@ public:
 		} else if (choice == 8) {
 			graphics.drawText("Never confuse a single", SIZE_QUOTE, START_X, START_Y_2, R, G, B);
 			graphics.drawText("defeat with a final defeat.", SIZE_QUOTE, START_X, START_Y_3, R, G, B);
-			graphics.drawText(" - Scott Fitzgerald", SIZE_SIG, START_X, START_Y_4, R, G, B);
+			graphics.drawText(" - F Scott Fitzgerald", SIZE_SIG, START_X, START_Y_4, R, G, B);
 		} else if (choice == 9) {
 			graphics.drawText("It is not a field of a few acres", SIZE_QUOTE, START_X, START_Y_1, R, G, B);
 			graphics.drawText("of ground, but a cause that", SIZE_QUOTE, START_X, START_Y_2, R, G, B);

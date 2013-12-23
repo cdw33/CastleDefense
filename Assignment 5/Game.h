@@ -164,6 +164,19 @@ bool Game::launchWave(int waveNumber) {
 //***************************************************
 void Game::waveBonus(int waveNumber) {
 	data.addMoney(waveNumber * 5);
+
+	/* The following 3 if statements allow the player to make purchases   */
+	/*  after compleating certain waves as they would be short just a few */
+	/*  dollars without this boost                                        */
+	if (waveNumber == 1) {
+		data.addMoney(3);
+	} else if (waveNumber == 2) {
+		data.addMoney(2);
+	} else if (waveNumber == 4) {
+		data.addMoney(1);
+	}
+
+	/* Old bonus waveset */
 	/*if (waveNumber >= 3) {
 		data.addMoney(10);
 	}else if (waveNumber >= 7) {

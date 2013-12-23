@@ -17,20 +17,20 @@ struct bulletData {
 };
 
 /* Indicies of bulletData accessed by the bulletUpgrades variable found in data.h */
-bulletData bulletInfo[8] = { /*Sample data, real input needed for damage, speed, and cost */
-	{ "Images/Bullets/spitball.bmp", 1,  2, 10,  9,  8,  0},
-	{ "Images/Bullets/pea.bmp"     , 2,  2, 20,  8,  8,  0},
-	{ "Images/Bullets/rock.bmp"    , 3,  3, 40,  10, 10, 0},
-	{ "Images/Bullets/bullet.bmp"  , 4,  4, 100,  21, 12, 0},
-	{ "Images/Bullets/strong.bmp"  , 5, 5, 140,  24, 14, 0},
-	{ "Images/Bullets/big.bmp"     , 6, 6, 180,  34, 14, 0},
-	{ "Images/Bullets/uber.bmp"    , 7, 7, 210, 34, 19, 0},
-	{ "Images/Bullets/through.bmp" , 8, 8, 250, 34, 19, 1}
+bulletData bulletInfo[8] = { /*Image path, damage, speed, cost, width, height, goThrough*/
+	{ "Images/Bullets/spitball.bmp", 1,  2, 10,   9,  8,  0},
+	{ "Images/Bullets/pea.bmp"     , 2,  2, 20,   8,  8,  0},
+	{ "Images/Bullets/rock.bmp"    , 4,  3, 50,   10, 10, 0},
+	{ "Images/Bullets/bullet.bmp"  , 5,  4, 100,  21, 12, 0},
+	{ "Images/Bullets/strong.bmp"  , 6,  4, 200,  24, 14, 0},
+	{ "Images/Bullets/big.bmp"     , 7,  5, 400,  34, 14, 0},
+	{ "Images/Bullets/uber.bmp"    , 8,  5, 800,  34, 19, 0},
+	{ "Images/Bullets/through.bmp" , 9,  6, 1000, 34, 19, 1}
 };
 
 /* Indices accessed by the rateOfFire variable found in data.h */
-int rateOfFireList[8] = { 1200, 900, 750, 450, 200, 100, 50, 20 }; 
-int rateOfFireCost[8] = { 10, 20, 40, 70, 100, 150, 190, 250}; 
+int rateOfFireList[8] = { 1200, 900, 750, 500, 400, 300, 200, 100 }; 
+int rateOfFireCost[8] = { 10, 20, 50, 100, 200, 400, 800, 1000 }; 
 
 class Bullet { 
 	public:
