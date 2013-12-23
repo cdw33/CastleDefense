@@ -3,9 +3,17 @@
 
 #include "Graphics.h"
 
+/* 
+/ I was attempting to implement a moveEnemy function that moved a few enemies across the main menu
+/ screen at a time. However, there is an issue of circular dependencies when an object of type
+/ Enemy is created, and I am left unsure of how to reslove the issue.
+*/
+
+
 class Background {
 	private:
 		Graphics graphics; 
+		// Enemy enemies; <- Leads to circular dependencies
 		string* skyPath;
 		bool down,
 			sunFlag,
@@ -55,13 +63,13 @@ Background::~Background() {
 	delete [] skyPath;
 }
 
-/* Game::launchWave cannot use moveSky() and movePlanets() because it too computationally expensive */
+/* Game::launchWave cannot use moveSky() and movePlanets() because it slows the game too much */
 void Background::display(int from) {
 	if (from == MAIN) {
 		moveSky();
 		movePlanets();
 		setBackground();
-		moveEnemies();
+		//moveEnemies();
 	} else if (from == GAME) {
 		graphics.drawBackground("Images/Background/bg_game.bmp");
 	} else if (from == UPGRADE) {

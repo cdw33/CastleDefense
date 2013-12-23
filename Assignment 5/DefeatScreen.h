@@ -10,7 +10,7 @@
 
 using namespace std;
 
-class DefeatScreen{
+class DefeatScreen {
 public:
 
 	DefeatScreen()  { };
@@ -59,7 +59,12 @@ public:
 	}
 
 	void displayQuote() {
-		const int COUNT = 11,
+		static bool 
+			lastPick = -1;
+		static int
+			choice = -1;
+		const int 
+			COUNT = 11,
 			SIZE_QUOTE = 35,
 			SIZE_SIG = SIZE_QUOTE - 5,
 			START_X = 155,
@@ -71,7 +76,11 @@ public:
 			G = 255,
 			B = 255;
 
-		int choice = rand()%COUNT;
+		/* Ensure that same quote is not displayed twice in a row */
+		do { 
+			choice = rand()%COUNT;	
+		} while (choice == lastPick);
+		lastPick = choice;
 
 		if (choice == 0) {
 			graphics.drawText("If you learn from defeat,", SIZE_QUOTE, START_X, START_Y_2, R, G, B);

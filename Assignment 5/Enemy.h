@@ -180,7 +180,7 @@ struct Wizard : Enemies {
 
 			/* Sets teleport ability */
 			if(specialIndex == specialPath->size()-1 && curSpecialTick == SPECIAL_TICKS) {
-				yCoor = 40 + rand()%(680-GHOST_HEIGHT+30);
+				yCoor = 40 + rand()%(650-GHOST_HEIGHT) + 30;
 				xCoor = min((int)(xCoor + 30 + rand()%150), (SCREEN_WIDTH - CASTLE_WIDTH - 50));
 				specialFlag = !specialFlag;
 			}
