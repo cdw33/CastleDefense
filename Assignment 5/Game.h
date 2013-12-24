@@ -134,6 +134,7 @@ bool Game::launchWave(int waveNumber) {
 				if(detectHit(gun.bullets[i]->x,gun.bullets[i]->y, bulletValRef.getWidth(data.bulletUpgrades), bulletValRef.getHeight(data.bulletUpgrades), gun.bullets[i]->id)){
 					if (bulletValRef.stopOnContact(data.bulletUpgrades)) {
 						gun.deleteBullet(i);
+						--i;
 					}
 				}
 			}
@@ -173,6 +174,8 @@ void Game::waveBonus(int waveNumber) {
 	} else if (waveNumber == 2) {
 		data.addMoney(2);
 	} else if (waveNumber == 4) {
+		data.addMoney(1);
+	} else if (waveNumber == 7) {
 		data.addMoney(1);
 	}
 

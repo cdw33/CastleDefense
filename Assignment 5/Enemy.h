@@ -108,6 +108,7 @@ struct Enemies {
 struct Wizard : Enemies {
 	Wizard(double damage, double hp, double speed, int attackRate) : Enemies(damage, hp, speed, attackRate) { 
 		nextTeleport = clock() + SPECIAL_DELAY + rand() % SPECIAL_FREQUENCY;
+		yCoor = 40 + rand()%(650-GHOST_HEIGHT) + 30;
 	}
 	static const int 
 		WALK_TICKS = 3, 
@@ -375,7 +376,7 @@ public:
 		for (int i = wizards.size()-1; i >= 0; --i){
 			if (bulletY + bulletHeight > wizards[i]->yCoor 
 				&& bulletY < wizards[i]->yCoor + getHeight(wizards[i])
-				&& bulletX < wizards[i]->xCoor + getWidth(wizards[i])
+				&& bulletX < wizards[i]->xCoor + getWidth(wizards[i]) + 4 /* Extra width added because wizards are thin and bullets travel through them */
 				&& bulletX + bulletWidth > wizards[i]->xCoor) {
 				
 				if (bulletValRef.stopOnContact(data.bulletUpgrades) || hasNotHit(WIZARD, i, id)) {

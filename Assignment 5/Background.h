@@ -32,7 +32,7 @@ class Background {
 			SKY_SLIDES = 8;
 		
 		void moveSky();
-		void movePlanets(bool = false);
+		void movePlanets();
 		void moveEnemies();
 		void setBackground();
 
@@ -74,7 +74,6 @@ void Background::display(int from) {
 		graphics.drawBackground("Images/Background/bg_game.bmp");
 	} else if (from == UPGRADE) {
 		graphics.displaySprite("Images/Background/sky_7.bmp", 0, 0, 0, 0, SKY_WIDTH, SKY_HEIGHT);
-		movePlanets(true);
 		graphics.displaySprite("Images/Background/bg_night_5.bmp",0,0,0,0,BG_WIDTH,BG_HEIGHT);
 	} else if (from == DEFEAT) {
 		graphics.displaySprite("Images/Background/sky_defeat.bmp", 0, 0, 0, 0, SKY_WIDTH, SKY_HEIGHT);
@@ -119,7 +118,7 @@ void Background::moveSky() {
 	}
 }
 
-void Background::movePlanets(bool riseMoon) {
+void Background::movePlanets() {
 	static const int SUN_DOWN_Y = -60,
 		SUN_DOWN_X = 100,
 		SUN_down_Y = SKY_HEIGHT - 50,
@@ -153,7 +152,7 @@ void Background::movePlanets(bool riseMoon) {
 			sunMove = !sunMove;
 		}
 		graphics.displaySprite("Images/Background/sun.bmp",0,0,sunX,sunY,60,60);
-	} else if(skyIndex == 7 || riseMoon) { //moon movement
+	} else if(skyIndex == 7) { //moon movement
 		if (moonFlag == true) {
 			moonX = -60;
 			moonY = SKY_HEIGHT;

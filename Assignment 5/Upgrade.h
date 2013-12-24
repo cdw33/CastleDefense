@@ -81,9 +81,13 @@ void Upgrade::upgradeMenu(Data &data, Castle &castle) {
 // drawUpdateMenu
 //***************************************************
 void Upgrade::drawUpdateMenu(Data &data, Castle &castle) {
-	const int BAR_WIDTH = 79;
-	const int UPGRADE_WIDTH = 1138;
-	const int UPGRADE_HEIGHT = 599;
+	const int 
+		C1 = 255, 
+		C2 = 48,
+		BAR_WIDTH = 79,
+		UPGRADE_WIDTH = 1138,
+	    UPGRADE_HEIGHT = 599;
+
 
 	background.display(Background::UPGRADE);
 
@@ -145,7 +149,51 @@ void Upgrade::drawUpdateMenu(Data &data, Castle &castle) {
 	}
 
 
+	/* Draw upgrade names over purchased squares */
 
+	/* Wall Defense */
+	if (data.wallDefUpgrades >= 1) 	graphics.drawText("wood", 20, 610 + 20, 204 + 20, (data.wallDefUpgrades == 1 ? C1 : C2), (data.wallDefUpgrades == 1 ? C1 : C2), (data.wallDefUpgrades == 1 ? C1 : C2));
+	if (data.wallDefUpgrades >= 2) 	graphics.drawText("brick", 20, 610 + BAR_WIDTH * 1 + 20, 204 + 20, (data.wallDefUpgrades == 2 ? C1 : C2), (data.wallDefUpgrades == 2 ? C1 : C2), (data.wallDefUpgrades == 2 ? C1 : C2));
+	if (data.wallDefUpgrades >= 3) 	graphics.drawText("iron", 20, 610 + BAR_WIDTH * 2 + 20, 204 + 20, (data.wallDefUpgrades == 3 ? C1 : C2), (data.wallDefUpgrades == 3 ? C1 : C2), (data.wallDefUpgrades == 3 ? C1 : C2));
+	if (data.wallDefUpgrades >= 4) 	graphics.drawText("steel", 20, 610 + BAR_WIDTH * 3 + 20, 204 + 20, (data.wallDefUpgrades == 4 ? C1 : C2), (data.wallDefUpgrades == 4 ? C1 : C2), (data.wallDefUpgrades == 4 ? C1 : C2));
+	if (data.wallDefUpgrades >= 5) 	graphics.drawText("mithril", 20, 610 + BAR_WIDTH * 4 + 15, 204 + 20, (data.wallDefUpgrades == 5 ? C1 : C2), (data.wallDefUpgrades == 5 ? C1 : C2), (data.wallDefUpgrades == 5 ? C1 : C2));
+	if (data.wallDefUpgrades >= 6) 	graphics.drawText("diamond", 20, 610 + BAR_WIDTH * 5 + 10, 204 + 20, (data.wallDefUpgrades == 6 ? C1 : C2), (data.wallDefUpgrades == 6 ? C1 : C2), (data.wallDefUpgrades == 6 ? C1 : C2));
+	if (data.wallDefUpgrades >= 7)	graphics.drawText("lonsdaleite", 20, 610 + BAR_WIDTH * 6 + 2, 204 + 20, (data.wallDefUpgrades == 7 ? C1 : C2), (data.wallDefUpgrades == 7 ? C1 : C2), (data.wallDefUpgrades == 7 ? C1 : C2));
+
+	/* Wall Offense */
+	if (data.wallOffUpgrades >= 1) 	graphics.drawText("stakes", 20, 610 + 17, 314 + 20, (data.wallOffUpgrades == 1 ? C1 : C2), (data.wallOffUpgrades == 1 ? C1 : C2), (data.wallOffUpgrades == 1 ? C1 : C2));
+	if (data.wallOffUpgrades >= 2) {graphics.drawText("barbed", 20, 610 + BAR_WIDTH * 1 + 16, 314 + 5, (data.wallOffUpgrades == 2 ? C1 : C2), (data.wallOffUpgrades == 2 ? C1 : C2), (data.wallOffUpgrades == 2 ? C1 : C2));
+									graphics.drawText("wire", 20, 610 + BAR_WIDTH * 1 + 22, 314 + 20, (data.wallOffUpgrades == 2 ? C1 : C2), (data.wallOffUpgrades == 2 ? C1 : C2), (data.wallOffUpgrades == 2 ? C1 : C2));}
+	if (data.wallOffUpgrades >= 3) 	graphics.drawText("spikes", 20, 610 + BAR_WIDTH * 2 + 18, 314 + 20, (data.wallOffUpgrades == 3 ? C1 : C2), (data.wallOffUpgrades == 3 ? C1 : C2), (data.wallOffUpgrades == 3 ? C1 : C2));
+	if (data.wallOffUpgrades >= 4) {graphics.drawText("poison", 20, 610 + BAR_WIDTH * 3 + 15, 314 + 5, (data.wallOffUpgrades == 4 ? C1 : C2), (data.wallOffUpgrades == 4 ? C1 : C2), (data.wallOffUpgrades == 4 ? C1 : C2));
+									graphics.drawText("spikes", 20, 610 + BAR_WIDTH * 3 + 17, 314 + 20, (data.wallOffUpgrades == 4 ? C1 : C2), (data.wallOffUpgrades == 4 ? C1 : C2), (data.wallOffUpgrades == 4 ? C1 : C2));}
+	if (data.wallOffUpgrades >= 5) 	graphics.drawText("lava", 20, 610 + BAR_WIDTH * 4 + 25, 314 + 20, (data.wallOffUpgrades == 5 ? C1 : C2), (data.wallOffUpgrades == 5 ? C1 : C2), (data.wallOffUpgrades == 5 ? C1 : C2));
+	if (data.wallOffUpgrades >= 6) {graphics.drawText("lava", 20, 610 + BAR_WIDTH * 5 + 25, 314 + 5, (data.wallOffUpgrades == 6 ? C1 : C2), (data.wallOffUpgrades == 6 ? C1 : C2), (data.wallOffUpgrades == 6 ? C1 : C2));
+									graphics.drawText("and spikes", 20, 610 + BAR_WIDTH * 5 + 4, 314 + 20, (data.wallOffUpgrades == 6 ? C1 : C2), (data.wallOffUpgrades == 6 ? C1 : C2), (data.wallOffUpgrades == 6 ? C1 : C2));}
+	if (data.wallOffUpgrades >= 7) {graphics.drawText("electric", 20, 610 + BAR_WIDTH * 6 + 11, 314 + 5, (data.wallOffUpgrades == 7 ? C1 : C2), (data.wallOffUpgrades == 7 ? C1 : C2), (data.wallOffUpgrades == 7 ? C1 : C2));
+									graphics.drawText("fence", 20, 610 + BAR_WIDTH * 6 + 19, 314 + 20, (data.wallOffUpgrades == 7 ? C1 : C2), (data.wallOffUpgrades == 7 ? C1 : C2), (data.wallOffUpgrades == 7 ? C1 : C2));}
+
+	/* Bullet Upgrades */
+	if (data.bulletUpgrades >= 1) 	graphics.drawText("pea", 20, 610 + 26, 424 + 20, (data.bulletUpgrades == 1 ? C1 : C2), (data.bulletUpgrades == 1 ? C1 : C2), (data.bulletUpgrades == 1 ? C1 : C2));
+	if (data.bulletUpgrades >= 2) 	graphics.drawText("rock", 20, 610 + BAR_WIDTH * 1 + 22, 424 + 20, (data.bulletUpgrades == 2 ? C1 : C2), (data.bulletUpgrades == 2 ? C1 : C2), (data.bulletUpgrades == 2 ? C1 : C2));
+	if (data.bulletUpgrades >= 3) 	graphics.drawText("bullet", 20, 610 + BAR_WIDTH * 2 + 18, 424 + 20, (data.bulletUpgrades == 3 ? C1 : C2), (data.bulletUpgrades == 3 ? C1 : C2), (data.bulletUpgrades == 3 ? C1 : C2));
+	if (data.bulletUpgrades >= 4) 	graphics.drawText("strong", 20, 610 + BAR_WIDTH * 3 + 15, 424 + 20, (data.bulletUpgrades == 4 ? C1 : C2), (data.bulletUpgrades == 4 ? C1 : C2), (data.bulletUpgrades == 4 ? C1 : C2));
+	if (data.bulletUpgrades >= 5) 	graphics.drawText("large", 20, 610 + BAR_WIDTH * 4 + 22, 424 + 20, (data.bulletUpgrades == 5 ? C1 : C2), (data.bulletUpgrades == 5 ? C1 : C2), (data.bulletUpgrades == 5 ? C1 : C2));
+	if (data.bulletUpgrades >= 6) 	graphics.drawText("uber", 20, 610 + BAR_WIDTH * 5 + 21, 424 + 20, (data.bulletUpgrades == 6 ? C1 : C2), (data.bulletUpgrades == 6 ? C1 : C2), (data.bulletUpgrades == 6 ? C1 : C2));
+	if (data.bulletUpgrades >= 7)  {graphics.drawText("un-", 20, 610 + BAR_WIDTH * 6 + 25, 424 + 5, (data.bulletUpgrades == 7 ? C1 : C2), (data.bulletUpgrades == 7 ? C1 : C2), (data.bulletUpgrades == 7 ? C1 : C2));
+									graphics.drawText("stoppable", 20, 610 + BAR_WIDTH * 6 + 6, 424 + 20, (data.bulletUpgrades == 7 ? C1 : C2), (data.bulletUpgrades == 7 ? C1 : C2), (data.bulletUpgrades == 7 ? C1 : C2));}
+
+	/* Bullet Speed */
+	if (data.rateOfFire >= 1) 	graphics.drawText("slow", 20, 610 + 22, 534 + 20, (data.rateOfFire == 1 ? C1 : C2), (data.rateOfFire == 1 ? C1 : C2), (data.rateOfFire == 1 ? C1 : C2));
+	if (data.rateOfFire >= 2) 	graphics.drawText("fair", 20, 610 + BAR_WIDTH * 1 + 24, 534 + 20, (data.rateOfFire == 2 ? C1 : C2), (data.rateOfFire == 2 ? C1 : C2), (data.rateOfFire == 2 ? C1 : C2));
+	if (data.rateOfFire >= 3) 	graphics.drawText("quick", 20, 610 + BAR_WIDTH * 2 + 20, 534 + 20, (data.rateOfFire == 3 ? C1 : C2), (data.rateOfFire == 3 ? C1 : C2), (data.rateOfFire == 3 ? C1 : C2));
+	if (data.rateOfFire >= 4) 	graphics.drawText("fast", 20, 610 + BAR_WIDTH * 3 + 25, 534 + 20, (data.rateOfFire == 4 ? C1 : C2), (data.rateOfFire == 4 ? C1 : C2), (data.rateOfFire == 4 ? C1 : C2));
+	if (data.rateOfFire >= 5)   graphics.drawText("light speed", 20, 610 + BAR_WIDTH * 4 + 1, 534 + 20, (data.rateOfFire == 5 ? C1 : C2), (data.rateOfFire == 5 ? C1 : C2), (data.rateOfFire == 5 ? C1 : C2));
+	if (data.rateOfFire >= 6)  {graphics.drawText("ridiculous", 20, 610 + BAR_WIDTH * 5 + 4, 534 + 5, (data.rateOfFire == 6 ? C1 : C2), (data.rateOfFire == 6 ? C1 : C2), (data.rateOfFire == 6 ? C1 : C2));
+								graphics.drawText("speed", 20, 610 + BAR_WIDTH * 5 + 18, 534 + 20, (data.rateOfFire == 6 ? C1 : C2), (data.rateOfFire == 6 ? C1 : C2), (data.rateOfFire == 6 ? C1 : C2));}
+	if (data.rateOfFire >= 7)  {graphics.drawText("ludacris", 20, 610 + BAR_WIDTH * 6 + 11, 534 + 5, (data.rateOfFire == 7 ? C1 : C2), (data.rateOfFire == 7 ? C1 : C2), (data.rateOfFire == 7 ? C1 : C2));
+								graphics.drawText("speed", 20, 610 + BAR_WIDTH * 6 + 18, 534 + 20, (data.rateOfFire == 7 ? C1 : C2), (data.rateOfFire == 7 ? C1 : C2), (data.rateOfFire == 7 ? C1 : C2));}
+	
 	graphics.flip();
 }
 
@@ -154,7 +202,7 @@ void Upgrade::drawUpdateMenu(Data &data, Castle &castle) {
 //	Compleatly duplicated code from Game:: updateStatsBar (duplicate code is bad)
 //  I have no idea how else this could be added 
 //***************************************************
-void Upgrade::updateStatsBar(Data &data){
+void Upgrade::updateStatsBar(Data &data) {
 
 	//TODO - make xCoors static
 	graphics.drawText("Wave: ", 35, 10, 3, 255, 255, 255); 
