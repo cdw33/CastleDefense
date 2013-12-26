@@ -84,24 +84,16 @@ void drawAbout() {
 	graphics.drawText("Back", 50, 862, 585, 0, 0, 0);
 	graphics.drawText("Fight off the hord armies!", 50, 330, 160, 0, 0, 0);
 	
-	const int SIZE = 32;
-	graphics.drawText("- Stop the approaching enemies as they near",     SIZE, 360, 207, 0, 0, 0);
-	graphics.drawText("    your base",                                   SIZE, 360, 239, 0, 0, 0);
-	graphics.drawText("- Click anywhere on the screen to fire a bullet", SIZE, 360, 271, 0, 0, 0);
-	graphics.drawText("- The further you click from the castle, the",    SIZE, 360, 303, 0, 0, 0);
-	graphics.drawText("    faster your bullet travels",                  SIZE, 360, 335, 0, 0, 0);
-	graphics.drawText("- Enemies get stronger and more plentiful as",    SIZE, 360, 367, 0, 0, 0);
-	graphics.drawText("    the wave count increases",                    SIZE, 360, 399, 0, 0, 0);
-	graphics.drawText("- Purchase upgrades at the end of each wave to",  SIZE, 360, 431, 0, 0, 0);
-	graphics.drawText("    increase your chances of survival",           SIZE, 360, 463, 0, 0, 0);
-	graphics.drawText("- Stay alive for as long as you can!",            SIZE, 360, 495, 0, 0, 0);
-
-	/* Old about menu text
-	graphics.drawText("-Stay alive for as long as you can.", 40, 360, 250, 0, 0, 0);
-	graphics.drawText("-Don't forget to upgrade bullets.", 40, 360, 300, 0, 0, 0);
-	graphics.drawText("-enemies get stronger and more plentiful", 40, 360, 350, 0, 0, 0);
-	graphics.drawText("as the wave count increases", 40, 385, 385, 0, 0, 0);
-	*/
+	const int SIZE = 35;
+	graphics.drawText("- Stop the approaching enemies as they near your base",    SIZE, 360, 207 + 3, 0, 0, 0);
+	graphics.drawText("- Click anywhere on the screen to fire a bullet",          SIZE, 360, 239 + 6, 0, 0, 0);
+	graphics.drawText("- The further you click from the castle, the faster your", SIZE, 360, 271 + 9, 0, 0, 0);
+	graphics.drawText("  bullet travels",                                         SIZE, 360, 303 + 9, 0, 0, 0);
+	graphics.drawText("- Enemies get stronger and more plentiful as the wave",    SIZE, 360, 335 + 12, 0, 0, 0);
+	graphics.drawText("  count increases",                                        SIZE, 360, 367 + 12, 0, 0, 0);
+	graphics.drawText("- Purchase upgrades at the end of each wave to increase",  SIZE, 360, 399 + 15, 0, 0, 0);
+	graphics.drawText("  your chances of survival",                               SIZE, 360, 431 + 18, 0, 0, 0);
+	graphics.drawText("- Stay alive for as long as you can!",                     SIZE, 360, 463 + 21, 0, 0, 0);
 
 	/* authors */
 	graphics.drawText("Creators:", 30, 300, 540, 0, 0, 0);

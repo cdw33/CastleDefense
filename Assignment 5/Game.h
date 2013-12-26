@@ -134,8 +134,8 @@ bool Game::launchWave(int waveNumber) {
 				if(detectHit(gun.bullets[i]->x,gun.bullets[i]->y, bulletValRef.getWidth(data.bulletUpgrades), bulletValRef.getHeight(data.bulletUpgrades), gun.bullets[i]->id)){
 					if (bulletValRef.stopOnContact(data.bulletUpgrades)) {
 						gun.deleteBullet(i);
-						--i;
 					}
+					--i; /* avoids skipping elements in the array if an element is deleted, and allows for an unstoppable bullet to damage more than one enemy per draw */
 				}
 			}
         }

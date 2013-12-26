@@ -21,7 +21,8 @@ class Upgrade{
 
 		void upgradeMenu(Data &, Castle &);
 		void drawUpdateMenu(Data &, Castle &);
-		void Upgrade::updateStatsBar(Data &);
+		void updateStatsBar(Data &);
+		void drawHelp(SDL_Event &);
 };
 
 //***************************************************
@@ -38,7 +39,7 @@ void Upgrade::upgradeMenu(Data &data, Castle &castle) {
 		drawUpdateMenu(data, castle);
 
 		if (SDL_PollEvent(&event)) {
-			if (event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT) { /* The different clickable events */
+			if (event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT) { /* The buyable different clickable events */
 
 				/* Wall defense upgrades */
 				if ((event.button.x < 173 && event.button.x > 108) && (event.button.y < 255 && event.button.y > 193)) {
@@ -69,10 +70,12 @@ void Upgrade::upgradeMenu(Data &data, Castle &castle) {
 				} else if ((event.button.x < 1204 && event.button.x > 988)  &&  (event.button.y < 650 && event.button.y > 590)) {
 					shopping = false;
 				} 
+			} else if ((event.button.x < 1201 && event.button.x > 1164) && (event.button.y < 102 && event.button.y > 65)) { /* Help function call */
+				drawHelp(event);
 			} else if (event.type == SDL_QUIT) { /* event quit */
 				SDL_Quit();
 				exit(0);
-			}
+			} 
 		}
 	}
 }
@@ -111,6 +114,8 @@ void Upgrade::drawUpdateMenu(Data &data, Castle &castle) {
 	graphics.drawText("Bullets", 40, 269, 426, 0, 0, 0);
 	graphics.drawText("Rate of Fire", 40, 242, 535, 0, 0, 0);
 	graphics.drawText("Launch Wave", 40, 1015, 602, 0, 0, 0);
+
+	graphics.drawText("?", 40, 1178, 63, 0, 0, 0);
 	
 	if (data.wallDefUpgrades == castle.totaldefenceUpgrades()) {
 		graphics.drawText("MAX", 40, 484, 206, 0, 0, 0);
@@ -217,6 +222,33 @@ void Upgrade::updateStatsBar(Data &data) {
 	graphics.drawText("~", 35, 600, 3, 255, 255, 255); 
 	graphics.drawText(to_string(data.money).c_str(), 35, 790, 3, 255, 255, 255); 
 	graphics.drawText(to_string(data.health).c_str(), 35, 1040, 3, 255, 255, 255); 
+}
+
+//***************************************************
+// drawHelp
+//***************************************************
+void Upgrade::drawHelp(SDL_Event& event) {
+	const int SIZE = 32;
+
+	graphics.displaySprite("Images/button_cover.bmp", 0, 0, 1162, 63, 40, 40);
+	graphics.displaySprite("Images/help.bmp", 0, 0, 260, 75, 761, 567);
+	graphics.drawText("Help", 82, 271, 80, 0, 0, 0);
+	graphics.drawText("?", 40, 1178, 63, 0, 0, 0);
+
+	graphics.drawText("Castle Wall",                                                  SIZE + 7, 360, 207 - 10, 0, 0, 0);
+	graphics.drawText("    Increases wall health so that it can withstand more damage",  SIZE, 360, 239 + 7 - 10, 0, 0, 0);
+	graphics.drawText("Castle Defenses",                                              SIZE + 7, 360, 271 + SIZE - 10, 0, 0, 0);
+	graphics.drawText("    Damages enemies as they attack your castle wall",          SIZE, 360, 303 + 7 + SIZE - 10, 0, 0, 0);
+	graphics.drawText("Bullets",                                                      SIZE + 7, 360, 335 + SIZE * 2 - 10, 0, 0, 0);
+	graphics.drawText("    Increase bullet travel speed and damage delt to an enemy", SIZE, 360, 367 + 7 + SIZE * 2 - 10, 0, 0, 0);
+	graphics.drawText("Rate of Fire",                                                 SIZE + 7, 360, 399 + SIZE * 3 - 10, 0, 0, 0);
+	graphics.drawText("    Less waiting time between firing bullets",                 SIZE, 360, 431 + 7 + SIZE * 3 - 10, 0, 0, 0);
+
+	graphics.flip();
+
+	do { /* while still hovering over square */
+		SDL_PollEvent(&event);
+	} while((event.button.x < 1201 && event.button.x > 1164) && (event.button.y < 102 && event.button.y > 65));
 }
 
 
