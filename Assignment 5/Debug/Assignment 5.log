@@ -1,43 +1,9 @@
-﻿Build started 12/25/2013 7:00:27 PM.
+﻿Build started 1/2/2014 5:51:49 AM.
      1>Project "C:\Users\Aaron\Documents\GitHub\CastleDefense\Assignment 5\Assignment 5.vcxproj" on node 2 (Build target(s)).
-     1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\SDL 1.2\include" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
-         main.cpp
-     1>c:\users\aaron\documents\github\castledefense\assignment 5\bullet.h(45): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
-     1>c:\users\aaron\documents\github\castledefense\assignment 5\defeatscreen.h(63): warning C4305: 'initializing' : truncation from 'int' to 'bool'
-     1>c:\users\aaron\documents\github\castledefense\assignment 5\defeatscreen.h(82): warning C4805: '==' : unsafe mix of type 'int' and type 'bool' in operation
-     1>c:\users\aaron\documents\github\castledefense\assignment 5\defeatscreen.h(83): warning C4800: 'int' : forcing value to bool 'true' or 'false' (performance warning)
-     1>c:\users\aaron\documents\github\castledefense\assignment 5\enemy.h(170): warning C4553: '==' : operator has no effect; did you intend '='?
-     1>c:\users\aaron\documents\github\castledefense\assignment 5\enemy.h(260): warning C4553: '==' : operator has no effect; did you intend '='?
-     1>c:\users\aaron\documents\github\castledefense\assignment 5\enemy.h(287): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
-     1>c:\users\aaron\documents\github\castledefense\assignment 5\enemy.h(294): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\aaron\documents\github\castledefense\assignment 5\enemy.h(296): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
-     1>c:\users\aaron\documents\github\castledefense\assignment 5\enemy.h(298): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\aaron\documents\github\castledefense\assignment 5\enemy.h(300): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
-     1>c:\users\aaron\documents\github\castledefense\assignment 5\enemy.h(309): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\aaron\documents\github\castledefense\assignment 5\enemy.h(320): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\aaron\documents\github\castledefense\assignment 5\enemy.h(405): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\aaron\documents\github\castledefense\assignment 5\enemy.h(414): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\aaron\documents\github\castledefense\assignment 5\enemy.h(472): warning C4244: '-=' : conversion from 'double' to 'int', possible loss of data
-     1>c:\users\aaron\documents\github\castledefense\assignment 5\enemy.h(485): warning C4244: '-=' : conversion from 'double' to 'int', possible loss of data
-     1>c:\users\aaron\documents\github\castledefense\assignment 5\enemy.h(513): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\aaron\documents\github\castledefense\assignment 5\gun.h(38): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\aaron\documents\github\castledefense\assignment 5\gun.h(48): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
-     1>c:\users\aaron\documents\github\castledefense\assignment 5\game.h(53): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
-     1>c:\users\aaron\documents\github\castledefense\assignment 5\game.h(111): warning C4244: '=' : conversion from 'const double' to 'int', possible loss of data
-     1>c:\users\aaron\documents\github\castledefense\assignment 5\game.h(133): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\aaron\documents\github\castledefense\assignment 5\gun.h(51): warning C4715: 'Gun::fireGuns' : not all control paths return a value
-     1>c:\users\aaron\documents\github\castledefense\assignment 5\enemy.h(573): warning C4715: 'Enemy::getHeight<Wizard>' : not all control paths return a value
-     1>c:\users\aaron\documents\github\castledefense\assignment 5\enemy.h(559): warning C4715: 'Enemy::getWidth<Wizard>' : not all control paths return a value
-     1>c:\users\aaron\documents\github\castledefense\assignment 5\enemy.h(587): warning C4715: 'Enemy::getImage<Wizard>' : not all control paths return a value
-     1>c:\users\aaron\documents\github\castledefense\assignment 5\enemy.h(573): warning C4715: 'Enemy::getHeight<Minion>' : not all control paths return a value
-     1>c:\users\aaron\documents\github\castledefense\assignment 5\enemy.h(587): warning C4715: 'Enemy::getImage<Minion>' : not all control paths return a value
-     1>c:\users\aaron\documents\github\castledefense\assignment 5\enemy.h(559): warning C4715: 'Enemy::getWidth<Minion>' : not all control paths return a value
-       Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\Users\Aaron\Documents\GitHub\CastleDefense\Debug\Castle Defense.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\SDL 1.2\lib\x86" SDL.lib SDLmain.lib SDL_ttf.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\Users\Aaron\Documents\GitHub\CastleDefense\Debug\Castle Defense.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\Users\Aaron\Documents\GitHub\CastleDefense\Debug\Castle Defense.lib" /MACHINE:X86 Debug\main.obj
+     1>Link:
          Assignment 5.vcxproj -> C:\Users\Aaron\Documents\GitHub\CastleDefense\Debug\Castle Defense.exe
      1>Done Building Project "C:\Users\Aaron\Documents\GitHub\CastleDefense\Assignment 5\Assignment 5.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:16.93
+Time Elapsed 00:00:01.58

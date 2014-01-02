@@ -3,9 +3,11 @@
 
 #include "SDL.h"
 #include "SDL_TTF.h"
-#include "Graphics.h"
+
 #include "Game.h"
-#include "Data.h"
+#include "Graphics.h"
+#include "Highscore.h"
+#include "UserInput.h"
 #include <string>
 
 using namespace std;
@@ -13,8 +15,8 @@ using namespace std;
 class DefeatScreen {
 public:
 
-	DefeatScreen()  { };
-	~DefeatScreen() { };
+	DefeatScreen()  { }
+	~DefeatScreen() { }
 
 	string getPercentage(int num, int den) {
 		string percentage = to_string(100.0*max(1,num)/max(1,den));
@@ -27,6 +29,14 @@ public:
 	void drawDefeatScreen(Data &data, bool &skipMenu){
 		bool optionSelected = false;
 		SDL_Event event;
+		UserInput ui;
+
+		/* Check if highscore */
+		if (highscore.checkIfHighscore(data.waveCount, data.points)) {
+			draw(data);
+			string userName = ui.getName();
+			highscore.insertRecord(userName, data.waveCount, data.points);
+		}
 
 		draw(data);
 
@@ -166,6 +176,7 @@ public:
 private:
 	Background background;
 	Graphics graphics;
+	Highscore highscore;
 };
 
 #endif

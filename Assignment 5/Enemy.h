@@ -42,7 +42,7 @@ struct imageInfo {
 struct enemyData {
 	enemyData() {
 		wizardWP.push_back(imageInfo("Images/Enemies/wizard_idle.bmp",24,63));
-		wizardWP.push_back(imageInfo("Images/Enemies/wizard_walk_1.bmp",29,63));
+		wizardWP.push_back(imageInfo("Images/Enemies/wizard_walk_1.bmp",31,63));
 		wizardWP.push_back(imageInfo("Images/Enemies/wizard_walk_2.bmp",37,63));
 		wizardAP.push_back(imageInfo("Images/Enemies/wizard_idle.bmp",24,63));
 		wizardAP.push_back(imageInfo("Images/Enemies/wizard_attack_1.bmp",31,63));

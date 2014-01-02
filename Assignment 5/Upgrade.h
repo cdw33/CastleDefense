@@ -9,7 +9,7 @@
 
 using namespace std;
 
-class Upgrade{
+class Upgrade {
 	private:
 		Graphics graphics;
 		Background background;
@@ -102,17 +102,17 @@ void Upgrade::drawUpdateMenu(Data &data, Castle &castle) {
 	/* Draw text */
 	graphics.drawText("Upgrades", 90, 90, 55, 255, 255, 255);
 	graphics.drawText("Catagory", 40, 260, 145, 255, 255, 255);
-	graphics.drawText("Cost", 40, 478, 145, 255, 255, 255);
+	graphics.drawText("Cost",     40, 478, 145, 255, 255, 255);
 	graphics.drawText("Progress", 40, 820, 145, 255, 255, 255);
 
 	graphics.drawText("Buy", 40, 118, 206, 0, 0, 0);
 	graphics.drawText("Buy", 40, 118, 316, 0, 0, 0);
 	graphics.drawText("Buy", 40, 118, 426, 0, 0, 0);
 	graphics.drawText("Buy", 40, 118, 535, 0, 0, 0);
-	graphics.drawText("Castle Wall", 40, 247, 204, 0, 0, 0);
+	graphics.drawText("Castle Wall",     40, 247, 204, 0, 0, 0);
 	graphics.drawText("Castle Defences", 40, 217, 316, 0, 0, 0);
-	graphics.drawText("Bullets", 40, 269, 426, 0, 0, 0);
-	graphics.drawText("Rate of Fire", 40, 242, 535, 0, 0, 0);
+	graphics.drawText("Bullets",         40, 269, 426, 0, 0, 0);
+	graphics.drawText("Rate of Fire",    40, 242, 535, 0, 0, 0);
 	graphics.drawText("Launch Wave", 40, 1015, 602, 0, 0, 0);
 
 	graphics.drawText("?", 40, 1178, 63, 0, 0, 0);
@@ -228,22 +228,22 @@ void Upgrade::updateStatsBar(Data &data) {
 // drawHelp
 //***************************************************
 void Upgrade::drawHelp(SDL_Event& event) {
-	const int SIZE = 32;
+	const int SIZE = 34;
 
 	graphics.displaySprite("Images/button_cover.bmp", 0, 0, 1162, 63, 40, 40);
 	graphics.displaySprite("Images/help.bmp", 0, 0, 260, 75, 761, 567);
 	graphics.drawText("Help", 82, 271, 80, 0, 0, 0);
 	graphics.drawText("?", 40, 1178, 63, 0, 0, 0);
 
-	graphics.drawText("Castle Wall",                                                  SIZE + 7, 360, 207 - 10, 0, 0, 0);
-	graphics.drawText("    Increases wall health so that it can withstand more damage",  SIZE, 360, 239 + 7 - 10, 0, 0, 0);
-	graphics.drawText("Castle Defenses",                                              SIZE + 7, 360, 271 + SIZE - 10, 0, 0, 0);
-	graphics.drawText("    Damages enemies as they attack your castle wall",          SIZE, 360, 303 + 7 + SIZE - 10, 0, 0, 0);
-	graphics.drawText("Bullets",                                                      SIZE + 7, 360, 335 + SIZE * 2 - 10, 0, 0, 0);
-	graphics.drawText("    Increase bullet travel speed and damage delt to an enemy", SIZE, 360, 367 + 7 + SIZE * 2 - 10, 0, 0, 0);
-	graphics.drawText("Rate of Fire",                                                 SIZE + 7, 360, 399 + SIZE * 3 - 10, 0, 0, 0);
-	graphics.drawText("    Less waiting time between firing bullets",                 SIZE, 360, 431 + 7 + SIZE * 3 - 10, 0, 0, 0);
-
+	graphics.drawText("Castle Wall",                                                    SIZE + 9, 290, 192, 0, 0, 0);
+	graphics.drawText("   Increases wall health so that it can withstand more damage",  SIZE,     300, 226, 0, 0, 0);
+	graphics.drawText("Castle Defenses",                                                SIZE + 9, 290, 256 + SIZE, 0, 0, 0);
+	graphics.drawText("   Damages enemies as they attack your castle wall",             SIZE,     300, 299 + SIZE, 0, 0, 0);
+	graphics.drawText("Bullets",                                                        SIZE + 9, 290, 320 + SIZE * 2, 0, 0, 0);
+	graphics.drawText("   Increase bullet travel speed and damage delt to an enemy",    SIZE,     300, 354 + SIZE * 2, 0, 0, 0);
+	graphics.drawText("Rate of Fire",                                                   SIZE + 9, 290, 384 + SIZE * 3, 0, 0, 0);
+	graphics.drawText("   Less waiting time between firing bullets",                    SIZE,     300, 418 + SIZE * 3, 0, 0, 0);
+	 
 	graphics.flip();
 
 	do { /* while still hovering over square */

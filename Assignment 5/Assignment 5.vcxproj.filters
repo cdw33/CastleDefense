@@ -70,6 +70,12 @@
     <ClInclude Include="Background.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="Highscore.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UserInput.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Font Include="Ardagh.ttf">
