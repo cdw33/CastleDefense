@@ -365,7 +365,7 @@ public:
 						data.addMoney(data.waveCount);
 						++data.killed;
 						++data.killedTotal;
-						data.points += 2;
+						data.points += 1;
 					}
 					return true;
 				}
@@ -465,6 +465,9 @@ public:
 
 	//*******************************************************************
 	// attack
+	//     If an enemy is killed by your wall defenses, you get half the
+	//     money you normally would, and no points for minions, and one
+	//     for wizards.
 	//*******************************************************************
 	void attack(int type, int enemyIndex, int wallAttack, Data &data){
 		if (type == MINION) {
@@ -476,6 +479,7 @@ public:
 				minions[enemyIndex]->hp -= wallAttack;
 				if(minions[enemyIndex]->hp <= 0) {
 					deleteEnemy(MINION, enemyIndex);
+					data.addMoney(data.waveCount / 2);
 					++data.killed;
 					++data.killedTotal;
 				}
@@ -489,6 +493,8 @@ public:
 				wizards[enemyIndex]->hp -= wallAttack;
 				if(wizards[enemyIndex]->hp <= 0) {
 					deleteEnemy(WIZARD, enemyIndex);
+					data.addMoney(data.waveCount / 2);
+					++data.points;
 					++data.killed;
 					++data.killedTotal;
 				}

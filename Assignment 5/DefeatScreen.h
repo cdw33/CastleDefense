@@ -7,7 +7,6 @@
 #include "Game.h"
 #include "Graphics.h"
 #include "Highscore.h"
-#include "UserInput.h"
 #include <string>
 
 using namespace std;
@@ -15,8 +14,10 @@ using namespace std;
 class DefeatScreen {
 public:
 
-	DefeatScreen()  { }
-	~DefeatScreen() { }
+	DefeatScreen()  { 
+		currentNameTick = 0;
+		nameUnderscoreFlag = true;
+	}
 
 	string getPercentage(int num, int den) {
 		string percentage = to_string(100.0*max(1,num)/max(1,den));
@@ -26,19 +27,20 @@ public:
 		return percentage;
 	}
 
-	void drawDefeatScreen(Data &data, bool &skipMenu){
+	void drawDefeatScreen(Data &data, bool &skipMenu) {
 		bool optionSelected = false;
+		bool keepQuote = false;
 		SDL_Event event;
-		UserInput ui;
 
 		/* Check if highscore */
 		if (highscore.checkIfHighscore(data.waveCount, data.points)) {
-			draw(data);
-			string userName = ui.getName();
+			draw(data, keepQuote);
+			keepQuote = true;
+			string userName = getName();
 			highscore.insertRecord(userName, data.waveCount, data.points);
 		}
 
-		draw(data);
+		draw(data, keepQuote);
 
 		//display end stats loop
 		while (!optionSelected) {
@@ -52,9 +54,7 @@ public:
 							data.resetData();
 							data.waveCount = 0;
 							optionSelected = true;
-						}
-
-						if(event.button.x > 910 && event.button.x < 1125 && event.button.y > 572 && event.button.y < 632) {
+						} else if (event.button.x > 910 && event.button.x < 1125 && event.button.y > 572 && event.button.y < 632) {
 							optionSelected = true;
 						}
 					}
@@ -63,12 +63,13 @@ public:
 
 			//exit event
 			if (event.type == SDL_QUIT) {
+				SDL_Quit();
 				exit(0);
 			}
 		}
 	}
 
-	void displayQuote() {
+	void displayQuote(bool keepQuote) {
 		static bool 
 			lastPick = -1;
 		static int
@@ -87,10 +88,12 @@ public:
 			B = 255;
 
 		/* Ensure that same quote is not displayed twice in a row */
-		do { 
-			choice = rand()%COUNT;	
-		} while (choice == lastPick);
-		lastPick = choice;
+		if (!keepQuote) {
+			do { 
+				choice = rand()%COUNT;	
+			} while (choice == lastPick);
+			lastPick = choice;
+		}
 
 		if (choice == 0) {
 			graphics.drawText("If you learn from defeat,", SIZE_QUOTE, START_X, START_Y_2, R, G, B);
@@ -144,7 +147,7 @@ public:
 		}
 	}
 
-	void draw(const Data &data){
+	void draw(const Data &data, bool keepQuote){
 
 		const int UPGRADE_WIDTH = 1138;
 		const int UPGRADE_HEIGHT = 599;
@@ -168,7 +171,93 @@ public:
 		graphics.drawText("Cash Earned: ", 30, 160, 330, 255, 255, 255);	  graphics.drawText(to_string(data.moneyTotal).c_str(), 30, 340, 330, 255, 255, 255);
 		graphics.drawText("Accuracy: ", 30, 160, 360, 255, 255, 255);		  graphics.drawText(getPercentage(data.shotsHit, data.shotsFired).c_str(), 30, 340, 360, 255, 255, 255);
 
-		displayQuote();
+		displayQuote(keepQuote);
+
+		graphics.flip();
+	}
+
+
+	string getName() {
+		bool done = false;
+		bool displayWarning = false;
+		const int MAX_LENGTH = 15;
+		string name;
+		SDL_Event event;
+
+
+		while (!done) {
+			drawUIBox(name, MAX_LENGTH, displayWarning);
+			if (SDL_PollEvent(&event)) { 
+
+				/* Keyboard Event */
+				if (event.type == SDL_KEYDOWN) {
+					char character = (char)event.key.keysym.sym;
+					bool eddited = false;
+
+					/* Adding text to the users name */
+					if (isalpha(character) && name.size() < MAX_LENGTH) {
+						name += tolower(character);
+						eddited = true;
+					} else if (isdigit(character) && character != '0' && name.size() < MAX_LENGTH) { //Exclude '0' because left shift shares the same ascii code as it
+						name += character;
+						eddited = true;
+					} else if (character == ' ' && !name.empty() && name[name.size()-1] != ' ' && name.size() < MAX_LENGTH) {
+						name += character;
+						eddited = true;
+					} else if (!name.empty() && character == '\b') {
+						name.erase(name.begin() + name.size() - 1, name.end());
+						eddited = true;
+					}
+
+					if (eddited == true) {
+						currentNameTick = DISPLAY_UNDERSCORE;
+						nameUnderscoreFlag = false;
+					}
+
+				/* Click Event */
+				} else if (event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT) {
+					//cout << "x: " << event.button.x << " y: " << event.button.y << endl;
+					if ((event.button.x < 1078 && event.button.x > 874) && (event.button.y < 450 && event.button.y > 406) && !name.empty()) {
+						done = true;
+					} else if ((event.button.x < 1078 && event.button.x > 874) && (event.button.y < 450 && event.button.y > 406) && name.empty()) {
+						displayWarning = true;
+					}
+
+				/* Quit Condition */
+				} else if (event.type == SDL_QUIT) {
+					SDL_Quit();
+					exit(0);
+				}
+			}
+		}
+
+		return name;
+	}
+
+
+	void drawUIBox(string name, const int MAX_LENGTH, bool displayWarning) {
+		const int COLOR = 255; /* Grayscale */
+
+		/* Determins when the "blinking" underscore is displayed */
+		currentNameTick += (nameUnderscoreFlag ? 1 : -1);
+		if (currentNameTick == 0 || currentNameTick == DISPLAY_UNDERSCORE) {
+			nameUnderscoreFlag = !nameUnderscoreFlag;
+		}
+
+		/* Draw the highscore user input box */
+		graphics.displaySprite("Images/user_input.bmp", 0, 0, 337, 244, 753, 216);
+
+		graphics.drawText("New High Score!", 60, 351, 250, COLOR, COLOR, COLOR);
+
+		graphics.drawText("Remaining Characters: ", 30, 381, 355, COLOR, COLOR, COLOR);
+		graphics.drawText(to_string(MAX_LENGTH - name.size()).c_str(), 30, 611, 355, COLOR, COLOR, COLOR);
+
+		if (nameUnderscoreFlag && name.size() != MAX_LENGTH) { name.append("_"); } /* Append an underscore for a "blinking" effect */
+		graphics.drawText("Name: ", 40, 381, 317, COLOR, COLOR, COLOR);
+		if (!name.empty()) { graphics.drawText(name.c_str(), 40, 480, 317, COLOR, COLOR, COLOR); }
+
+		graphics.drawText("Submit High Score", 27, 893, 413, COLOR, COLOR, COLOR);
+		if (displayWarning) { graphics.drawText("Error: Name field cannot be empty", 25, 550, 415, COLOR, COLOR, COLOR); }
 
 		graphics.flip();
 	}
@@ -177,6 +266,10 @@ private:
 	Background background;
 	Graphics graphics;
 	Highscore highscore;
+
+	static const int DISPLAY_UNDERSCORE = 30;
+	int currentNameTick;
+	bool nameUnderscoreFlag;
 };
 
 #endif

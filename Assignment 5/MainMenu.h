@@ -33,11 +33,11 @@ public:
 							game.runGame(); 
 							background.reset();
 							drawMainMenu();
-						} else if ((event.button.x < 830 && event.button.x > 500 ) && (event.button.y < 467 && event.button.y > 400)) {
+						} else if ((event.button.x < 830 && event.button.x > 500) && (event.button.y < 467 && event.button.y > 400)) {
 							highscoreLoop();
-						} else if ((event.button.x < 830 && event.button.x > 500 ) && (event.button.y < 567 && event.button.y > 500)) {
+						} else if ((event.button.x < 830 && event.button.x > 500) && (event.button.y < 567 && event.button.y > 500)) {
 							aboutLoop();
-						} else if ((event.button.x < 830 && event.button.x > 500 ) && (event.button.y < 667 && event.button.y > 600)) {
+						} else if ((event.button.x < 830 && event.button.x > 500) && (event.button.y < 667 && event.button.y > 600)) {
 							event.type = SDL_QUIT;
 						}
                     }
@@ -68,7 +68,7 @@ public:
 
 		//display text
 		graphics.drawText("New Game", 60, 570, 300, 0, 0, 0);
-		graphics.drawText("Highscores", 60, 556, 402, 0, 0, 0);
+		graphics.drawText("High Scores", 60, 552, 402, 0, 0, 0);
 		graphics.drawText("About", 60, 610, 502, 0, 0, 0);
 		graphics.drawText("Exit", 60, 630, 602, 0, 0, 0);
 
@@ -156,7 +156,7 @@ public:
 		graphics.displaySprite("Images/about.bmp", 0, 0, 260, 75, 761, 567);
 
 		/* draw text */
-		graphics.drawText("Highscores", 85, 270, 74, 0, 0, 0);
+		graphics.drawText("High Scores", 85, 270, 74, 0, 0, 0);
 		graphics.drawText("Back", 50, 862, 585, 0, 0, 0);
 		graphics.drawText("Name                 Wave     Score", SIZE + 15, 330, 160, 0, 0, 0);
 
