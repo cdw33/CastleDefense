@@ -1,4 +1,4 @@
-﻿Build started 1/4/2014 12:26:31 PM.
+﻿Build started 1/6/2014 12:18:22 PM.
      1>Project "C:\Users\Aaron\Documents\GitHub\CastleDefense\Assignment 5\Assignment 5.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\SDL 1.2\include" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
@@ -40,4 +40,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:11.28
+Time Elapsed 00:00:20.35

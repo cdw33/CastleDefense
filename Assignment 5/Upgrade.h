@@ -35,6 +35,14 @@ void Upgrade::upgradeMenu(Data &data, Castle &castle) {
 
 	data.health = castle.setHealth(data.wallDefUpgrades);
 
+	/* Freeze the screen so unwanted button clicking does not happen */
+	SDL_EventState(SDL_MOUSEBUTTONDOWN, SDL_IGNORE);
+	drawUpdateMenu(data, castle);
+	int stopPaus = clock() + 500;
+	while(clock() < stopPaus);
+	SDL_EventState(SDL_MOUSEBUTTONDOWN, SDL_ENABLE);
+
+
 	while (shopping) {
 		drawUpdateMenu(data, castle);
 
@@ -193,7 +201,8 @@ void Upgrade::drawUpdateMenu(Data &data, Castle &castle) {
 	if (data.rateOfFire >= 2) 	graphics.drawText("fair", 20, 610 + BAR_WIDTH * 1 + 24, 534 + 20, (data.rateOfFire == 2 ? C1 : C2), (data.rateOfFire == 2 ? C1 : C2), (data.rateOfFire == 2 ? C1 : C2));
 	if (data.rateOfFire >= 3) 	graphics.drawText("quick", 20, 610 + BAR_WIDTH * 2 + 20, 534 + 20, (data.rateOfFire == 3 ? C1 : C2), (data.rateOfFire == 3 ? C1 : C2), (data.rateOfFire == 3 ? C1 : C2));
 	if (data.rateOfFire >= 4) 	graphics.drawText("fast", 20, 610 + BAR_WIDTH * 3 + 25, 534 + 20, (data.rateOfFire == 4 ? C1 : C2), (data.rateOfFire == 4 ? C1 : C2), (data.rateOfFire == 4 ? C1 : C2));
-	if (data.rateOfFire >= 5)   graphics.drawText("light speed", 20, 610 + BAR_WIDTH * 4 + 1, 534 + 20, (data.rateOfFire == 5 ? C1 : C2), (data.rateOfFire == 5 ? C1 : C2), (data.rateOfFire == 5 ? C1 : C2));
+	if (data.rateOfFire >= 5)  {graphics.drawText("lightning", 20, 610 + BAR_WIDTH * 4 + 7, 534 + 5, (data.rateOfFire == 5 ? C1 : C2), (data.rateOfFire == 5 ? C1 : C2), (data.rateOfFire == 5 ? C1 : C2));
+								graphics.drawText("speed", 20, 610 + BAR_WIDTH * 4 + 20, 534 + 20, (data.rateOfFire == 5 ? C1 : C2), (data.rateOfFire == 5 ? C1 : C2), (data.rateOfFire == 5 ? C1 : C2));}
 	if (data.rateOfFire >= 6)  {graphics.drawText("ridiculous", 20, 610 + BAR_WIDTH * 5 + 4, 534 + 5, (data.rateOfFire == 6 ? C1 : C2), (data.rateOfFire == 6 ? C1 : C2), (data.rateOfFire == 6 ? C1 : C2));
 								graphics.drawText("speed", 20, 610 + BAR_WIDTH * 5 + 18, 534 + 20, (data.rateOfFire == 6 ? C1 : C2), (data.rateOfFire == 6 ? C1 : C2), (data.rateOfFire == 6 ? C1 : C2));}
 	if (data.rateOfFire >= 7)  {graphics.drawText("ludacris", 20, 610 + BAR_WIDTH * 6 + 11, 534 + 5, (data.rateOfFire == 7 ? C1 : C2), (data.rateOfFire == 7 ? C1 : C2), (data.rateOfFire == 7 ? C1 : C2));

@@ -84,7 +84,7 @@ void Game::runGame() {
 			upgradeMenu();
 		} else {
 			defeatDisplay(gameRunning); 
-		}		             
+		}        
 	}					    
 }
 

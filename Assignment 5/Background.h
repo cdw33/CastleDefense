@@ -154,13 +154,13 @@ void Background::movePlanets() {
 		graphics.displaySprite("Images/Background/sun.bmp",0,0,sunX,sunY,60,60);
 	} else if(skyIndex == 7) { //moon movement
 		if (moonFlag == true) {
-			moonX = -60;
-			moonY = SKY_HEIGHT;
+			moonX = 0;
+			moonY = 144;
 			moonFlag = false;
 		}
 
-		moonX += (moonMove ? 4 : 3);
-		moonY -= (moonMove ? 1 : 0);
+		moonX += (moonMove ? 1 : 2);
+		moonY = (true ? (int)(.00017998*(moonX*moonX) + -.333332*moonX + 144.333153) : moonY);
 		moonMove = !moonMove;
 
 		graphics.displaySprite("Images/Background/moon.bmp",0,0,moonX,moonY,75,76);

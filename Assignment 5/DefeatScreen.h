@@ -216,7 +216,6 @@ public:
 
 				/* Click Event */
 				} else if (event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT) {
-					//cout << "x: " << event.button.x << " y: " << event.button.y << endl;
 					if ((event.button.x < 1078 && event.button.x > 874) && (event.button.y < 450 && event.button.y > 406) && !name.empty()) {
 						done = true;
 					} else if ((event.button.x < 1078 && event.button.x > 874) && (event.button.y < 450 && event.button.y > 406) && name.empty()) {
