@@ -247,7 +247,7 @@ void Upgrade::drawHelp(SDL_Event& event) {
 	graphics.drawText("Castle Wall",                                                    SIZE + 9, 290, 192, 0, 0, 0);
 	graphics.drawText("   Increases wall health so that it can withstand more damage",  SIZE,     300, 226, 0, 0, 0);
 	graphics.drawText("Castle Defenses",                                                SIZE + 9, 290, 256 + SIZE, 0, 0, 0);
-	graphics.drawText("   Damages enemies as they attack your castle wall",             SIZE,     300, 299 + SIZE, 0, 0, 0);
+	graphics.drawText("   Damages enemies as they attack your castle wall",             SIZE,     300, 290 + SIZE, 0, 0, 0);
 	graphics.drawText("Bullets",                                                        SIZE + 9, 290, 320 + SIZE * 2, 0, 0, 0);
 	graphics.drawText("   Increase bullet travel speed and damage delt to an enemy",    SIZE,     300, 354 + SIZE * 2, 0, 0, 0);
 	graphics.drawText("Rate of Fire",                                                   SIZE + 9, 290, 384 + SIZE * 3, 0, 0, 0);

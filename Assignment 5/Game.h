@@ -74,10 +74,8 @@ void Game::runGame() {
 	data.resetData();
 
 	for(data.waveCount = 1; gameRunning; ++data.waveCount) {
-		/* uncomment for more money for easy testing / game demonstration purposes
-			data.money = 1000000;
-		*/
-
+		//data.money = 1000000; /* uncomment for more money for easy testing / game demonstration purposes */
+		
 		gameRunning = launchWave(data.waveCount);
 
 		if (gameRunning) {

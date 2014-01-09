@@ -107,15 +107,15 @@ public:
 		graphics.drawText("Fight off the hord armies!", 50, 330, 160, 0, 0, 0);
 	
 		const int SIZE = 35;
-		graphics.drawText("- Stop the approaching enemies as they near your base",    SIZE, 360, 210, 0, 0, 0);
-		graphics.drawText("- Click anywhere on the screen to fire a bullet",          SIZE, 360, 247, 0, 0, 0);
-		graphics.drawText("- The further you click from the turret, the faster your", SIZE, 360, 280, 0, 0, 0);
-		graphics.drawText("  bullet travels",                                         SIZE, 360, 312, 0, 0, 0);
-		graphics.drawText("- Enemies get stronger and more plentiful as the wave",    SIZE, 360, 347, 0, 0, 0);
-		graphics.drawText("  count increases",                                        SIZE, 360, 379, 0, 0, 0);
-		graphics.drawText("- Purchase upgrades at the end of each wave to increase",  SIZE, 360, 414, 0, 0, 0);
-		graphics.drawText("  your chances of survival",                               SIZE, 360, 449, 0, 0, 0);
-		graphics.drawText("- Stay alive for as long as you can!",                     SIZE, 360, 484, 0, 0, 0);
+		graphics.drawText("- Stop the approaching enemies as they near your base",   SIZE, 360, 210, 0, 0, 0);
+		graphics.drawText("- Click anywhere on the screen to fire a bullet",         SIZE, 360, 247, 0, 0, 0);
+		graphics.drawText("- Enemies get stronger and more plentiful as the wave",   SIZE, 360, 280, 0, 0, 0);
+		graphics.drawText("  count increases",                                       SIZE, 360, 312, 0, 0, 0);
+		graphics.drawText("- Purchase upgrades at the end of each wave to increase", SIZE, 360, 347, 0, 0, 0);
+		graphics.drawText("  your chances of survival",                              SIZE, 360, 379, 0, 0, 0);
+		graphics.drawText("- Pit yourself against endless waves of enemies to",      SIZE, 360, 414, 0, 0, 0);
+		graphics.drawText("  achieve a high score",                                  SIZE, 360, 449, 0, 0, 0);
+		graphics.drawText("- Stay alive for as long as you can!",                    SIZE, 360, 484, 0, 0, 0);
 
 		/* authors */
 		graphics.drawText("Creators:", 30, 300, 540, 0, 0, 0);

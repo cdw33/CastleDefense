@@ -1,9 +1,8 @@
-﻿Build started 1/6/2014 12:18:22 PM.
+﻿Build started 1/8/2014 7:42:27 PM.
      1>Project "C:\Users\Aaron\Documents\GitHub\CastleDefense\Assignment 5\Assignment 5.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 11.0\VC\bin\CL.exe /c /I"C:\SDL 1.2\include" /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc110.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
          main.cpp
-     1>c:\users\aaron\documents\github\castledefense\assignment 5\bullet.h(45): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
      1>c:\users\aaron\documents\github\castledefense\assignment 5\defeatscreen.h(74): warning C4305: 'initializing' : truncation from 'int' to 'bool'
      1>c:\users\aaron\documents\github\castledefense\assignment 5\defeatscreen.h(94): warning C4805: '==' : unsafe mix of type 'int' and type 'bool' in operation
      1>c:\users\aaron\documents\github\castledefense\assignment 5\defeatscreen.h(95): warning C4800: 'int' : forcing value to bool 'true' or 'false' (performance warning)
@@ -21,12 +20,12 @@
      1>c:\users\aaron\documents\github\castledefense\assignment 5\enemy.h(475): warning C4244: '-=' : conversion from 'double' to 'int', possible loss of data
      1>c:\users\aaron\documents\github\castledefense\assignment 5\enemy.h(489): warning C4244: '-=' : conversion from 'double' to 'int', possible loss of data
      1>c:\users\aaron\documents\github\castledefense\assignment 5\enemy.h(519): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\aaron\documents\github\castledefense\assignment 5\gun.h(38): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\aaron\documents\github\castledefense\assignment 5\gun.h(48): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
+     1>c:\users\aaron\documents\github\castledefense\assignment 5\gun.h(36): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\aaron\documents\github\castledefense\assignment 5\gun.h(51): warning C4244: 'argument' : conversion from 'double' to 'int', possible loss of data
      1>c:\users\aaron\documents\github\castledefense\assignment 5\game.h(53): warning C4244: 'argument' : conversion from 'time_t' to 'unsigned int', possible loss of data
-     1>c:\users\aaron\documents\github\castledefense\assignment 5\game.h(111): warning C4244: '=' : conversion from 'const double' to 'int', possible loss of data
-     1>c:\users\aaron\documents\github\castledefense\assignment 5\game.h(133): warning C4018: '<' : signed/unsigned mismatch
-     1>c:\users\aaron\documents\github\castledefense\assignment 5\gun.h(51): warning C4715: 'Gun::fireGuns' : not all control paths return a value
+     1>c:\users\aaron\documents\github\castledefense\assignment 5\game.h(109): warning C4244: '=' : conversion from 'const double' to 'int', possible loss of data
+     1>c:\users\aaron\documents\github\castledefense\assignment 5\game.h(131): warning C4018: '<' : signed/unsigned mismatch
+     1>c:\users\aaron\documents\github\castledefense\assignment 5\gun.h(54): warning C4715: 'Gun::fireGuns' : not all control paths return a value
      1>c:\users\aaron\documents\github\castledefense\assignment 5\enemy.h(579): warning C4715: 'Enemy::getHeight<Wizard>' : not all control paths return a value
      1>c:\users\aaron\documents\github\castledefense\assignment 5\enemy.h(565): warning C4715: 'Enemy::getWidth<Wizard>' : not all control paths return a value
      1>c:\users\aaron\documents\github\castledefense\assignment 5\enemy.h(593): warning C4715: 'Enemy::getImage<Wizard>' : not all control paths return a value
@@ -40,4 +39,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:20.35
+Time Elapsed 00:00:11.70
