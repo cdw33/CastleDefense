@@ -8,7 +8,6 @@
 #include "Enemy.h"
 #include <vector>
 
-
 using namespace std;
 
 static int GUN_WIDTH = 42;
@@ -38,8 +37,8 @@ public:
 				run = bullets[i]->deltaX - bullets[i]->x,
 				rise = bullets[i]->deltaY - bullets[i]->y,
 				length = sqrt(rise*rise + run*run),
-				unitX = run / max(1.0, length),
-				unitY = rise / max(1.0, length);
+				unitX = run / max(.1, length),
+				unitY = rise / max(.1, length);
 		
 			bullets[i]->x += unitX * bullets[i]->speed;
 			bullets[i]->y += unitY * bullets[i]->speed;
@@ -54,7 +53,7 @@ public:
 	}
 	
 	void createBullet(int mouseX, int mouseY, const int bulletUpgrades){
-		if(mouseX > BULLET_START_X) mouseX = BULLET_START_X;
+		if(mouseX > BULLET_START_X) mouseX = BULLET_START_X-1;
 
 		/* Move the mouse click outside the screen, so the bullet continues to travel past where the user clicked */
 		mouseX += (mouseX - BULLET_START_X) * 1000;

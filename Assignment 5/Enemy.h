@@ -479,7 +479,8 @@ public:
 				minions[enemyIndex]->hp -= wallAttack;
 				if(minions[enemyIndex]->hp <= 0) {
 					deleteEnemy(MINION, enemyIndex);
-					data.addMoney(data.waveCount / 2);
+					data.addMoney(data.waveCount);
+					data.points += 1;
 					++data.killed;
 					++data.killedTotal;
 				}
@@ -493,8 +494,8 @@ public:
 				wizards[enemyIndex]->hp -= wallAttack;
 				if(wizards[enemyIndex]->hp <= 0) {
 					deleteEnemy(WIZARD, enemyIndex);
-					data.addMoney(data.waveCount / 2);
-					++data.points;
+					data.addMoney(data.waveCount);
+					data.points += 2;
 					++data.killed;
 					++data.killedTotal;
 				}

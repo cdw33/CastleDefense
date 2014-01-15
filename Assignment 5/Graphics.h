@@ -20,7 +20,7 @@ public:
 
         SDL_Init(SDL_INIT_VIDEO);
 
-		screen = SDL_SetVideoMode(1280, 720, 0, SDL_HWSURFACE | SDL_DOUBLEBUF);
+		screen = SDL_SetVideoMode(1280, 720, 0, SDL_HWSURFACE | SDL_DOUBLEBUF /*| SDL_FULLSCREEN */);
 
         SDL_WM_SetCaption("Castle Defense", 0);
 
